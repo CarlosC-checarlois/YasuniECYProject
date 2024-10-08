@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yasuni - Una Reserva Ecológica</title>
+
+    <style>
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-container iframe {
+            width: 125%; /* Escalado del 125% */
+            height: 125%; /* Escalado del 125% */
+            position: absolute;
+            top: -12.5%; /* Centra el video verticalmente */
+            left: -12.5%; /* Centra el video horizontalmente */
+            border: none;
+            object-fit: cover;
+            background-color: black;
+        }
+
+        .section {
+            padding: 60px 20px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Animaciones generales */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100%);
+            animation: slideInLeft 1s ease-out forwards;
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(100%);
+            animation: slideInRight 1s ease-out forwards;
+        }
+
+        .zoom-in {
+            opacity: 0;
+            transform: scale(0.8);
+            animation: zoomIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Animaciones personalizadas para cada sección */
+        #MasInformacion {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        #Importancia {
+            animation: slideInLeft 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        #Biodiversidad {
+            animation: slideInRight 1s ease-out forwards;
+            animation-delay: 1s;
+        }
+
+        #Conservacion {
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 2s;
+        }
+    </style>
+</head>
+<body>
+{% include 'cabezal.html' %}
+<main>
+    <section class="hero">
+        <div class="video-container">
+            <!-- Iframe de Vimeo -->
+            <iframe src="https://player.vimeo.com/video/1002591571?autoplay=1&loop=1&muted=1&background=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+    <section id="Inicio" class="section fade-in-up">
+        <h2>Inicio</h2>
+        <p>Bienvenido a la página oficial de la Reserva Ecológica Yasuni.</p>
+    </section>
+    <section id="Biodiversidad" class="section fade-in-up">
+        <h2>Biodiversidad</h2>
+        <p>
+            Yasuni es una de las áreas con mayor biodiversidad del planeta.
+            Alberga miles de especies de plantas, animales y microorganismos,
+            muchas de las cuales no se encuentran en ningún otro lugar del mundo.
+        </p>
+    </section>
+    <section id="Importancia" class="section fade-in-up">
+        <h2>Importancia de Yasuni</h2>
+        <p>
+            La Reserva Ecológica Yasuni no solo es crucial por su biodiversidad,
+            sino también por su papel en la regulación del clima global y como
+            hogar de comunidades indígenas que han vivido en armonía con la naturaleza
+            durante siglos.
+        </p>
+    </section>
+    <section id="Conservacion" class="section fade-in-up">
+        <h2>Esfuerzos de Conservación</h2>
+        <p>
+            Diversas organizaciones y gobiernos están trabajando arduamente para proteger
+            Yasuni de amenazas como la deforestación y la explotación de recursos naturales.
+            Descubre cómo puedes apoyar estos esfuerzos y contribuir a la conservación de este
+            valioso ecosistema.
+        </p>
+    </section>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fadeInElements = document.querySelectorAll('.fade-in-up');
+        fadeInElements.forEach(element => {
+            element.classList.add('visible');
+        });
+    });
+</script>
+</body>
+</html>

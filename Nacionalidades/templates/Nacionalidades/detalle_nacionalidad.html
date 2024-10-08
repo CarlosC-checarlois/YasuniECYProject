@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de la Nacionalidad</title>
+    <style>
+
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #777;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .article-body p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .article-body img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .article-body .caption {
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .divider {
+            margin: 40px 0;
+            border-top: 2px solid #ddd;
+        }
+
+        .publication-date {
+            font-size: 14px;
+            color: #555;
+            text-align: right;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+{% include 'cabezal.html' %}
+
+
+    <div class="container">
+        <div class="publication-date">Publicado el: {{ nacionalidad.nacFechaCreacion|date:"d M Y" }}</div>
+
+        <div class="title">{{ nacionalidad.nacTitulo_1 }}</div>
+        <div class="subtitle">{{ nacionalidad.catXnacNombre }}</div>
+
+        <div class="article-body">
+            <img src="{{ nacionalidad.nacURLImagen_1 }}" alt="{{ nacionalidad.nacTitulo_1 }}">
+            <div class="caption">Imagen representativa de {{ nacionalidad.nacTitulo_1 }}</div>
+
+            <p>{{ nacionalidad.nacDescripcion_1 }}</p>
+
+            <div class="divider"></div>
+
+            <h2>{{ nacionalidad.nacTitulo_2 }}</h2>
+            <img src="{{ nacionalidad.nacURLImagen_2 }}" alt="{{ nacionalidad.nacTitulo_2 }}">
+            <div class="caption">Imagen representativa de {{ nacionalidad.nacTitulo_2 }}</div>
+
+            <p>{{ nacionalidad.nacDescripcion_2 }}</p>
+
+            <div class="divider"></div>
+
+            <h2>{{ nacionalidad.nacTitulo_3 }}</h2>
+            <img src="{{ nacionalidad.nacURLImagen_3 }}" alt="{{ nacionalidad.nacTitulo_3 }}">
+            <div class="caption">Imagen representativa de {{ nacionalidad.nacTitulo_3 }}</div>
+
+            <p>{{ nacionalidad.nacDescripcion_3 }}</p>
+        </div>
+    </div>
+
+</body>
+</html>

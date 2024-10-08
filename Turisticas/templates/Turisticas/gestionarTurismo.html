@@ -1,0 +1,418 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Información Turística</title>
+    <style>
+        /* crud.css */
+        /* Reset de márgenes y paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: Arial, sans-serif;
+            height: 100%;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            width: 100%;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-bar {
+            background: linear-gradient(90deg, #FFEB3B, #4CAF50); /* Gradiente de amarillo a verde */
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .top-bar p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .logo-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li {
+            margin: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #dddddd;
+        }
+
+        main {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .activities {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .activity-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .activity-card h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .activity-card a {
+            display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .activity-card.pink a {
+            background-color: #FF4081;
+        }
+
+        .activity-card.yellow a {
+            background-color: #FFC107;
+        }
+
+        .activity-card.blue a {
+            background-color: #03A9F4;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Estilos para el formulario */
+        .crud-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .crud-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .crud-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .crud-form input[type="text"],
+        .crud-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .crud-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .crud-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilos para la tabla */
+        .crud-list {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .crud-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .crud-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .crud-list table th,
+        .crud-list table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .crud-list table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .crud-list table td img {
+            max-width: 50px;
+            border-radius: 5px;
+        }
+
+        .crud-list table td button {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .crud-list table td button:hover {
+            background-color: #d32f2f;
+        }
+
+        .crud-list table td button.edit {
+            background-color: #2196F3;
+            margin-right: 5px;
+        }
+
+        .crud-list table td button.edit:hover {
+            background-color: #1976D2;
+        }
+
+
+        /* Estilo para los botones de acción */
+        .button {
+            padding: 8px 12px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .button.edit {
+            background-color: #4CAF50;
+        }
+
+        .button.edit:hover {
+            background-color: #45a049;
+        }
+
+        .button.delete {
+            background-color: #f44336;
+        }
+
+        .button.delete:hover {
+            background-color: #e53935;
+        }
+
+        .button.add {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .button.add:hover {
+            background-color: #45a049;
+        }
+
+        .crud-form, .crud-list {
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td img {
+            width: 100px;
+            height: auto;
+        }
+
+        .button.edit {
+            background-color: #4CAF50;
+            padding: 5px 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .button.edit:hover {
+            background-color: #45a049;
+        }
+
+        .button.delete {
+            background-color: #e74c3c;
+            padding: 5px 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .button.delete:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="top-bar">
+        <p>Línea Directa: [Número de Línea Directa] | WhatsApp: [Número de WhatsApp]</p>
+    </div>
+    <div class="logo-nav-container">
+        <div class="logo">
+            <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo" style="width: 40px; height: 40px;">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'paginaActividades' %}">Regresar al Panel</a></li>
+                <li><a href="{% url 'home' %}">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main>
+    <h1>Gestionar Información Turística</h1>
+    <section class="crud-section">
+        <!-- Botón para añadir un nuevo registro -->
+        <a href="{% url 'crear_turismo' %}" class="button add">Añadir Nuevo Registro</a>
+
+        <div class="crud-form">
+            <h2>Añadir o Editar Información</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }} <!-- Renderiza todo el formulario usando Django Forms -->
+                <div>
+                    <button type="submit" class="button">Actualizar tabla</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="crud-list">
+            <h2>Lista de Entradas Turísticas</h2>
+            <table id="tablaTurismo">
+                <thead>
+                <tr>
+                    <th>Título 1</th>
+                    <th>Descripción 1</th>
+                    <th>Imagen 1</th>
+                    <th>Título 2</th>
+                    <th>Descripción 2</th>
+                    <th>Imagen 2</th>
+                    <th>Título 3</th>
+                    <th>Descripción 3</th>
+                    <th>Imagen 3</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for turistica in turismos %}
+                    <tr>
+                        <td>{{ turistica.turTitulo_1 }}</td>
+                        <td>{{ turistica.turDescripcion_1 }}</td>
+                        <td><img src="{{ turistica.turURLImagen_1 }}" alt="Imagen 1"></td>
+                        <td>{{ turistica.turTitulo_2 }}</td>
+                        <td>{{ turistica.turDescripcion_2 }}</td>
+                        <td><img src="{{ turistica.turURLImagen_2 }}" alt="Imagen 2"></td>
+                        <td>{{ turistica.turTitulo_3 }}</td>
+                        <td>{{ turistica.turDescripcion_3 }}</td>
+                        <td><img src="{{ turistica.turURLImagen_3 }}" alt="Imagen 3"></td>
+                        <td>
+                            <a href="{% url 'editar_turismo' turistica.turCodigo %}" class="button edit">Editar</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'eliminar_turismo' turistica.turCodigo %}"
+                               class="button delete">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<footer>
+    <p>Sistema de Administración de página del Yasuni</p>
+</footer>
+<script src="{% static 'Nacionalidades/js/gestionarNacionalidad.js' %}"></script>
+</body>
+</html>

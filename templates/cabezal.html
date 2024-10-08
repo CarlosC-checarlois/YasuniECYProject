@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: Arial, sans-serif;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        header:hover,
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 1); /* Fondo blanco sólido al hacer hover o scroll */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        header:hover nav ul li a,
+        header.scrolled nav ul li a {
+            color: black; /* Texto negro cuando el fondo es blanco */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <!-- Usa la URL externa directamente si no es un archivo estático dentro de tu proyecto -->
+    <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo" style="width: 40px; height: 40px;">
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Inicio</a></li>
+            <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+            <li><a href="{% url 'mas_informacion' %}">Más Información</a></li>
+            <li><a href="{% url 'login' %}">Ingresar</a></li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>

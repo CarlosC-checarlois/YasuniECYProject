@@ -1,0 +1,132 @@
+/* crud.css */
+
+/* Estilos para el formulario */
+.crud-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.crud-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.crud-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.crud-form input[type="text"],
+.crud-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.crud-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.crud-form button:hover {
+    background-color: #45a049;
+}
+
+/* Estilos para la tabla */
+.crud-list {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.crud-list h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.crud-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.crud-list table th,
+.crud-list table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.crud-list table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.crud-list table td img {
+    max-width: 50px;
+    border-radius: 5px;
+}
+
+.crud-list table td button {
+    background-color: #f44336;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.crud-list table td button:hover {
+    background-color: #d32f2f;
+}
+
+.crud-list table td button.edit {
+    background-color: #2196F3;
+    margin-right: 5px;
+}
+
+.crud-list table td button.edit:hover {
+    background-color: #1976D2;
+}
+
+
+/* Estilo para los botones de acción */
+.button {
+    padding: 8px 12px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.button.edit {
+    background-color: #4CAF50;
+}
+
+.button.edit:hover {
+    background-color: #45a049;
+}
+
+.button.delete {
+    background-color: #f44336;
+}
+
+.button.delete:hover {
+    background-color: #e53935;
+}
