@@ -19,3 +19,11 @@ class Nacionalidad(models.Model):
     nacDescripcion_3 = models.TextField(max_length=2000)
     nacURLImagen_3 = models.CharField(max_length=1000)
     nacFechaCreacion = models.DateTimeField(auto_now_add=True)
+
+class TiempoVisualizacion(models.Model):
+    nacionalidad = models.ForeignKey(Nacionalidad, on_delete=models.CASCADE)  # Relación con la Nacionalidad
+    tiempo_visualizado = models.FloatField()  # Tiempo en segundos
+    fecha_visualizacion = models.DateTimeField(auto_now_add=True)  # Fecha en que se registró la visualización
+
+    def __str__(self):
+        return f'{self.Nacionalidad.nacTitulo_1} - {self.tiempo_visualizado} segundos'

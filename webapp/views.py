@@ -7,6 +7,7 @@ from webapp.forms import LoginForm
 from webapp.models import UsuariosYasuni
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.db import connection
 
 
 value = True
@@ -42,6 +43,9 @@ def login_view(request):
                     request.session['usuario_id'] = usuario.id
                     request.session['usuario_nombre'] = usuario.usuario
                     value = True
+
+
+
                     return redirect(request.GET.get('next', 'paginaActividades'))  # Redirige a la página de actividades
                 else:
                     error_message = "Usuario o contraseña incorrectos."
@@ -52,11 +56,49 @@ def login_view(request):
 
     return render(request, 'webapp/login.html', {'form': form, 'error_message': error_message})
 
+
+
+def informe_turisticas(request):
+
+    return render(request, 'informe_turisticas.html', context)
+
+
 def pagina_actividades(request):
     global value
     # Verifica si la sesión tiene un usuario activo
     if not value:
         return redirect('login')  # Redirige a la página de login si no hay usuario en la sesión
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM nacionalidades_analisis();")
+        datos_nacionalidades = cursor.fetchone()
+
+    contexto_nacionalidades = {
+        'nombre_articulo_nacionalidades': datos_nacionalidades[0],
+        'mayor_tiempo_visualizacion_nacionalidades': datos_nacionalidades[1],
+        'dia_visualizacion_nacionalidades': datos_nacionalidades[2],
+        'categoria_nacionalidades': datos_nacionalidades[3],
+        'tiempo_visualizacion_nacionalidades_categoria': datos_nacionalidades[4],
+    }
+
+    # Datos para turísticas
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM turistica_analisis();")
+        datos_turisticas = cursor.fetchone()
+
+    contexto_turistica = {
+        'nombre_articulo_turistica': datos_turisticas[0],
+        'mayor_tiempo_visualizacion_turistica': datos_turisticas[1],
+        'dia_visualizacion_turistica': datos_turisticas[2],
+        'categoria_turistica': datos_turisticas[3],
+        'tiempo_visualizacion_turistica_categoria': datos_turisticas[4],
+    }
+
+    # Pasar los dos contextos al render
+    return render(request, 'webapp/paginaActividades.html', {
+        'contexto_nacionalidades': contexto_nacionalidades,
+        'contexto_turistica': contexto_turistica,
+    })
 
     return render(request, 'webapp/paginaActividades.html')
 
@@ -69,6 +111,7 @@ def informacion_nacionalidad(request):
     return render(request, 'Nacionalidades/gestionarNacionalidad.html', {
         'nacionalidades': nacionalidades
     })
+
 def informacion_turismo(request):
     global value
     if not value:
@@ -83,8 +126,6 @@ def logout_view(request):
     global value
     value = False
     return redirect('login')  # Redirigir a la página de inicio de sesión
-
-
 
 def detalle_nacionalidad(request, titulo, codigo):
     nacionalidad = get_object_or_404(Nacionalidad, nacTitulo_1=titulo, nacCodigo=codigo)

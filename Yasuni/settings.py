@@ -18,7 +18,7 @@ environ.Env.read_env()  # Lee el archivo .env si existe
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-default-key')  # Mejora para seguridad
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])  # Puedes especificar tus dominios en el .env
 
@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webapp',  # Tus aplicaciones personalizadas
+    'webapp',
     'Nacionalidades',
     'Turisticas',
     'crispy_forms',
@@ -81,6 +81,7 @@ WSGI_APPLICATION = 'Yasuni.wsgi.application'
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -112,6 +113,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # Asegúrate de que la carpeta "static" esté correctamente configurada
 ]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'  # Para archivos cargados por usuarios

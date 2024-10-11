@@ -77,6 +77,27 @@
         }
 
     </style>
+
+    <script>
+        let pageStartTime = 0;
+
+        // Registrar el tiempo al cargar la página
+        window.onload = function () {
+            pageStartTime = new Date().getTime();
+        };
+
+        // Enviar el tiempo de visualización al salir de la página
+        window.onbeforeunload = function () {
+            const pageEndTime = new Date().getTime();
+            const timeSpent = (pageEndTime - pageStartTime) / 1000;  // Convertir milisegundos a segundos
+
+            // Enviar el tiempo de visualización al servidor usando sendBeacon
+            navigator.sendBeacon("{% url 'guardar_tiempo_visualizacion_turistica' actividad_turistica.turCodigo %}", JSON.stringify({
+                tiempo: timeSpent
+            }));
+        };
+    </script>
+
 </head>
 <body>
 
