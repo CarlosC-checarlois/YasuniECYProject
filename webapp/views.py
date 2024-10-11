@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import connection
 
 
-value = True
+value = False
 
 def home(request):
     return render(request, 'webapp/index.html')
