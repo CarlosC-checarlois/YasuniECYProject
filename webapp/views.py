@@ -59,7 +59,6 @@ def login_view(request):
 
 
 def informe_turisticas(request):
-
     return render(request, 'informe_turisticas.html', context)
 
 
