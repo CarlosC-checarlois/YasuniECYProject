@@ -18,7 +18,7 @@ environ.Env.read_env()  # Lee el archivo .env si existe
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-default-key')  # Mejora para seguridad
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])  # Puedes especificar tus dominios en el .env
 
@@ -77,7 +77,6 @@ WSGI_APPLICATION = 'Yasuni.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }

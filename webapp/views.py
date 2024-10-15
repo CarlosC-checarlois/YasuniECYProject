@@ -67,7 +67,6 @@ def pagina_actividades(request):
     # Verifica si la sesión tiene un usuario activo
     if not value:
         return redirect('login')  # Redirige a la página de login si no hay usuario en la sesión
-
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM nacionalidades_analisis();")
         datos_nacionalidades = cursor.fetchone()
@@ -105,7 +104,6 @@ def informacion_nacionalidad(request):
     global value
     if not value:
         return redirect('login')
-
     nacionalidades = Nacionalidad.objects.all()
     return render(request, 'Nacionalidades/gestionarNacionalidad.html', {
         'nacionalidades': nacionalidades
@@ -115,7 +113,6 @@ def informacion_turismo(request):
     global value
     if not value:
         return redirect('login')
-
     turismos = Turistica.objects.all()
     return render(request, 'Turisticas/gestionarTurismo.html', {
         'turismos': turismos

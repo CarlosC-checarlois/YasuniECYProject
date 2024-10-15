@@ -37,8 +37,6 @@ urlpatterns = [
     path('informacion-nacionalidad/', webapp_views.informacion_nacionalidad, name='informacion_nacionalidad'),
     path('informacion_turismo/', webapp_views.informacion_turismo, name='informacion_turismo'),
     path('gestionar-turismo/', turisticas_views.gestionar_turismo, name='gestionar_turismo'),
-
-# Rutas para generar gráficos de nacionalidades y turísticas
     path('grafico_tiempo_visualizacion_nacionalidad/', nacionalidades_views.visualizar_tiempo_visualizacion_nacionalidad, name='visualizar_tiempo_visualizacion_nacionalidad'),
     path('grafico_tiempo_visualizacion_turistica/', turisticas_views.visualizar_tiempo_visualizacion_turistica, name='visualizar_tiempo_visualizacion_turistica'),
 

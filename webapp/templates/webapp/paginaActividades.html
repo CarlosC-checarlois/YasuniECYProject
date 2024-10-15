@@ -4,168 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/cubos.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/paginaActividades.css' %}">
+
     <title>Actividades - Yasuni</title>
-    <style>
-        /* Reset de márgenes y paddings */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <script>
+        function toggleReport() {
+            const reportSection = document.getElementById('report-section');
+            const reportButton = document.getElementById('report-button');
 
-        body, html {
-            font-family: Arial, sans-serif;
-            height: 100%;
-            background-color: #f2f2f2;
+            // Alternar la visibilidad del informe
+            if (reportSection.style.display === 'none' || reportSection.style.display === '') {
+                reportSection.style.display = 'block';
+                reportButton.textContent = 'Ocultar Informe de visualizaciones'; // Cambiar texto a "Ocultar"
+            } else {
+                reportSection.style.display = 'none';
+                reportButton.textContent = 'Mostrar Informe de visualizaciones'; // Cambiar texto a "Mostrar"
+            }
         }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            width: 100%;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .top-bar {
-            background: linear-gradient(90deg, #FFEB3B, #4CAF50);
-            text-align: center;
-            padding: 5px 0;
-        }
-
-        .top-bar p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        .logo-nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-        }
-
-        .logo img {
-            height: 50px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 10px;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #dddddd;
-        }
-
-        main {
-            text-align: center;
-            padding: 20px;
-        }
-
-        h1 {
-            margin: 20px 0;
-            color: #333;
-        }
-
-        .activities {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 40px 0;
-        }
-
-        .activity-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 250px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .activity-card h2 {
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        .activity-card a {
-            display: inline-block;
-            padding: 10px 15px;
-            text-decoration: none;
-            color: white;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .activity-card.pink a {
-            background-color: #FF4081;
-        }
-
-        .activity-card.yellow a {
-            background-color: #FFC107;
-        }
-
-        .activity-card:hover {
-            transform: translateY(-5px);
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        /* Estilo para ajustar las imágenes del análisis */
-        .content img {
-            max-width: 80%; /* Ajuste del ancho máximo */
-            height: auto;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .content {
-            padding: 0;
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        .content h2 {
-            text-align: left;
-            font-weight: bold;
-            color: black;
-            padding-left: 8%;
-        }
-
-        .analysis-section {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f5f5f5;
-            max-width: 80%;
-            margin: 0 auto;
-            margin-bottom: 20px;
-        }
-
-        .analysis-section p {
-            color: #333;
-            text-align: justify;
-        }
-
-    </style>
+    </script>
 </head>
 
 <body>
@@ -175,7 +32,7 @@
     </div>
     <div class="logo-nav-container">
         <div class="logo">
-            <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo" style="width: 40px; height: 40px;">
+            <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo">
         </div>
         <nav>
             <ul>
@@ -186,7 +43,7 @@
     </div>
 </header>
 
-<main style="padding-right: 0; padding-left: 0;">
+<main>
     <h1>Bienvenido, {{ usuario_nombre }}</h1>
     <section class="activities">
         <div class="activity-card pink">
@@ -197,37 +54,39 @@
             <h2>Gestionar información compartida</h2>
             <a href="{% url 'informacion_turismo' %}">Ir a Gestionar información turística</a>
         </div>
+        <div class="activity-card green">
+            <h2>Ver Informe de visualizaciones</h2>
+            <a href="#" id="report-button" onclick="toggleReport()">Mostrar Informe de visualizaciones</a>
+        </div>
     </section>
 
-    <section style="
-background: rgb(242,242,242);
-background: -moz-linear-gradient(0deg, rgba(242,242,242,1) 0%, rgba(255,255,255,1) 5%, rgba(255,255,255,1) 95%, rgba(242,242,242,1) 100%);
-background: -webkit-linear-gradient(0deg, rgba(242,242,242,1) 0%, rgba(255,255,255,1) 5%, rgba(255,255,255,1) 95%, rgba(242,242,242,1) 100%);
-background: linear-gradient(0deg, rgba(242,242,242,1) 0%, rgba(255,255,255,1) 5%, rgba(255,255,255,1) 95%, rgba(242,242,242,1) 100%);
-">
-        <br>
-        <br>
-
+    <section id="report-section" style="display: none;">
         <div class="content">
-            <h2 style="
-text-align: left;
-font-weight: bold;
-color: black;
-padding-left: 8%;
-">ANALISIS DE VISTAS DE SECCION DE NACIONALIDADES</h2>
             <div class="analysis-section">
                 <div style="text-align: center;">
-                    <img src="{% url 'visualizar_tiempo_visualizacion_nacionalidad' %}"
-                         alt="Gráfico de tiempo visualización por nacionalidad">
+                    <div class="container_cube">
+                        <img style="
+display: block;
+max-width: 100%;
+height: auto;
+border-radius: 15px;
+transition: transform 0.3s;
+box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+" src="{% url 'visualizar_tiempo_visualizacion_nacionalidad' %}">
+                        <div class="overlay_cube">
+                            <div class="text_cube"> Cubo nacionalidades</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="analysis-section">
+                <br>
+                <h2 class="h2_informe">ANALISIS DE VISTAS DE SECCION DE NACIONALIDADES</h2>
                 <p>
                     El artículo con mayor visualización es:
                     <strong>{{ contexto_nacionalidades.nombre_articulo_nacionalidades }}</strong>, con un tiempo de
                     visualización de
-                    <strong>{{ contexto_nacionalidades.mayor_tiempo_visualizacion_nacionalidades | floatformat:2 }}</strong> segundos,
+                    <strong>{{ contexto_nacionalidades.mayor_tiempo_visualizacion_nacionalidades | floatformat:2 }}</strong>
+                    segundos,
                     el día <strong>{{ contexto_nacionalidades.dia_visualizacion_nacionalidades }}</strong>.
                     La categoría con mayor tiempo de visualización es:
                     <strong>{{ contexto_nacionalidades.categoria_nacionalidades }}</strong>, con un tiempo total de
@@ -236,33 +95,42 @@ padding-left: 8%;
                 </p>
             </div>
 
-            <h2 style="
-text-align: left;
-font-weight: bold;
-color: black;
-padding-left: 8%;
-">ANALISIS DE VISUALIZACION DE TURISTICAS</h2>
             <div class="analysis-section">
                 <div style="text-align: center;">
-                    <img src="{% url 'visualizar_tiempo_visualizacion_turistica' %}"
-                         alt="Gráfico de tiempo visualización por turismo">
-                </div>
-            </div>
 
-            <div class="analysis-section">
+                </div>
+
+
+                <div class="container_cube">
+                    <img style="
+display: block;
+max-width: 100%;
+height: auto;
+border-radius: 15px;
+transition: transform 0.3s;
+box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+" src="{% url 'visualizar_tiempo_visualizacion_turistica' %}">
+                    <div class="overlay_cube">
+                        <div class="text_cube">Cubo turisticas</div>
+                    </div>
+                </div>
+
+
+                <br>
+                <h2 class="h2_informe">ANALISIS DE VISUALIZACION DE TURISTICAS</h2>
                 <p>
                     El artículo con mayor visualización es:
                     <strong>{{ contexto_turistica.nombre_articulo_turistica }}</strong>, con un tiempo de visualización
-                    de <strong>{{ contexto_turistica.mayor_tiempo_visualizacion_turistica | floatformat:2 }}</strong> segundos, el día
+                    de <strong>{{ contexto_turistica.mayor_tiempo_visualizacion_turistica | floatformat:2 }}</strong>
+                    segundos, el día
                     <strong>{{ contexto_turistica.dia_visualizacion_turistica }}</strong>.
                     La categoría con mayor tiempo de visualización es:
                     <strong>{{ contexto_turistica.categoria_turistica }}</strong>, con un tiempo total de
-                    <strong>{{ contexto_turistica.tiempo_visualizacion_turistica_categoria | floatformat:2 }}</strong> segundos.
+                    <strong>{{ contexto_turistica.tiempo_visualizacion_turistica_categoria | floatformat:2 }}</strong>
+                    segundos.
                 </p>
             </div>
         </div>
-        <br>
-        <br>
     </section>
 </main>
 
