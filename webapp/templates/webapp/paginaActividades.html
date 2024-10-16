@@ -12,21 +12,6 @@
             box-sizing: border-box;
         }
 
-        body, html {
-            font-family: 'Arial', sans-serif;
-            height: 100%;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            width: 100%;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
 
         .top-bar {
             background: linear-gradient(90deg, #FFEB3B, #4CAF50);
@@ -39,39 +24,7 @@
             font-size: 14px;
         }
 
-        .logo-nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-        }
 
-        .logo img {
-            height: 50px;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .logo img:hover {
-            transform: rotate(10deg);
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 10px;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #dddddd;
-        }
 
         main {
             text-align: center;
@@ -220,6 +173,144 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+
+
+
+
+        /* HEADER CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: Arial, sans-serif;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0); /* Fondo transparente */
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        header:hover,
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 1); /* Fondo blanco al hacer hover o scroll */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: clamp(14px, 2vw, 18px); /* Ajuste dinámico de las fuentes */
+            transition: color 0.3s;
+        }
+
+        header:hover nav ul li a,
+        header.scrolled nav ul li a {
+            color: black; /* Cambia el color del texto a negro cuando se hace hover sobre el header */
+        }
+
+        .abrir-menu,
+        .cerrar-menu {
+            display: none;
+        }
+
+        /* Estilos para pantallas pequeñas */
+        @media screen and (max-width: 550px) {
+            .abrir-menu,
+            .cerrar-menu {
+                display: block;
+                border: 0;
+                font-size: 1.5rem;
+                background-color: transparent;
+                cursor: pointer;
+                z-index: 1001;
+            }
+
+            .abrir-menu {
+                color: #1c1c1c;
+            }
+
+            .cerrar-menu {
+                color: #ececec;
+            }
+
+            .nav {
+                opacity: 0;
+                visibility: hidden;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 40%;
+                height: 100vh;
+                background: rgb(150, 255, 187);
+                background: -moz-linear-gradient(270deg, rgba(150, 255, 187, 1) 0%, rgba(150, 230, 255, 1) 100%);
+                background: -webkit-linear-gradient(270deg, rgba(150, 255, 187, 1) 0%, rgba(150, 230, 255, 1) 100%);
+                background: linear-gradient(270deg, rgba(150, 255, 187, 1) 0%, rgba(150, 230, 255, 1) 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#96ffbb", endColorstr="#96e6ff", GradientType=1);
+
+                padding: 1.3em 2em 0em 2em;
+                transition: right 0.3s ease, opacity 0.3s ease;
+                z-index: 9999;
+                box-shadow: -3px 0px 7px 0px rgba(56, 196, 191, 0.75);
+            }
+
+            /* Menú visible */
+            .nav.visible {
+                opacity: 1;
+                visibility: visible;
+                right: 0;
+            }
+
+            .nav-list {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                gap: 1.5rem;
+            }
+
+            .nav-list li {
+                width: 100%;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                text-align: left; /* Alinea el texto a la izquierda */
+            }
+
+            .nav-list li a {
+                display: block;
+                padding: 10px 15px;
+                font-size: clamp(16px, 2.5vw, 24px);
+                text-decoration: none;
+                color: black;
+                background-color: transparent;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+        }
     </style>
 
     <title>Actividades - Yasuni</title>
@@ -237,28 +328,33 @@
                 reportButton.textContent = 'Mostrar Informe de visualizaciones'; // Cambiar texto a "Mostrar"
             }
         }
+
     </script>
 </head>
 
 <body>
-<header>
-    <div class="top-bar">
-        <p>Línea Directa: [Número de Línea Directa] | WhatsApp: [Número de WhatsApp]</p>
-    </div>
-    <div class="logo-nav-container">
-        <div class="logo">
-            <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">Tutorial de uso</a></li>
-                <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
 
+<header>
+    <!-- Usa la URL externa directamente si no es un archivo estático dentro de tu proyecto -->
+    <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo" style="width: 40px; height: 40px;">
+    <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i>☰</button>
+    <nav class="nav" id="nav">
+        <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i>✖</button>
+
+
+        <ul class="nav-list">
+            <li><a href="{% url 'home' %}">Inicio</a></li>
+            <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+            <li><a href="{% url 'mas_informacion' %}">Más Información</a></li>
+            <li><a href="{% url 'login' %}">Ingresar</a></li>
+        </ul>
+
+    </nav>
+</header>
 <main>
+<br>
+<br>
+<br>
     {% if request.user.is_authenticated %}
         <h1>Bienvenido, {{ usuario.username }}</h1>
         <section class="activities">
@@ -356,5 +452,14 @@
 <footer>
     <p>Sistema de Administración de página del Yasuni</p>
 </footer>
+<script>
+    document.getElementById("abrir").addEventListener("click", function () {
+        document.getElementById("nav").classList.add("visible");
+    });
+
+    document.getElementById("cerrar").addEventListener("click", function () {
+        document.getElementById("nav").classList.remove("visible");
+    });
+</script>
 </body>
 </html>
