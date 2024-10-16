@@ -25,7 +25,6 @@
         }
 
 
-
         main {
             text-align: center;
             padding: 20px;
@@ -173,9 +172,6 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-
-
-
 
 
         /* HEADER CSS */
@@ -340,21 +336,16 @@
     <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i>☰</button>
     <nav class="nav" id="nav">
         <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i>✖</button>
-
-
         <ul class="nav-list">
-            <li><a href="{% url 'home' %}">Inicio</a></li>
-            <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
-            <li><a href="{% url 'mas_informacion' %}">Más Información</a></li>
-            <li><a href="{% url 'login' %}">Ingresar</a></li>
+            <li><a href="#">Tutorial de uso</a></li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
         </ul>
-
     </nav>
 </header>
 <main>
-<br>
-<br>
-<br>
+    <br>
+    <br>
+    <br>
     {% if request.user.is_authenticated %}
         <h1>Bienvenido, {{ usuario.username }}</h1>
         <section class="activities">
