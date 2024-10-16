@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
 
+_user = None
 def home(request):
     return render(request, 'webapp/index.html')
 
@@ -31,6 +32,8 @@ def mas_informacion(request):
     return render(request, 'webapp/masInformacion.html', {'actividades_turisticas': actividades_turisticas})
 
 def user_login(request):
+    global _user
+    _user = {}
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -40,6 +43,7 @@ def user_login(request):
                                 password=cd['password'])
             if user is not None:
                 if user.is_active:
+                    _user['username'] = cd['username']
                     login(request, user)  # Inicia la sesión del usuario
                     return redirect('paginaActividades')
                 else:
@@ -53,6 +57,7 @@ def user_login(request):
 
 @login_required
 def pagina_actividades(request):
+    global _user
     # Datos para la sección de nacionalidades
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM nacionalidades_analisis();")
@@ -83,6 +88,7 @@ def pagina_actividades(request):
     return render(request, 'webapp/paginaActividades.html', {
         'contexto_nacionalidades': contexto_nacionalidades,
         'contexto_turistica': contexto_turistica,
+        'usuario' : _user,
     })
 
 @login_required
@@ -97,4 +103,5 @@ def informacion_turismo(request):
 
 def logout_view(request):
     logout(request)
+    _user = None
     return redirect('login')
