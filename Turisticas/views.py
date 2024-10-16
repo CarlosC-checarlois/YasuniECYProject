@@ -11,7 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from io import BytesIO
+from django.contrib.auth.decorators import login_required
+
 # Vista para gestionar las entradas turísticas
+@login_required
 def gestionar_turismo(request):
     turismos = Turistica.objects.all()
     context = {
@@ -20,6 +23,7 @@ def gestionar_turismo(request):
     }
     return render(request, 'Turisticas/gestionarTurismo.html', context)
 
+@login_required
 def crear_turismo(request):
     if request.method == 'POST':
         form = TuristicaForm(request.POST, request.FILES)
@@ -31,9 +35,8 @@ def crear_turismo(request):
 
     return render(request, 'Turisticas/crear_Turismo.html', {'form': form})
 
-
-
 # Vista para editar una entrada turística existente
+@login_required
 def editar_turismo(request, turCodigo):
     turistica = get_object_or_404(Turistica, pk=turCodigo)
     if request.method == 'POST':
@@ -46,15 +49,18 @@ def editar_turismo(request, turCodigo):
     return render(request, 'Turisticas/editar_Turismo.html', {'form': form})
 
 # Vista para eliminar una entrada turística
+@login_required
 def eliminar_turismo(request, turCodigo):
     turistica = get_object_or_404(Turistica, pk=turCodigo)
     turistica.delete()
     return redirect('gestionar_turismo')
 
+@login_required
 def detalle_turismo(request, titulo, codigo):
     actividad_turistica = get_object_or_404(Turistica, turTitulo_1=titulo, turCodigo=codigo)
     return render(request, 'Turisticas/detalle_Turismo.html', {'actividad_turistica': actividad_turistica})
 
+@login_required
 @csrf_exempt
 def guardar_tiempo_visualizacion_turistica(request, turCodigo):
     if request.method == 'POST':
@@ -80,7 +86,7 @@ def guardar_tiempo_visualizacion_turistica(request, turCodigo):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
-
+@login_required
 def visualizar_tiempo_visualizacion_turistica(request):
     with connection.cursor() as cursor:
         try:

@@ -11,7 +11,9 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def editar_nacionalidad(request, nacCodigo):
     nacionalidad = get_object_or_404(Nacionalidad, nacCodigo=nacCodigo)
     if request.method == 'POST':
@@ -23,11 +25,12 @@ def editar_nacionalidad(request, nacCodigo):
         form = NacionalidadForm(instance=nacionalidad)
     return render(request, 'Nacionalidades/editar_nacionalidad.html', {'form': form})
 
+@login_required
 def eliminar_nacionalidad(request, nacCodigo):
     nacionalidad = get_object_or_404(Nacionalidad, nacCodigo=nacCodigo)
     nacionalidad.delete()
     return redirect('paginaActividades')
-
+@login_required
 def gestionar_nacionalidades(request):
     nacionalidades = Nacionalidad.objects.all()
     form = NacionalidadForm()  # Si estás usando un formulario para añadir/editar
@@ -35,12 +38,14 @@ def gestionar_nacionalidades(request):
         'nacionalidades': nacionalidades,
         'form': form
     })
+@login_required
 def informacion_nacionalidad(request):
     nacionalidades = Nacionalidad.objects.all()
     return render(request, 'Nacionalidades/gestionarNacionalidad.html', {
         'nacionalidades': nacionalidades
     })
 
+@login_required
 def crear_nacionalidad(request):
     if request.method == 'POST':
         form = NacionalidadForm(request.POST, request.FILES)
@@ -51,6 +56,7 @@ def crear_nacionalidad(request):
         form = NacionalidadForm()
     return render(request, 'Nacionalidades/crear-nacionalidad.html', {'form': form})
 
+@login_required
 def detalle_nacionalidad(request, titulo, codigo):
     # Buscar la nacionalidad con el título y código proporcionados
     nacionalidad = get_object_or_404(Nacionalidad, nacTitulo_1=titulo, nacCodigo=codigo)
@@ -59,7 +65,7 @@ def detalle_nacionalidad(request, titulo, codigo):
     return render(request, 'Nacionalidades/detalle_nacionalidad.html', {
         'nacionalidad': nacionalidad
     })
-
+@login_required
 @csrf_exempt
 def guardar_tiempo_visualizacion_nacionalidad(request, nacCodigo):
     if request.method == 'POST':
@@ -85,6 +91,7 @@ def guardar_tiempo_visualizacion_nacionalidad(request, nacCodigo):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
+@login_required
 def visualizar_tiempo_visualizacion_nacionalidad(request):
     with connection.cursor() as cursor:
         try:

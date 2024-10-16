@@ -8,65 +8,52 @@ from webapp.models import UsuariosYasuni
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.db import connection
-
-
-value = False
+from django.shortcuts import render, redirect
+from django.db import connection
+from webapp.forms import LoginForm  # Asegúrate de tener este formulario definido correctamente
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.http import HttpResponse
 
 def home(request):
     return render(request, 'webapp/index.html')
-
 
 def quienes_somos(request):
     nacionalidades = Nacionalidad.objects.all()
     return render(request, 'webapp/quienesSomos.html', {'nacionalidades': nacionalidades})
 
+def informe_turisticas(request):
+    return render(request, 'informe_turisticas.html')
+
 def mas_informacion(request):
     actividades_turisticas = Turistica.objects.all()
-    return render(request, 'webapp/masInformacion.html', {
-        'actividades_turisticas': actividades_turisticas
-    })
+    return render(request, 'webapp/masInformacion.html', {'actividades_turisticas': actividades_turisticas})
 
-
-def login_view(request):
-    global value
-    error_message = None
+def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('Usuario')
-            password = form.cleaned_data.get('Contraseña')
-
-            try:
-                usuario = UsuariosYasuni.objects.get(usuario=username)
-                if usuario.clave == password:
-                    # Inicia la sesión usando el login manual
-                    request.session['usuario_id'] = usuario.id
-                    request.session['usuario_nombre'] = usuario.usuario
-                    value = True
-
-
-
-                    return redirect(request.GET.get('next', 'paginaActividades'))  # Redirige a la página de actividades
+            cd = form.cleaned_data # obtiene un diccionario con los campos respectivos
+            user = authenticate(request,
+                                username=cd['username'],
+                                password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)  # Inicia la sesión del usuario
+                    return redirect('paginaActividades')
                 else:
-                    error_message = "Usuario o contraseña incorrectos."
-            except UsuariosYasuni.DoesNotExist:
-                error_message = "Usuario o contraseña incorrectos."
+                    return render(request, 'webapp/login.html', {'form': form, 'error_message': 'Cuenta de usuario inactiva.'})
+            else:
+                return render(request, 'webapp/login.html', {'form': form, 'error_message': 'Usuario o contraseña incorrectos.'})
     else:
         form = LoginForm()
 
-    return render(request, 'webapp/login.html', {'form': form, 'error_message': error_message})
+    return render(request, 'webapp/login.html', {'form': form})
 
-
-
-def informe_turisticas(request):
-    return render(request, 'informe_turisticas.html', context)
-
-
+@login_required
 def pagina_actividades(request):
-    global value
-    # Verifica si la sesión tiene un usuario activo
-    if not value:
-        return redirect('login')  # Redirige a la página de login si no hay usuario en la sesión
+    # Datos para la sección de nacionalidades
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM nacionalidades_analisis();")
         datos_nacionalidades = cursor.fetchone()
@@ -79,7 +66,7 @@ def pagina_actividades(request):
         'tiempo_visualizacion_nacionalidades_categoria': datos_nacionalidades[4],
     }
 
-    # Datos para turísticas
+    # Datos para la sección de turísticas
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM turistica_analisis();")
         datos_turisticas = cursor.fetchone()
@@ -92,37 +79,22 @@ def pagina_actividades(request):
         'tiempo_visualizacion_turistica_categoria': datos_turisticas[4],
     }
 
-    # Pasar los dos contextos al render
+    # Renderizamos la plantilla con ambos contextos
     return render(request, 'webapp/paginaActividades.html', {
         'contexto_nacionalidades': contexto_nacionalidades,
         'contexto_turistica': contexto_turistica,
     })
 
-    return render(request, 'webapp/paginaActividades.html')
-
+@login_required
 def informacion_nacionalidad(request):
-    global value
-    if not value:
-        return redirect('login')
     nacionalidades = Nacionalidad.objects.all()
-    return render(request, 'Nacionalidades/gestionarNacionalidad.html', {
-        'nacionalidades': nacionalidades
-    })
+    return render(request, 'Nacionalidades/gestionarNacionalidad.html', {'nacionalidades': nacionalidades})
 
+@login_required
 def informacion_turismo(request):
-    global value
-    if not value:
-        return redirect('login')
     turismos = Turistica.objects.all()
-    return render(request, 'Turisticas/gestionarTurismo.html', {
-        'turismos': turismos
-    })
+    return render(request, 'Turisticas/gestionarTurismo.html', {'turismos': turismos})
 
 def logout_view(request):
-    global value
-    value = False
-    return redirect('login')  # Redirigir a la página de inicio de sesión
-
-def detalle_nacionalidad(request, titulo, codigo):
-    nacionalidad = get_object_or_404(Nacionalidad, nacTitulo_1=titulo, nacCodigo=codigo)
-    return render(request, 'webapp/detalleNacionalidad.html', {'nacionalidad': nacionalidad})
+    logout(request)
+    return redirect('login')

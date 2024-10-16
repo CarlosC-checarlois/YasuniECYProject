@@ -44,94 +44,96 @@
 </header>
 
 <main>
-    <h1>Bienvenido, {{ usuario_nombre }}</h1>
-    <section class="activities">
-        <div class="activity-card pink">
-            <h2>Gestionar información de la nacionalidad</h2>
-            <a href="{% url 'informacion_nacionalidad' %}">Ir a Gestionar información nacionalidad</a>
-        </div>
-        <div class="activity-card yellow">
-            <h2>Gestionar información compartida</h2>
-            <a href="{% url 'informacion_turismo' %}">Ir a Gestionar información turística</a>
-        </div>
-        <div class="activity-card green">
-            <h2>Ver Informe de visualizaciones</h2>
-            <a href="#" id="report-button" onclick="toggleReport()">Mostrar Informe de visualizaciones</a>
-        </div>
-    </section>
+    {% if request.user.is_authenticated %}
+        <h1>Bienvenido, {{ usuario.nombre_usuario }}</h1>
+        <section class="activities">
+            <div class="activity-card pink">
+                <h2>Gestionar información de la nacionalidad</h2>
+                <a href="{% url 'informacion_nacionalidad' %}">Ir a Gestionar información nacionalidad</a>
+            </div>
+            <div class="activity-card yellow">
+                <h2>Gestionar información compartida</h2>
+                <a href="{% url 'informacion_turismo' %}">Ir a Gestionar información turística</a>
+            </div>
+            <div class="activity-card green">
+                <h2>Ver Informe de visualizaciones</h2>
+                <a href="#" id="report-button" onclick="toggleReport()">Mostrar Informe de visualizaciones</a>
+            </div>
+        </section>
 
-    <section id="report-section" style="display: none;">
-        <div class="content">
-            <div class="analysis-section">
-                <div style="text-align: center;">
-                    <div class="container_cube">
-                        <img style="
-display: block;
-max-width: 100%;
-height: auto;
-border-radius: 15px;
-transition: transform 0.3s;
-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-" src="{% url 'visualizar_tiempo_visualizacion_nacionalidad' %}">
-                        <div class="overlay_cube">
-                            <div class="text_cube"> Cubo nacionalidades</div>
+        <section id="report-section" style="display: none;">
+            <div class="content">
+                <div class="analysis-section">
+                    <div style="text-align: center;">
+                        <div class="container_cube">
+                            <img style="
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    transition: transform 0.3s;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    " src="{% url 'visualizar_tiempo_visualizacion_nacionalidad' %}">
+                            <div class="overlay_cube">
+                                <div class="text_cube"> Cubo nacionalidades</div>
+                            </div>
                         </div>
                     </div>
+
+                    <br>
+                    <h2 class="h2_informe">ANALISIS DE VISTAS DE SECCION DE NACIONALIDADES</h2>
+                    <p>
+                        El artículo con mayor visualización es:
+                        <strong>{{ contexto_nacionalidades.nombre_articulo_nacionalidades }}</strong>, con un tiempo de
+                        visualización de
+                        <strong>{{ contexto_nacionalidades.mayor_tiempo_visualizacion_nacionalidades | floatformat:2 }}</strong>
+                        segundos,
+                        el día <strong>{{ contexto_nacionalidades.dia_visualizacion_nacionalidades }}</strong>.
+                        La categoría con mayor tiempo de visualización es:
+                        <strong>{{ contexto_nacionalidades.categoria_nacionalidades }}</strong>, con un tiempo total de
+                        <strong>{{ contexto_nacionalidades.tiempo_visualizacion_nacionalidades_categoria | floatformat:2 }}</strong>
+                        segundos.
+                    </p>
                 </div>
 
-                <br>
-                <h2 class="h2_informe">ANALISIS DE VISTAS DE SECCION DE NACIONALIDADES</h2>
-                <p>
-                    El artículo con mayor visualización es:
-                    <strong>{{ contexto_nacionalidades.nombre_articulo_nacionalidades }}</strong>, con un tiempo de
-                    visualización de
-                    <strong>{{ contexto_nacionalidades.mayor_tiempo_visualizacion_nacionalidades | floatformat:2 }}</strong>
-                    segundos,
-                    el día <strong>{{ contexto_nacionalidades.dia_visualizacion_nacionalidades }}</strong>.
-                    La categoría con mayor tiempo de visualización es:
-                    <strong>{{ contexto_nacionalidades.categoria_nacionalidades }}</strong>, con un tiempo total de
-                    <strong>{{ contexto_nacionalidades.tiempo_visualizacion_nacionalidades_categoria | floatformat:2 }}</strong>
-                    segundos.
-                </p>
-            </div>
+                <div class="analysis-section">
+                    <div style="text-align: center;">
 
-            <div class="analysis-section">
-                <div style="text-align: center;">
-
-                </div>
-
-
-                <div class="container_cube">
-                    <img style="
-display: block;
-max-width: 100%;
-height: auto;
-border-radius: 15px;
-transition: transform 0.3s;
-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-" src="{% url 'visualizar_tiempo_visualizacion_turistica' %}">
-                    <div class="overlay_cube">
-                        <div class="text_cube">Cubo turisticas</div>
                     </div>
+
+
+                    <div class="container_cube">
+                        <img style="
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    transition: transform 0.3s;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    " src="{% url 'visualizar_tiempo_visualizacion_turistica' %}">
+                        <div class="overlay_cube">
+                            <div class="text_cube">Cubo turisticas</div>
+                        </div>
+                    </div>
+
+
+                    <br>
+                    <h2 class="h2_informe">ANALISIS DE VISUALIZACION DE TURISTICAS</h2>
+                    <p>
+                        El artículo con mayor visualización es:
+                        <strong>{{ contexto_turistica.nombre_articulo_turistica }}</strong>, con un tiempo de visualización
+                        de <strong>{{ contexto_turistica.mayor_tiempo_visualizacion_turistica | floatformat:2 }}</strong>
+                        segundos, el día
+                        <strong>{{ contexto_turistica.dia_visualizacion_turistica }}</strong>.
+                        La categoría con mayor tiempo de visualización es:
+                        <strong>{{ contexto_turistica.categoria_turistica }}</strong>, con un tiempo total de
+                        <strong>{{ contexto_turistica.tiempo_visualizacion_turistica_categoria | floatformat:2 }}</strong>
+                        segundos.
+                    </p>
                 </div>
-
-
-                <br>
-                <h2 class="h2_informe">ANALISIS DE VISUALIZACION DE TURISTICAS</h2>
-                <p>
-                    El artículo con mayor visualización es:
-                    <strong>{{ contexto_turistica.nombre_articulo_turistica }}</strong>, con un tiempo de visualización
-                    de <strong>{{ contexto_turistica.mayor_tiempo_visualizacion_turistica | floatformat:2 }}</strong>
-                    segundos, el día
-                    <strong>{{ contexto_turistica.dia_visualizacion_turistica }}</strong>.
-                    La categoría con mayor tiempo de visualización es:
-                    <strong>{{ contexto_turistica.categoria_turistica }}</strong>, con un tiempo total de
-                    <strong>{{ contexto_turistica.tiempo_visualizacion_turistica_categoria | floatformat:2 }}</strong>
-                    segundos.
-                </p>
             </div>
-        </div>
-    </section>
+        </section>
+    {% endif %}
 </main>
 
 <footer>

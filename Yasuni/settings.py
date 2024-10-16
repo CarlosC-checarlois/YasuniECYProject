@@ -18,7 +18,7 @@ environ.Env.read_env()  # Lee el archivo .env si existe
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-default-key')  # Mejora para seguridad
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])  # Puedes especificar tus dominios en el .env
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Nacionalidades',
     'Turisticas',
     'crispy_forms',
+    'widget_tweaks',
 ]
 
 # Configurar el estilo de formularios (en este caso, usando Bootstrap 4 o 5)
@@ -77,6 +78,7 @@ WSGI_APPLICATION = 'Yasuni.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
@@ -123,3 +125,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'paginaActividades'
+LOGOUT_REDIRECT_URL = 'home'
