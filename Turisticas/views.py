@@ -55,7 +55,7 @@ def eliminar_turismo(request, turCodigo):
     turistica.delete()
     return redirect('gestionar_turismo')
 
-@login_required
+
 def detalle_turismo(request, titulo, codigo):
     actividad_turistica = get_object_or_404(Turistica, turTitulo_1=titulo, turCodigo=codigo)
     return render(request, 'Turisticas/detalle_Turismo.html', {'actividad_turistica': actividad_turistica})

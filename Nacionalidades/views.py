@@ -56,7 +56,7 @@ def crear_nacionalidad(request):
         form = NacionalidadForm()
     return render(request, 'Nacionalidades/crear-nacionalidad.html', {'form': form})
 
-@login_required
+
 def detalle_nacionalidad(request, titulo, codigo):
     # Buscar la nacionalidad con el título y código proporcionados
     nacionalidad = get_object_or_404(Nacionalidad, nacTitulo_1=titulo, nacCodigo=codigo)
