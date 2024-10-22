@@ -14,11 +14,10 @@ environ.Env.read_env()  # Lee el archivo .env si existe
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='django-insecure-default-key')  # Mejora para seguridad
+SECRET_KEY = env('SECRET_KEY')  # Mejora para seguridad
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])  # Puedes especificar tus dominios en el .env
 
