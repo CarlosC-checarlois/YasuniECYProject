@@ -3,6 +3,8 @@ import dj_database_url
 from pathlib import Path
 import environ
 from django.contrib.messages import constants as messages
+import pymysql
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,12 +16,12 @@ environ.Env.read_env()  # Lee el archivo .env si existe
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-SECRET_KEY = env('SECRET_KEY')  # Mejora para seguridad
+# SECRET_KEY = env('SECRET_KEY')  # Mejora para seguridad
+SECRET_KEY = '11341*%#@'
+DEBUG = True
 
-DEBUG = False
-
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-
+# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+ALLOWED_HOSTS = '*'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
@@ -59,7 +61,7 @@ ROOT_URLCONF = 'Yasuni.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Asegúrate de que esta ruta sea correcta
+        'DIRS': [BASE_DIR / 'templates', os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,10 +79,21 @@ WSGI_APPLICATION = 'Yasuni.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+"""
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
-
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'yasuniECY',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [

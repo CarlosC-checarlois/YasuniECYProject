@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'cabezal.html' %}
+{% load static %}
+{% block titulo_pagina %}
     <title>Más Información - Yasuni</title>
-
-    <style>
+{% endblock %}
+{% block css_archivos %}
+        <style>
         /* Estilos para las secciones con animaciones */
         .section {
             padding: 60px 20px;
@@ -173,11 +172,9 @@
 
 
     </style>
-</head>
-<body>
-{% include 'cabezal.html' %}
-
-<main>
+{% endblock %}
+{% block contenido_pagina %}
+    <main>
     <br/>
     <section id="MasInformacion" class="section fade-in_1s">
         <h2>Más Información</h2>
@@ -238,6 +235,4 @@
         </section>
     </section>
 </main>
-
-</body>
-</html>
+{% endblock %}

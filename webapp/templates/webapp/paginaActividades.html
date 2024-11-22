@@ -1,9 +1,9 @@
+{% extends 'cabezal.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block titulo_pagina %}
+    <title>Actividades - Yasuni</title>
+{% endblock %}
+{% block sobreescribir_css_archivos %}
     <style>
         /* Reset de márgenes y paddings */
         * {
@@ -363,8 +363,8 @@
             }
         }
     </style>
-
-    <title>Actividades - Yasuni</title>
+{% endblock %}
+{% block jvscript_archivos %}
     <script>
         function toggleReport() {
             const reportSection = document.getElementById('report-section');
@@ -381,47 +381,69 @@
         }
 
     </script>
-</head>
+{% endblock %}
+{% block contenido_pagina %}
+    <main>
+        <br>
+        <br>
+        <br>
+        {% if request.user.is_authenticated %}
+            <h1>Bienvenido, {{ usuario.username }}</h1>
+            <section class="activities">
+                <div class="activity-card pink">
+                    <h2>Gestionar información de la nacionalidad</h2>
+                    <a href="{% url 'informacion_nacionalidad' %}">Ir a Gestionar información nacionalidad</a>
+                </div>
+                <div class="activity-card yellow">
+                    <h2>Gestionar información compartida</h2>
+                    <a href="{% url 'informacion_turismo' %}">Ir a Gestionar información turística</a>
+                </div>
+                <div class="activity-card green">
+                    <h2>Ver Informe de visualizaciones</h2>
+                    <a href="#" id="report-button" onclick="toggleReport()">Mostrar Informe de visualizaciones</a>
+                </div>
+            </section>
 
-<body>
+            <section id="report-section" style="display: none;">
+                <div class="content">
+                    <div class="analysis-section">
+                        <div style="text-align: center;">
+                            <div class="container_cube">
+                                <img style="
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    transition: transform 0.3s;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    " src="{% url 'visualizar_tiempo_visualizacion_nacionalidad' %}">
+                                <div class="overlay_cube">
+                                    <div class="text_cube"> Cubo nacionalidades</div>
+                                </div>
+                            </div>
+                        </div>
 
-<header>
-    <!-- Usa la URL externa directamente si no es un archivo estático dentro de tu proyecto -->
-    <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo" style="width: 40px; height: 40px;">
-    <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i>☰</button>
-    <nav class="nav" id="nav">
-        <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i>✖</button>
-        <ul class="nav-list">
-            <li><a href="#">Tutorial de uso</a></li>
-            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-        </ul>
-    </nav>
-</header>
-<main>
-    <br>
-    <br>
-    <br>
-    {% if request.user.is_authenticated %}
-        <h1>Bienvenido, {{ usuario.username }}</h1>
-        <section class="activities">
-            <div class="activity-card pink">
-                <h2>Gestionar información de la nacionalidad</h2>
-                <a href="{% url 'informacion_nacionalidad' %}">Ir a Gestionar información nacionalidad</a>
-            </div>
-            <div class="activity-card yellow">
-                <h2>Gestionar información compartida</h2>
-                <a href="{% url 'informacion_turismo' %}">Ir a Gestionar información turística</a>
-            </div>
-            <div class="activity-card green">
-                <h2>Ver Informe de visualizaciones</h2>
-                <a href="#" id="report-button" onclick="toggleReport()">Mostrar Informe de visualizaciones</a>
-            </div>
-        </section>
+                        <br>
+                        <h2 class="h2_informe">ANALISIS DE VISTAS DE SECCION DE NACIONALIDADES</h2>
+                        <p>
+                            El artículo con mayor visualización es:
+                            <strong>{{ contexto_nacionalidades.nombre_articulo_nacionalidades }}</strong>, con un tiempo
+                            de
+                            visualización de
+                            <strong>{{ contexto_nacionalidades.mayor_tiempo_visualizacion_nacionalidades | floatformat:2 }}</strong>
+                            segundos,
+                            el día <strong>{{ contexto_nacionalidades.dia_visualizacion_nacionalidades }}</strong>.
+                            La categoría con mayor tiempo de visualización es:
+                            <strong>{{ contexto_nacionalidades.categoria_nacionalidades }}</strong>, con un tiempo total
+                            de
+                            <strong>{{ contexto_nacionalidades.tiempo_visualizacion_nacionalidades_categoria | floatformat:2 }}</strong>
+                            segundos.
+                        </p>
+                    </div>
 
-        <section id="report-section" style="display: none;">
-            <div class="content">
-                <div class="analysis-section">
-                    <div style="text-align: center;">
+                    <div class="analysis-section">
+                        <div style="text-align: center;">
+                        </div>
                         <div class="container_cube">
                             <img style="
     display: block;
@@ -430,79 +452,43 @@
     border-radius: 15px;
     transition: transform 0.3s;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    " src="{% url 'visualizar_tiempo_visualizacion_nacionalidad' %}">
+    " src="{% url 'visualizar_tiempo_visualizacion_turistica' %}">
                             <div class="overlay_cube">
-                                <div class="text_cube"> Cubo nacionalidades</div>
+                                <div class="text_cube">Cubo turisticas</div>
                             </div>
                         </div>
-                    </div>
 
-                    <br>
-                    <h2 class="h2_informe">ANALISIS DE VISTAS DE SECCION DE NACIONALIDADES</h2>
-                    <p>
-                        El artículo con mayor visualización es:
-                        <strong>{{ contexto_nacionalidades.nombre_articulo_nacionalidades }}</strong>, con un tiempo de
-                        visualización de
-                        <strong>{{ contexto_nacionalidades.mayor_tiempo_visualizacion_nacionalidades | floatformat:2 }}</strong>
-                        segundos,
-                        el día <strong>{{ contexto_nacionalidades.dia_visualizacion_nacionalidades }}</strong>.
-                        La categoría con mayor tiempo de visualización es:
-                        <strong>{{ contexto_nacionalidades.categoria_nacionalidades }}</strong>, con un tiempo total de
-                        <strong>{{ contexto_nacionalidades.tiempo_visualizacion_nacionalidades_categoria | floatformat:2 }}</strong>
-                        segundos.
-                    </p>
+
+                        <br>
+                        <h2 class="h2_informe">ANALISIS DE VISUALIZACION DE TURISTICAS</h2>
+                        <p>
+                            El artículo con mayor visualización es:
+                            <strong>{{ contexto_turistica.nombre_articulo_turistica }}</strong>, con un tiempo de
+                            visualización
+                            de
+                            <strong>{{ contexto_turistica.mayor_tiempo_visualizacion_turistica | floatformat:2 }}</strong>
+                            segundos, el día
+                            <strong>{{ contexto_turistica.dia_visualizacion_turistica }}</strong>.
+                            La categoría con mayor tiempo de visualización es:
+                            <strong>{{ contexto_turistica.categoria_turistica }}</strong>, con un tiempo total de
+                            <strong>{{ contexto_turistica.tiempo_visualizacion_turistica_categoria | floatformat:2 }}</strong>
+                            segundos.
+                        </p>
+                    </div>
                 </div>
+            </section>
+        {% endif %}
+    </main>
+    <footer>
+        <p>Sistema de Administración de página del Yasuni</p>
+    </footer>
+    <script>
+        document.getElementById("abrir").addEventListener("click", function () {
+            document.getElementById("nav").classList.add("visible");
+        });
 
-                <div class="analysis-section">
-                    <div style="text-align: center;">
-                    </div>
-                    <div class="container_cube">
-                        <img style="
-    display: block;
-    max-width: 100%;
-    height: auto;
-    border-radius: 15px;
-    transition: transform 0.3s;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    " src="{% url 'visualizar_tiempo_visualizacion_turistica' %}">
-                        <div class="overlay_cube">
-                            <div class="text_cube">Cubo turisticas</div>
-                        </div>
-                    </div>
-
-
-                    <br>
-                    <h2 class="h2_informe">ANALISIS DE VISUALIZACION DE TURISTICAS</h2>
-                    <p>
-                        El artículo con mayor visualización es:
-                        <strong>{{ contexto_turistica.nombre_articulo_turistica }}</strong>, con un tiempo de
-                        visualización
-                        de
-                        <strong>{{ contexto_turistica.mayor_tiempo_visualizacion_turistica | floatformat:2 }}</strong>
-                        segundos, el día
-                        <strong>{{ contexto_turistica.dia_visualizacion_turistica }}</strong>.
-                        La categoría con mayor tiempo de visualización es:
-                        <strong>{{ contexto_turistica.categoria_turistica }}</strong>, con un tiempo total de
-                        <strong>{{ contexto_turistica.tiempo_visualizacion_turistica_categoria | floatformat:2 }}</strong>
-                        segundos.
-                    </p>
-                </div>
-            </div>
-        </section>
-    {% endif %}
-</main>
-
-<footer>
-    <p>Sistema de Administración de página del Yasuni</p>
-</footer>
-<script>
-    document.getElementById("abrir").addEventListener("click", function () {
-        document.getElementById("nav").classList.add("visible");
-    });
-
-    document.getElementById("cerrar").addEventListener("click", function () {
-        document.getElementById("nav").classList.remove("visible");
-    });
-</script>
-</body>
-</html>
+        document.getElementById("cerrar").addEventListener("click", function () {
+            document.getElementById("nav").classList.remove("visible");
+        });
+    </script>
+{% endblock %}

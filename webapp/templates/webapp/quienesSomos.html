@@ -1,12 +1,10 @@
+{% extends 'cabezal.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block titulo_pagina %}
     <title>Quiénes Somos - Yasuni</title>
+{% endblock %}
+{% block css_archivos %}
     <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/tarjetas.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/paginaPrincipal.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/animacionesMasInformacion.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/cards.css' %}">
     <style>
@@ -285,52 +283,52 @@
         }
 
     </style>
-</head>
-<body>
-{% include 'cabezal.html' %}
-<main>
-    <br>
-    <section id="Historia" class="section fade-in">
-        <h2>Nuestra Historia</h2>
-        <p>La Reserva Ecológica Yasuni fue establecida en 1979 y cubre un área de aproximadamente 9,820 kilómetros
-            cuadrados en la región amazónica de Ecuador.
-            Desde su creación, Yasuni ha sido un símbolo de la lucha por la conservación de la biodiversidad y el
-            respeto a las culturas indígenas.</p>
-        <p>En 1989, la UNESCO declaró a Yasuni como Reserva de la Biosfera, reconociendo su importancia global y la
-            necesidad de su protección continua.</p>
-    </section>
+{% endblock %}
+{% block contenido_pagina %}
+    <main>
+        <br>
+        <section id="Historia" class="section fade-in">
+            <h2>Nuestra Historia</h2>
+            <p>La Reserva Ecológica Yasuni fue establecida en 1979 y cubre un área de aproximadamente 9,820 kilómetros
+                cuadrados en la región amazónica de Ecuador.
+                Desde su creación, Yasuni ha sido un símbolo de la lucha por la conservación de la biodiversidad y el
+                respeto a las culturas indígenas.</p>
+            <p>En 1989, la UNESCO declaró a Yasuni como Reserva de la Biosfera, reconociendo su importancia global y la
+                necesidad de su protección continua.</p>
+        </section>
 
-    <section id="ComunidadWaorani" class="section slide-in-left">
-        <h2>La Comunidad Waorani</h2>
-        <p>Los Waorani son una de las comunidades indígenas que han habitado la región de Yasuni por generaciones.
-            Son conocidos por su profundo conocimiento de la selva y su habilidad para vivir en armonía con la
-            naturaleza.
-            A pesar de los desafíos modernos, los Waorani han mantenido su lengua, tradiciones y modo de vida.</p>
-        <p>El pueblo Waorani ha jugado un papel fundamental en la defensa de Yasuni contra la explotación petrolera y la
-            deforestación.
-            Su compromiso con la preservación de su hogar natural ha inspirado a organizaciones de todo el mundo a
-            unirse a su causa.</p>
-        <p>A través de alianzas con ONGs y el gobierno ecuatoriano, los Waorani participan en proyectos de ecoturismo y
-            conservación que buscan proteger la biodiversidad de Yasuni mientras fortalecen su economía local.</p>
-    </section>
-    <section id="Nacionalidades" class="section slide-in-right">
-        <h2>Conoce nuestras Nacionalidades</h2>
-        <div id="nacionalidades-container" class="card-container">
-            {% for nacionalidad in nacionalidades %}
-                <div class="card">
-                    <img src="{{ nacionalidad.nacURLImagen_1 }}" alt="{{ nacionalidad.nacTitulo_1 }}">
-                    <div class="card-content">
-                        <h3>{{ nacionalidad.nacTitulo_1 }}</h3>
-                        <p>{{ nacionalidad.nacDescripcion_1 |truncatechars:60 }}</p>
-                        <a href="{% url 'detalle_nacionalidad' nacionalidad.nacTitulo_1 nacionalidad.nacCodigo %}"
-                           class="btn-ver-mas">Ver más</a>
+        <section id="ComunidadWaorani" class="section slide-in-left">
+            <h2>La Comunidad Waorani</h2>
+            <p>Los Waorani son una de las comunidades indígenas que han habitado la región de Yasuni por generaciones.
+                Son conocidos por su profundo conocimiento de la selva y su habilidad para vivir en armonía con la
+                naturaleza.
+                A pesar de los desafíos modernos, los Waorani han mantenido su lengua, tradiciones y modo de vida.</p>
+            <p>El pueblo Waorani ha jugado un papel fundamental en la defensa de Yasuni contra la explotación petrolera
+                y la
+                deforestación.
+                Su compromiso con la preservación de su hogar natural ha inspirado a organizaciones de todo el mundo a
+                unirse a su causa.</p>
+            <p>A través de alianzas con ONGs y el gobierno ecuatoriano, los Waorani participan en proyectos de
+                ecoturismo y
+                conservación que buscan proteger la biodiversidad de Yasuni mientras fortalecen su economía local.</p>
+        </section>
+        <section id="Nacionalidades" class="section slide-in-right">
+            <h2>Conoce nuestras Nacionalidades</h2>
+            <div id="nacionalidades-container" class="card-container">
+                {% for nacionalidad in nacionalidades %}
+                    <div class="card">
+                        <img src="{{ nacionalidad.nacURLImagen_1 }}" alt="{{ nacionalidad.nacTitulo_1 }}">
+                        <div class="card-content">
+                            <h3>{{ nacionalidad.nacTitulo_1 }}</h3>
+                            <p>{{ nacionalidad.nacDescripcion_1 |truncatechars:60 }}</p>
+                            <a href="{% url 'detalle_nacionalidad' nacionalidad.nacTitulo_1 nacionalidad.nacCodigo %}"
+                               class="btn-ver-mas">Ver más</a>
+                        </div>
+
                     </div>
 
-                </div>
-
-            {% endfor %}
-        </div>
-    </section>
-</main>
-</body>
-</html>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+{% endblock %}

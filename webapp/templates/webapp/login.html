@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'cabezal.html' %}
+{% load static %}
+{% block titulo_pagina %}
     <title>Ingresar - Yasuni</title>
+{% endblock %}
+{% block css_archivos %}
     <style>
         * {
             margin: 0;
@@ -143,19 +143,17 @@
             display: none;
         }
     </style>
-</head>
-<body>
-{% include 'cabezal.html' %}
-<div class="login-container">
-    <h2>Ingresar</h2>
-    <form id="loginForm" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Renderiza el formulario de Django aquí -->
-        <button type="submit">Ingresar</button>
-        {% if error_message %}
-            <p id="error">{{ error_message }}</p>
-        {% endif %}
-    </form>
-</div>
-</body>
-</html>
+{% endblock %}
+{% block contenido_pagina %}
+    <div class="login-container">
+        <h2>Ingresar</h2>
+        <form id="loginForm" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Renderiza el formulario de Django aquí -->
+            <button type="submit">Ingresar</button>
+            {% if error_message %}
+                <p id="error">{{ error_message }}</p>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'cabezal.html' %}
+{% load static %}
+{% block titulo_pagina %}
     <title>{{ nacionalidad.nacTitulo_1 }}</title>
-    <link rel="stylesheet" href="{% static 'webapp/css/estilo.css' %}">
+
+{% endblock %}
+{% block sobreescribir_css_archivos %}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,9 +64,10 @@
             padding-top: 10px;
         }
     </style>
-</head>
-<body>
-    {% include 'cabezal.html' %}
+    <link rel="stylesheet" href="{% static 'webapp/css/estilo.css' %}">
+
+{% endblock %}
+{% block contenido_pagina %}
     <main class="content">
         <h1>{{ nacionalidad.nacTitulo_1 }}</h1>
         <p class="category">{{ nacionalidad.catXnacNombre }}</p>
@@ -85,5 +86,4 @@
             Publicado el: {{ nacionalidad.nacFechaCreacion|date:"d M Y" }}
         </div>
     </main>
-</body>
-</html>
+{% endblock %}

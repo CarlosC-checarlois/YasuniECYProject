@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'cabezal.html' %}
+{% load static %}
+{% block titulo_pagina %}
     <title>Yasuni - Una Reserva Ecológica</title>
-
+{% endblock %}
+{% block css_archivos %}
     <style>
         .hero {
             position: relative;
@@ -125,54 +124,54 @@
             animation-delay: 2s;
         }
     </style>
-</head>
-<body>
-{% include 'cabezal.html' %}
-<main>
-    <section class="hero">
-        <div class="video-container">
-            <!-- Iframe de Vimeo -->
-            <iframe src="https://player.vimeo.com/video/1002591571?autoplay=1&loop=1&muted=1&background=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    </section>
-    <section id="Inicio" class="section fade-in-up">
-        <h2>Inicio</h2>
-        <p>Bienvenido a la página oficial de la Reserva Ecológica Yasuni.</p>
-    </section>
-    <section id="Biodiversidad" class="section fade-in-up">
-        <h2>Biodiversidad</h2>
-        <p>
-            Yasuni es una de las áreas con mayor biodiversidad del planeta.
-            Alberga miles de especies de plantas, animales y microorganismos,
-            muchas de las cuales no se encuentran en ningún otro lugar del mundo.
-        </p>
-    </section>
-    <section id="Importancia" class="section fade-in-up">
-        <h2>Importancia de Yasuni</h2>
-        <p>
-            La Reserva Ecológica Yasuni no solo es crucial por su biodiversidad,
-            sino también por su papel en la regulación del clima global y como
-            hogar de comunidades indígenas que han vivido en armonía con la naturaleza
-            durante siglos.
-        </p>
-    </section>
-    <section id="Conservacion" class="section fade-in-up">
-        <h2>Esfuerzos de Conservación</h2>
-        <p>
-            Diversas organizaciones y gobiernos están trabajando arduamente para proteger
-            Yasuni de amenazas como la deforestación y la explotación de recursos naturales.
-            Descubre cómo puedes apoyar estos esfuerzos y contribuir a la conservación de este
-            valioso ecosistema.
-        </p>
-    </section>
-</main>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const fadeInElements = document.querySelectorAll('.fade-in-up');
-        fadeInElements.forEach(element => {
-            element.classList.add('visible');
+{% endblock %}
+{% block sobreescribir_jvscript_archivos %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fadeInElements = document.querySelectorAll('.fade-in-up');
+            fadeInElements.forEach(element => {
+                element.classList.add('visible');
+            });
         });
-    });
-</script>
-</body>
-</html>
+    </script>
+{% endblock %}
+{% block contenido_pagina %}
+    <main>
+        <section class="hero">
+            <div class="video-container">
+                <iframe src="https://player.vimeo.com/video/1002591571?autoplay=1&loop=1&muted=1&background=1"
+                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </section>
+        <section id="Inicio" class="section fade-in-up">
+            <h2>Inicio</h2>
+            <p>Bienvenido a la página oficial de la Reserva Ecológica Yasuni.</p>
+        </section>
+        <section id="Biodiversidad" class="section fade-in-up">
+            <h2>Biodiversidad</h2>
+            <p>
+                Yasuni es una de las áreas con mayor biodiversidad del planeta.
+                Alberga miles de especies de plantas, animales y microorganismos,
+                muchas de las cuales no se encuentran en ningún otro lugar del mundo.
+            </p>
+        </section>
+        <section id="Importancia" class="section fade-in-up">
+            <h2>Importancia de Yasuni</h2>
+            <p>
+                La Reserva Ecológica Yasuni no solo es crucial por su biodiversidad,
+                sino también por su papel en la regulación del clima global y como
+                hogar de comunidades indígenas que han vivido en armonía con la naturaleza
+                durante siglos.
+            </p>
+        </section>
+        <section id="Conservacion" class="section fade-in-up">
+            <h2>Esfuerzos de Conservación</h2>
+            <p>
+                Diversas organizaciones y gobiernos están trabajando arduamente para proteger
+                Yasuni de amenazas como la deforestación y la explotación de recursos naturales.
+                Descubre cómo puedes apoyar estos esfuerzos y contribuir a la conservación de este
+                valioso ecosistema.
+            </p>
+        </section>
+    </main>
+{% endblock %}
