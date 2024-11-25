@@ -1,0 +1,551 @@
+{% extends 'cabezal.html' %}
+{% load static %}
+{% block titulo_pagina %}
+    <title>Panel de Datos - Yasuni</title>
+{% endblock %}
+{% block css_archivos %}
+    <link rel="stylesheet" href="{% static 'webapp/css/panel_datos.css' %}">
+    <style>
+        /* General Form Styles */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #07217A;
+            margin-bottom: 8px;
+        }
+
+        .custom-select {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: normal;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-select:focus {
+            outline: none;
+            border-color: #2a7ae4;
+            box-shadow: 0 4px 8px rgba(42, 122, 228, 0.2);
+        }
+
+        .custom-select:hover {
+            border-color: #2a7ae4;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #2a7ae4;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background-color: #1b5ca1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* General Responsiveness */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .custom-select {
+                max-width: 100%;
+            }
+
+            .btn-primary {
+                width: 100%;
+            }
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #white;
+            margin: 0;
+            padding: 0;
+            color: #343a40;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #07217A;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #07217A;
+            margin-bottom: 10px;
+        }
+
+        /* Sections */
+        .analysis-section {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .analysis-section h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .analysis-section form {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .analysis-section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .analysis-section input[type="number"],
+        .analysis-section select {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: calc(100% - 20px);
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+
+        .analysis-section button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .analysis-section button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Images */
+        .analysis-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .analysis-section p {
+            text-align: center;
+            font-size: 16px;
+            color: #6c757d;
+            margin-top: 15px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 0;
+            background-color: #07217A;
+            color: #fff;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .analysis-section {
+                padding: 15px;
+            }
+
+            .analysis-section label,
+            .analysis-section input,
+            .analysis-section select,
+            .analysis-section button {
+                width: 100%;
+            }
+        }
+
+        /* General grid container for 3 columns */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+
+        /* Individual analysis card */
+        .analysis-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Title styling */
+        .analysis-card .title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 15px;
+        }
+
+        /* Image container */
+        .image-container {
+            margin: 10px auto;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #003366;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #00509e;
+        }
+
+        /* Responsive design for small screens */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr; /* Stacks the cards vertically */
+            }
+
+            .analysis-card {
+                margin-bottom: 20px;
+            }
+        }
+
+        .styled-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: normal;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .styled-input:focus {
+            outline: none;
+            border-color: #2a7ae4;
+            box-shadow: 0 4px 8px rgba(42, 122, 228, 0.2);
+        }
+
+        .styled-input:hover {
+            border-color: #2a7ae4;
+        }
+
+
+    </style>
+
+{% endblock %}
+{% block contenido_pagina %}
+    <main>
+        <br><br><br>
+        <h1 style="text-align: center; color: #003366; font-size: 28px; font-weight: bold;">Informe de
+            Visualización</h1>
+        <section id="report-section" style="display: block;">
+            <!-- Sección de Nacionalidades -->
+            <div class="grid-container">
+                <div class="analysis-card">
+                    <h2 class="title">Análisis de Sección Nacionalidades</h2>
+                    <form id="form_nacionalidades">
+                        <label for="dias_nacionalidades">Cuántos días:</label>
+                        <input type="number" id="dias_nacionalidades" name="dias" class="styled-input"
+                               value="{{ dias_nacionalidad }}"
+                               min="1" max="30">
+                        <button type="button" class="btn" onclick="actualizarGrafico3DNacionalidades()">Actualizar
+                            Datos
+                        </button>
+                    </form>
+                    <div class="image-container">
+                        <img id="grafico_3d_nacionalidades" src="{{ grafico_3d_nacionalidades }}"
+                             alt="Gráfico 3D Nacionalidades">
+                    </div>
+                    <p>Este gráfico muestra el análisis de tiempo visualizado por nacionalidades en los últimos días
+                        seleccionados.</p>
+                </div>
+
+                <div class="analysis-card">
+                    <h2 class="title">Análisis 2D de Nacionalidades</h2>
+                    <form id="form_2d_nacionalidades">
+                        <label for="modo_2d_nac">Elija el modo:</label>
+                        <select id="modo_2d_nac" name="modo" class="custom-select"
+                                onchange="cambiarOpcionesNacionalidades()">
+                            <option value="1">Por Fecha</option>
+                            <option value="2">Por Nacionalidad</option>
+                        </select>
+                        <label for="valor_2d_nac">Seleccione un valor:</label>
+                        <select id="valor_2d_nac" name="valor" class="custom-select"></select>
+                        <button type="button" class="btn" onclick="actualizarGrafico2DNacionalidades()">Actualizar
+                            Análisis 2D
+                        </button>
+                    </form>
+                    <div class="image-container">
+                        <img id="grafico_2d_nacionalidades" src="{{ grafico_2d_nacionalidades }}"
+                             alt="Gráfico 2D Nacionalidades">
+                    </div>
+                    <p>Este gráfico muestra un análisis bidimensional de nacionalidades basado en las opciones
+                        seleccionadas.</p>
+                </div>
+
+                <div class="analysis-card">
+                    <h2 class="title">Gráfico de Pastel - Nacionalidades</h2>
+                    <div class="image-container">
+                        <img id="grafico_pastel_nacionalidades"
+                             src="{% static 'Nacionalidades/images/pastel_nacionalidad.png' %}"
+                             alt="Gráfico Pastel Nacionalidades">
+                    </div>
+                    <p>Este gráfico muestra la distribución porcentual de tiempo visualizado por categoría de
+                        nacionalidades.</p>
+                </div>
+            </div>
+
+            <!-- Sección de Turísticas -->
+            <div class="grid-container">
+                <div class="analysis-card">
+                    <h2 class="title">Análisis de Sección Turísticas</h2>
+                    <form id="form_turisticas">
+                        <label for="dias_turisticas">Cuántos días:</label>
+                        <input type="number" id="dias_turisticas" name="dias" class="styled-input"
+                               value="{{ dias_turistica }}" min="1"
+                               max="30">
+                        <button type="button" class="btn" onclick="actualizarGrafico3DTuristicas()">Actualizar Datos
+                        </button>
+                    </form>
+                    <div class="image-container">
+                        <img id="grafico_3d_turisticas" src="{{ grafico_3d_turisticas }}" alt="Gráfico 3D Turísticas">
+                    </div>
+                    <p>Este gráfico muestra el análisis de tiempo visualizado por actividades turísticas en los últimos
+                        días seleccionados.</p>
+                </div>
+
+                <div class="analysis-card">
+                    <h2 class="title">Análisis 2D de Turísticas</h2>
+                    <form id="form_2d_turisticas">
+                        <label for="modo_2d_tur">Elija el modo:</label>
+                        <select id="modo_2d_tur" name="modo" class="custom-select"
+                                onchange="cambiarOpcionesTuristicas()">
+                            <option value="1">Por Fecha</option>
+                            <option value="2">Por Actividad</option>
+                        </select>
+                        <label for="valor_2d_tur">Seleccione un valor:</label>
+                        <select id="valor_2d_tur" name="valor" class="custom-select"></select>
+                        <button type="button" class="btn" onclick="actualizarGrafico2DTuristicas()">Actualizar Análisis
+                            2D
+                        </button>
+                    </form>
+                    <div class="image-container">
+                        <img id="grafico_2d_turisticas" src="{{ grafico_2d_turisticas }}" alt="Gráfico 2D Turísticas">
+                    </div>
+                    <p>Este gráfico muestra un análisis bidimensional de turísticas basado en las opciones
+                        seleccionadas.</p>
+                </div>
+
+                <div class="analysis-card">
+                    <h2 class="title">Gráfico de Pastel - Turísticas</h2>
+                    <div class="image-container">
+                        <img id="grafico_pastel_turisticas" src="{% static 'Turisticas/images/pastel_turistica.png' %}"
+                             alt="Gráfico Pastel Turísticas">
+                    </div>
+                    <p>Este gráfico muestra la distribución porcentual de tiempo visualizado por categoría de
+                        actividades turísticas.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p style="text-align: center;">© 2024 Sistema Yasuni - Todos los derechos reservados</p>
+    </footer>
+{% endblock %}
+{% block jvscript_archivos_defer %}
+    <script>
+        function actualizarGraficoPastelNacionalidades() {
+            fetch('/grafico_pastel_nacionalidad/')
+                .then(response => response.text())
+                .then(() => {
+                    document.getElementById('grafico_pastel_nacionalidades').src = `{% static 'Nacionalidades/images/pastel_nacionalidad.png' %}?t=${Date.now()}`;
+                });
+        }
+
+        function actualizarGraficoPastelTuristicas() {
+            fetch('/grafico_pastel_turistica/')
+                .then(response => response.text())
+                .then(() => {
+                    document.getElementById('grafico_pastel_turisticas').src = `{% static 'Turisticas/images/pastel_turistica.png' %}?t=${Date.now()}`;
+                });
+        }
+
+        function encodeURIParams(params) {
+            return Object.entries(params)
+                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                .join('&');
+        }
+
+        function actualizarGrafico3DNacionalidades() {
+            const dias = document.getElementById('dias_nacionalidades').value;
+            const url = `/grafico_tiempo_visualizacion_nacionalidad/?${encodeURIParams({dias})}`;
+            fetch(url)
+                .then(response => response.text())
+                .then(() => {
+                    document.getElementById('grafico_3d_nacionalidades').src = `{% static 'Nacionalidades/images/cubo_nacionalidad.png' %}?t=${Date.now()}`;
+                });
+        }
+
+        function actualizarGrafico3DTuristicas() {
+            const dias = document.getElementById('dias_turisticas').value;
+            const url = `/grafico_tiempo_visualizacion_turistica/?${encodeURIParams({dias})}`;
+            fetch(url)
+                .then(response => response.text())
+                .then(() => {
+                    document.getElementById('grafico_3d_turisticas').src = `{% static 'Turisticas/images/cubo_turistica.png' %}?t=${Date.now()}`;
+                });
+        }
+
+        // Actualizar las opciones del select según el modo para Nacionalidades
+        function cambiarOpcionesNacionalidades() {
+            const modo = document.getElementById('modo_2d_nac').value;
+            const selectValor = document.getElementById('valor_2d_nac');
+            selectValor.innerHTML = ""; // Limpiar las opciones
+
+            const url = modo === "1"
+                ? "/api/obtener_fechas_nacionalidades/"
+                : "/api/obtener_nombres_nacionalidades/";
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    data.resultados.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.valor;
+                        option.textContent = item.valor;
+                        selectValor.appendChild(option);
+                    });
+                });
+        }
+
+        // Actualizar las opciones del select según el modo para Turísticas
+        function cambiarOpcionesTuristicas() {
+            const modo = document.getElementById('modo_2d_tur').value;
+            const selectValor = document.getElementById('valor_2d_tur');
+            selectValor.innerHTML = ""; // Limpiar las opciones
+
+            const url = modo === "1"
+                ? "/api/obtener_fechas_turisticas/"
+                : "/api/obtener_nombres_turisticas/";
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    data.resultados.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.valor;
+                        option.textContent = item.valor;
+                        selectValor.appendChild(option);
+                    });
+                });
+        }
+
+        function actualizarGrafico2DNacionalidades() {
+            const modo = document.getElementById('modo_2d_nac').value;
+            const valor = document.getElementById('valor_2d_nac').value;
+            fetch(`/grafico_2d_nacionalidad/?modo=${modo}&valor=${valor}`)
+                .then(response => response.text())
+                .then(() => {
+                    document.getElementById('grafico_2d_nacionalidades').src = `{% static 'Nacionalidades/images/analisis_2d_nacionalidad.png' %}?t=${Date.now()}`;
+                });
+        }
+
+        function actualizarGrafico2DTuristicas() {
+            const modo = document.getElementById('modo_2d_tur').value;
+            const valor = document.getElementById('valor_2d_tur').value;
+            fetch(`/grafico_2d_turistica/?modo=${modo}&valor=${valor}`)
+                .then(response => response.text())
+                .then(() => {
+                    document.getElementById('grafico_2d_turisticas').src = `{% static 'Turisticas/images/analisis_2d_turistica.png' %}?t=${Date.now()}`;
+                });
+        }
+
+        // Inicializar las opciones al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            cambiarOpcionesNacionalidades();
+            cambiarOpcionesTuristicas();
+        });
+    </script>
+{% endblock %}

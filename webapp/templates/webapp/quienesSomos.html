@@ -4,285 +4,8 @@
     <title>Quiénes Somos - Yasuni</title>
 {% endblock %}
 {% block css_archivos %}
-    <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/tarjetas.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/animacionesMasInformacion.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'webapp/css/cards.css' %}">
-    <style>
-        .hero {
-            position: relative;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background-color: black;
-        }
-
-        .hero-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            color: white;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .section {
-            padding: 60px 20px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-
-        .section:nth-of-type(even) {
-            background-color: #f9f9f9;
-        }
-
-        .section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .section p {
-            font-size: 18px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .visible {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-width: 300px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .card-content h3 {
-            margin-bottom: 10px;
-            font-size: 1.5em;
-        }
-
-        .card-content p {
-            font-size: 1em;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .card-button {
-            background-color: #f2c314;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .card-button:hover {
-            background-color: #e6b20c;
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease-out forwards;
-        }
-
-        .slide-in-left {
-            opacity: 0;
-            transform: translateX(-100%);
-            animation: slideInLeft 1s ease-out forwards;
-        }
-
-        .slide-in-right {
-            opacity: 0;
-            transform: translateX(100%);
-            animation: slideInRight 1s ease-out forwards;
-        }
-
-        .zoom-in {
-            opacity: 0;
-            transform: scale(0.8);
-            animation: zoomIn 1s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes zoomIn {
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .section {
-            opacity: 0;
-        }
-
-        #MasInformacion {
-            animation: fadeInUp 1s ease-out forwards;
-        }
-
-        #Importancia #Historia {
-            animation: slideInLeft 1s ease-out forwards;
-            animation-delay: 0.5s;
-        }
-
-        #Biodiversidad #ComunidadWaorani {
-            animation: slideInRight 1s ease-out forwards;
-            animation-delay: 1s;
-        }
-
-        #Conservacion {
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 2s;
-        }
-
-        #TurismoSostenible {
-            animation: zoomIn 1s ease-out forwards;
-            animation-delay: 2.5s;
-        }
-
-        #ComoAyudar {
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 3s;
-        }
-
-        #tarjetasMasInfo #Nacionalidades {
-            animation: fadeInUp 2s ease-out forwards;
-            animation-delay: 3.5s;
-        }
-
-
-        @keyframes cardFadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            transition: transform 0.3s ease-out;
-        }
-
-        .card {
-            width: 250px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            background-color: #fff;
-            transition: transform 0.3s ease;
-        }
-
-        .card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .card-content h3 {
-            font-size: 18px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-
-        .card-content p {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 15px;
-        }
-
-        .btn-ver-mas {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #f8c02d;
-            color: #000;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .btn-ver-mas:hover {
-            background-color: #e6b027;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-    </style>
+    <link rel="stylesheet" href="{% static 'webapp/css/quienes_somos_estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'webapp/css/cards.css' %}">
 {% endblock %}
 {% block contenido_pagina %}
     <main>
@@ -331,4 +54,34 @@
             </div>
         </section>
     </main>
+{% endblock %}
+{% block jvscript_archivos_defer %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll(".card");
+
+            // Aplicar animación dinámica a cada tarjeta
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`; // Escalona las animaciones en 0.1s
+                card.classList.add("visible"); // Activa la animación al cargar
+            });
+
+            // Si se agregan nuevas tarjetas dinámicamente (ejemplo con MutationObserver)
+            const observer = new MutationObserver(() => {
+                const newCards = document.querySelectorAll(".card:not(.visible)");
+                newCards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.classList.add("visible");
+                });
+            });
+
+            observer.observe(document.querySelector(".card-container"), {
+                childList: true, // Detecta nuevos elementos hijos
+            });
+        });
+
+    </script>
+
+
+
 {% endblock %}

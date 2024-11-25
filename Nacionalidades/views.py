@@ -5,13 +5,17 @@ from django.http import JsonResponse
 from django.utils import timezone
 from .models import Nacionalidad, TiempoVisualizacion
 import json
-from django.db import connection
-from django.http import HttpResponse
+import os
+from django.conf import settings
 from io import BytesIO
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.db import connection
+from django.conf import settings
+
 
 @login_required
 def editar_nacionalidad(request, nacCodigo):
@@ -25,11 +29,14 @@ def editar_nacionalidad(request, nacCodigo):
         form = NacionalidadForm(instance=nacionalidad)
     return render(request, 'Nacionalidades/editar_nacionalidad.html', {'form': form})
 
+
 @login_required
 def eliminar_nacionalidad(request, nacCodigo):
     nacionalidad = get_object_or_404(Nacionalidad, nacCodigo=nacCodigo)
     nacionalidad.delete()
     return redirect('paginaActividades')
+
+
 @login_required
 def gestionar_nacionalidades(request):
     nacionalidades = Nacionalidad.objects.all()
@@ -38,12 +45,15 @@ def gestionar_nacionalidades(request):
         'nacionalidades': nacionalidades,
         'form': form
     })
+
+
 @login_required
 def informacion_nacionalidad(request):
     nacionalidades = Nacionalidad.objects.all()
     return render(request, 'Nacionalidades/gestionarNacionalidad.html', {
         'nacionalidades': nacionalidades
     })
+
 
 @login_required
 def crear_nacionalidad(request):
@@ -65,7 +75,8 @@ def detalle_nacionalidad(request, titulo, codigo):
     return render(request, 'Nacionalidades/detalle_nacionalidad.html', {
         'nacionalidad': nacionalidad
     })
-@login_required
+
+
 @csrf_exempt
 def guardar_tiempo_visualizacion_nacionalidad(request, nacCodigo):
     if request.method == 'POST':
@@ -91,82 +102,240 @@ def guardar_tiempo_visualizacion_nacionalidad(request, nacCodigo):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
-@login_required
+
+def obtener_fecha_mas_reciente(tabla):
+    """
+    Obtiene la fecha más reciente de una tabla.
+    """
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT fecha_visualizacion FROM {} ORDER BY fecha_visualizacion DESC LIMIT 1;".format(tabla))
+            resultado = cursor.fetchone()
+            return resultado[0] if resultado else None
+    except Exception as e:
+        print(f"Error al obtener la fecha más reciente de {tabla}: {e}")
+        return None
+
+
 def visualizar_tiempo_visualizacion_nacionalidad(request):
+    import matplotlib
+    matplotlib.use('Agg')  # Usar backend no interactivo para evitar problemas con GUI
+
+    # Obtener el parámetro 'dias' de la solicitud GET, con valor por defecto 7
+    try:
+        dias = int(request.GET.get('dias', 7))  # Por defecto, 7 días
+        print(f"[INFO] Número de días solicitado: {dias}")
+    except ValueError:
+        dias = 7
+        print("[ERROR] Parámetro 'dias' no válido, usando valor por defecto: 7")
+
+    # Llamar al procedimiento almacenado para actualizar los datos
     with connection.cursor() as cursor:
         try:
-            # Ejecutar la consulta SQL
-            cursor.execute("""SELECT * FROM nacionalidades_cube();""")
-
-            # Obtener los resultados
-            resultados = cursor.fetchall()
-
+            cursor.execute("CALL actualizar_table_cube_nacionalidad(%s);", [dias])
+            print(f"[INFO] Procedimiento 'actualizar_table_cube_nacionalidad({dias})' ejecutado correctamente.")
         except Exception as e:
-            print(f"Error al obtener resultados: {str(e)}")
-            resultados = []
+            print(f"[ERROR] Error al ejecutar procedimiento almacenado: {str(e)}")
+            return HttpResponse(f"Error al actualizar datos: {str(e)}", status=500)
+
+    # Consultar los datos del cubo actualizado
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute("""SELECT * FROM table_cube_nacionalidad;""")
+            resultados = cursor.fetchall()
+            print(f"[INFO] Datos obtenidos de 'table_cube_nacionalidad': {resultados}")
+        except Exception as e:
+            print(f"[ERROR] Error al consultar datos de 'table_cube_nacionalidad': {str(e)}")
+            return HttpResponse(f"Error al obtener datos: {str(e)}", status=500)
 
     # Separar los datos en listas
     if resultados:
-        nacionalidades_unicas = list(set(fila[0] for fila in resultados))  # Nombres únicos de las nacionalidades
-        fechas_unicas = list(set(fila[1] for fila in resultados))  # Fechas únicas
-        fechas_unicas.sort()  # Ordenar fechas
-        tiempos = []
+        try:
+            nacionalidades_unicas = list(set(fila[0] for fila in resultados))  # Nombres únicos de las nacionalidades
+            fechas_unicas = list(set(fila[1] for fila in resultados))  # Fechas únicas
+            fechas_unicas.sort()  # Ordenar fechas
+            tiempos = []
 
-        # Crear una matriz para los tiempos
-        for nacionalidad in nacionalidades_unicas:
-            tiempo_por_nacionalidad = []
-            for fecha in fechas_unicas:
-                # Buscar el tiempo de esa nacionalidad en esa fecha
-                tiempo = next((fila[2] for fila in resultados if fila[0] == nacionalidad and fila[1] == fecha), 0)
-                tiempo_por_nacionalidad.append(tiempo)
-            tiempos.append(tiempo_por_nacionalidad)
+            # Crear una matriz para los tiempos
+            for nacionalidad in nacionalidades_unicas:
+                tiempo_por_nacionalidad = []
+                for fecha in fechas_unicas:
+                    # Buscar el tiempo de esa nacionalidad en esa fecha
+                    tiempo = next((fila[2] for fila in resultados if fila[0] == nacionalidad and fila[1] == fecha), 0)
+                    tiempo_por_nacionalidad.append(tiempo)
+                tiempos.append(tiempo_por_nacionalidad)
 
+            print(f"[INFO] Nacionalidades únicas: {nacionalidades_unicas}")
+            print(f"[INFO] Fechas únicas: {fechas_unicas}")
+            print(f"[INFO] Matriz de tiempos: {tiempos}")
+        except Exception as e:
+            print(f"[ERROR] Error al procesar datos: {str(e)}")
+            return HttpResponse(f"Error al procesar datos: {str(e)}", status=500)
     else:
         nacionalidades_unicas, fechas_unicas, tiempos = [], [], []
+        print("[WARNING] No se encontraron datos en 'table_cube_nacionalidad'.")
 
     # Crear el gráfico 3D con Matplotlib
     fig = plt.figure(figsize=(12, 8))
     ax = fig.add_subplot(111, projection='3d')
 
     if fechas_unicas and nacionalidades_unicas and tiempos:
-        fechas_num = np.arange(len(fechas_unicas))
-        xpos, ypos = np.meshgrid(fechas_num, np.arange(len(nacionalidades_unicas)))
-        xpos = xpos.flatten()
-        ypos = ypos.flatten()
-        zpos = np.zeros_like(xpos)
-        dz = np.array(tiempos).flatten()
-        norm = plt.Normalize(dz.min(), dz.max())
-        colors = cm.viridis(norm(dz))
-        ax.bar3d(xpos, ypos, zpos, 0.5, 0.5, dz, color=colors, alpha=0.7)
+        try:
+            fechas_num = np.arange(len(fechas_unicas))
+            xpos, ypos = np.meshgrid(fechas_num, np.arange(len(nacionalidades_unicas)))
+            xpos = xpos.flatten()
+            ypos = ypos.flatten()
+            zpos = np.zeros_like(xpos)
+            dz = np.array(tiempos).flatten()
+            norm = plt.Normalize(dz.min(), dz.max())
+            colors = cm.viridis(norm(dz))
+            ax.bar3d(xpos, ypos, zpos, 0.5, 0.5, dz, color=colors, alpha=0.7)
 
-        # Configurar los ejes
-        ax.set_xlabel('Fecha de Visualización')
-        ax.set_ylabel('Nacionalidad')
-        ax.set_zlabel('Tiempo Total Visualizado (segundos)')
+            # Configurar los ejes
+            ax.set_xlabel('Fecha de Visualización')
+            ax.set_ylabel('Nacionalidad')
+            ax.set_zlabel('Tiempo Total Visualizado (segundos)')
 
-        # Etiquetas personalizadas para los ejes X y Y
-        ax.set_xticks(np.arange(len(fechas_unicas)))
-        ax.set_xticklabels(fechas_unicas, rotation=45, ha='right')
-        ax.set_yticks(np.arange(len(nacionalidades_unicas)))
-        ax.set_yticklabels(nacionalidades_unicas)
+            # Etiquetas personalizadas para los ejes X y Y
+            ax.set_xticks(np.arange(len(fechas_unicas)))
+            ax.set_xticklabels(fechas_unicas, rotation=45, ha='right')
+            ax.set_yticks(np.arange(len(nacionalidades_unicas)))
+            ax.set_yticklabels(nacionalidades_unicas)
 
-        # Ajustar el ángulo de la cámara para obtener la perspectiva adecuada
-        ax.view_init(elev=30, azim=120)
+            # Ajustar el ángulo de la cámara para obtener la perspectiva adecuada
+            ax.view_init(elev=30, azim=120)
 
-        # Agregar una barra de colores para la escala de los valores
-        mappable = cm.ScalarMappable(cmap='viridis', norm=norm)
-        mappable.set_array(dz)
-        fig.colorbar(mappable, shrink=0.6, aspect=5)
-
+            # Agregar una barra de colores para la escala de los valores
+            mappable = cm.ScalarMappable(cmap='viridis', norm=norm)
+            mappable.set_array(dz)
+            fig.colorbar(mappable, shrink=0.6, aspect=5)
+        except Exception as e:
+            print(f"[ERROR] Error al generar el gráfico 3D: {str(e)}")
+            return HttpResponse(f"Error al generar gráfico: {str(e)}", status=500)
     else:
         # Mostrar mensaje si no hay datos
         ax.text2D(0.5, 0.5, "No hay datos para mostrar", transform=ax.transAxes)
+        print("[WARNING] No se encontraron datos para generar el gráfico.")
 
-    # Guardar el gráfico en un buffer para devolverlo como imagen
-    buffer = BytesIO()
-    plt.savefig(buffer, format='png', bbox_inches='tight')
+    # Definir la ruta para guardar la imagen
+    try:
+        imagen_dir = os.path.join(settings.BASE_DIR, 'Nacionalidades', 'static', 'Nacionalidades', 'images')
+        imagen_path = os.path.join(imagen_dir, 'cubo_nacionalidad.png')
+
+        # Crear la carpeta si no existe
+        if not os.path.exists(imagen_dir):
+            os.makedirs(imagen_dir)
+
+        # Eliminar la imagen existente si existe
+        if os.path.exists(imagen_path):
+            os.remove(imagen_path)
+
+        # Guardar la nueva imagen
+        plt.savefig(imagen_path, format='png', bbox_inches='tight')
+        plt.close(fig)
+        print(f"[INFO] Gráfico guardado en: {imagen_path}")
+    except Exception as e:
+        print(f"[ERROR] Error al guardar el gráfico: {str(e)}")
+        return HttpResponse(f"Error al guardar gráfico: {str(e)}", status=500)
+
+    # Redirigir al panel de datos
+    return HttpResponse(f"Gráfico tridimensional guardado en {imagen_path}")
+
+def visualizar_analisis_2d_nacionalidad(request):
+    import matplotlib
+    matplotlib.use('Agg')  # Usar backend no interactivo
+
+    # Obtener el modo y valor desde los parámetros GET
+    modo = int(request.GET.get('modo', 1))  # Predeterminado: modo 1
+    valor = request.GET.get('valor', None)
+
+    # Si no se pasa valor, obtener la fecha más reciente
+    if not valor:
+        valor = obtener_fecha_mas_reciente("table_cube_nacionalidad")
+        if not valor:
+            return HttpResponse("No hay datos disponibles para generar el gráfico.")
+
+    # Consultar los datos para la visualización bidimensional
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute(
+                "SELECT * FROM visualizacion_bidimensional_dinamica_nacionalidad(%s, %s);",
+                [modo, valor]
+            )
+            resultados = cursor.fetchall()
+        except Exception as e:
+            print(f"Error al cargar datos de análisis 2D de nacionalidades: {str(e)}")
+            return HttpResponse("Error al cargar datos para el gráfico bidimensional.")
+
+    # Preparar datos para el gráfico
+    if resultados:
+        eje_x = [fila[0] for fila in resultados]
+        eje_y = [fila[1] for fila in resultados]
+    else:
+        eje_x, eje_y = [], []
+
+    # Crear el gráfico
+    fig, ax = plt.subplots(figsize=(10, 6))
+    if eje_x and eje_y:
+        ax.bar(eje_x, eje_y, color='skyblue')
+        ax.set_xlabel("Nacionalidad")
+        ax.set_ylabel("Tiempo Total Visualizado (segundos)")
+        ax.set_title("Análisis Bidimensional - Nacionalidades")
+        plt.xticks(rotation=45, ha='right')
+    else:
+        ax.text(0.5, 0.5, "No hay datos disponibles", transform=ax.transAxes, ha="center", va="center")
+        ax.set_axis_off()
+
+    # Guardar el gráfico como imagen
+    imagen_dir = os.path.join(settings.BASE_DIR, 'Nacionalidades', 'static', 'Nacionalidades', 'images')
+    os.makedirs(imagen_dir, exist_ok=True)
+    imagen_path = os.path.join(imagen_dir, 'analisis_2d_nacionalidad.png')
+    plt.savefig(imagen_path, format='png', bbox_inches='tight')
     plt.close(fig)
-    buffer.seek(0)
 
-    return HttpResponse(buffer, content_type='image/png')
+    return HttpResponse(f"Gráfico bidimensional guardado en {imagen_path}")
 
+
+def visualizar_pastel_nacionalidad(request):
+    """
+    Generar el gráfico de pastel para nacionalidades.
+    """
+    # Llamar al procedimiento para actualizar la vista de pastel
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute("CALL vista_pastel_nacionalidad();")
+        except Exception as e:
+            return HttpResponse(f"Error al actualizar vista de pastel de nacionalidades: {str(e)}")
+
+    # Consultar los datos de la vista de pastel
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute("SELECT * FROM view_pastel_nacionalidad;")
+            resultados = cursor.fetchall()
+        except Exception as e:
+            return HttpResponse(f"Error al obtener datos de la vista de pastel de nacionalidades: {str(e)}")
+
+    if not resultados:
+        return HttpResponse("No hay datos para generar el gráfico de pastel de nacionalidades.")
+
+    # Separar los datos
+    labels = [fila[0] for fila in resultados]
+    sizes = [fila[1] for fila in resultados]
+
+    # Crear el gráfico de pastel
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')  # Para un círculo perfecto
+
+    # Guardar el gráfico en un archivo
+    imagen_dir = os.path.join(settings.BASE_DIR, 'Nacionalidades', 'static', 'Nacionalidades', 'images')
+    imagen_path = os.path.join(imagen_dir, 'pastel_nacionalidad.png')
+
+    if not os.path.exists(imagen_dir):
+        os.makedirs(imagen_dir)
+
+    plt.savefig(imagen_path, format='png', bbox_inches='tight')
+    plt.close(fig)
+
+    return HttpResponse(f"Gráfico de pastel generado: {imagen_path}")
