@@ -1,4 +1,4 @@
-{% extends 'cabezal.html' %}
+{% extends 'cabezal_administrador.html' %}
 {% load static %}
 {% block titulo_pagina %}
     <title>Panel de Datos - Yasuni</title>
@@ -89,7 +89,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #white;
+            background-color: white;
             margin: 0;
             padding: 0;
             color: #343a40;
@@ -315,35 +315,39 @@
     </style>
 
 {% endblock %}
+{% block contenido_nav_bar %}
+    <li><a href="{% url 'paginaActividades' %}">Panel General</a></li>
+{% endblock %}
 {% block contenido_pagina %}
+
     <main>
-        <br><br><br>
         <h1 style="text-align: center; color: #003366; font-size: 28px; font-weight: bold;">Informe de
             Visualización</h1>
-        <section id="report-section" style="display: block;">
+        <section id="report-section">
             <!-- Sección de Nacionalidades -->
             <div class="grid-container">
+                <!-- Gráfico 3D Nacionalidades -->
                 <div class="analysis-card">
-                    <h2 class="title">Análisis de Sección Nacionalidades</h2>
+                    <h2 class="title">Análisis 3D - Nacionalidades</h2>
                     <form id="form_nacionalidades">
                         <label for="dias_nacionalidades">Cuántos días:</label>
                         <input type="number" id="dias_nacionalidades" name="dias" class="styled-input"
-                               value="{{ dias_nacionalidad }}"
-                               min="1" max="30">
+                               value="{{ dias_nacionalidad }}" min="1" max="30">
                         <button type="button" class="btn" onclick="actualizarGrafico3DNacionalidades()">Actualizar
-                            Datos
                         </button>
                     </form>
                     <div class="image-container">
-                        <img id="grafico_3d_nacionalidades" src="{{ grafico_3d_nacionalidades }}"
+                        <img id="grafico_3d_nacionalidades"
+                             src="/obtener-imagen/IMG-4/?t={{ tiempo_actual }}"
                              alt="Gráfico 3D Nacionalidades">
                     </div>
                     <p>Este gráfico muestra el análisis de tiempo visualizado por nacionalidades en los últimos días
                         seleccionados.</p>
                 </div>
 
+                <!-- Gráfico 2D Nacionalidades -->
                 <div class="analysis-card">
-                    <h2 class="title">Análisis 2D de Nacionalidades</h2>
+                    <h2 class="title">Análisis 2D - Nacionalidades</h2>
                     <form id="form_2d_nacionalidades">
                         <label for="modo_2d_nac">Elija el modo:</label>
                         <select id="modo_2d_nac" name="modo" class="custom-select"
@@ -354,22 +358,23 @@
                         <label for="valor_2d_nac">Seleccione un valor:</label>
                         <select id="valor_2d_nac" name="valor" class="custom-select"></select>
                         <button type="button" class="btn" onclick="actualizarGrafico2DNacionalidades()">Actualizar
-                            Análisis 2D
                         </button>
                     </form>
                     <div class="image-container">
-                        <img id="grafico_2d_nacionalidades" src="{{ grafico_2d_nacionalidades }}"
+                        <img id="grafico_2d_nacionalidades"
+                             src="/obtener-imagen/IMG-5/?t={{ tiempo_actual }}"
                              alt="Gráfico 2D Nacionalidades">
                     </div>
                     <p>Este gráfico muestra un análisis bidimensional de nacionalidades basado en las opciones
                         seleccionadas.</p>
                 </div>
 
+                <!-- Gráfico Pastel Nacionalidades -->
                 <div class="analysis-card">
                     <h2 class="title">Gráfico de Pastel - Nacionalidades</h2>
                     <div class="image-container">
                         <img id="grafico_pastel_nacionalidades"
-                             src="{% static 'Nacionalidades/images/pastel_nacionalidad.png' %}"
+                             src="/obtener-imagen/IMG-6/?t={{ tiempo_actual }}"
                              alt="Gráfico Pastel Nacionalidades">
                     </div>
                     <p>Este gráfico muestra la distribución porcentual de tiempo visualizado por categoría de
@@ -379,25 +384,27 @@
 
             <!-- Sección de Turísticas -->
             <div class="grid-container">
+                <!-- Gráfico 3D Turísticas -->
                 <div class="analysis-card">
-                    <h2 class="title">Análisis de Sección Turísticas</h2>
+                    <h2 class="title">Análisis 3D - Turísticas</h2>
                     <form id="form_turisticas">
                         <label for="dias_turisticas">Cuántos días:</label>
                         <input type="number" id="dias_turisticas" name="dias" class="styled-input"
-                               value="{{ dias_turistica }}" min="1"
-                               max="30">
-                        <button type="button" class="btn" onclick="actualizarGrafico3DTuristicas()">Actualizar Datos
-                        </button>
+                               value="{{ dias_turistica }}" min="1" max="30">
+                        <button type="button" class="btn" onclick="actualizarGrafico3DTuristicas()">Actualizar</button>
                     </form>
                     <div class="image-container">
-                        <img id="grafico_3d_turisticas" src="{{ grafico_3d_turisticas }}" alt="Gráfico 3D Turísticas">
+                        <img id="grafico_3d_turisticas"
+                             src="/obtener-imagen/IMG-1/?t={{ tiempo_actual }}"
+                             alt="Gráfico 3D Turísticas">
                     </div>
                     <p>Este gráfico muestra el análisis de tiempo visualizado por actividades turísticas en los últimos
                         días seleccionados.</p>
                 </div>
 
+                <!-- Gráfico 2D Turísticas -->
                 <div class="analysis-card">
-                    <h2 class="title">Análisis 2D de Turísticas</h2>
+                    <h2 class="title">Análisis 2D - Turísticas</h2>
                     <form id="form_2d_turisticas">
                         <label for="modo_2d_tur">Elija el modo:</label>
                         <select id="modo_2d_tur" name="modo" class="custom-select"
@@ -407,21 +414,23 @@
                         </select>
                         <label for="valor_2d_tur">Seleccione un valor:</label>
                         <select id="valor_2d_tur" name="valor" class="custom-select"></select>
-                        <button type="button" class="btn" onclick="actualizarGrafico2DTuristicas()">Actualizar Análisis
-                            2D
-                        </button>
+                        <button type="button" class="btn" onclick="actualizarGrafico2DTuristicas()">Actualizar</button>
                     </form>
                     <div class="image-container">
-                        <img id="grafico_2d_turisticas" src="{{ grafico_2d_turisticas }}" alt="Gráfico 2D Turísticas">
+                        <img id="grafico_2d_turisticas"
+                             src="/obtener-imagen/IMG-2/?t={{ tiempo_actual }}"
+                             alt="Gráfico 2D Turísticas">
                     </div>
                     <p>Este gráfico muestra un análisis bidimensional de turísticas basado en las opciones
                         seleccionadas.</p>
                 </div>
 
+                <!-- Gráfico Pastel Turísticas -->
                 <div class="analysis-card">
                     <h2 class="title">Gráfico de Pastel - Turísticas</h2>
                     <div class="image-container">
-                        <img id="grafico_pastel_turisticas" src="{% static 'Turisticas/images/pastel_turistica.png' %}"
+                        <img id="grafico_pastel_turisticas"
+                             src="/obtener-imagen/IMG-3/?t={{ tiempo_actual }}"
                              alt="Gráfico Pastel Turísticas">
                     </div>
                     <p>Este gráfico muestra la distribución porcentual de tiempo visualizado por categoría de
@@ -430,28 +439,13 @@
             </div>
         </section>
     </main>
+
     <footer>
         <p style="text-align: center;">© 2024 Sistema Yasuni - Todos los derechos reservados</p>
     </footer>
 {% endblock %}
 {% block jvscript_archivos_defer %}
     <script>
-        function actualizarGraficoPastelNacionalidades() {
-            fetch('/grafico_pastel_nacionalidad/')
-                .then(response => response.text())
-                .then(() => {
-                    document.getElementById('grafico_pastel_nacionalidades').src = `{% static 'Nacionalidades/images/pastel_nacionalidad.png' %}?t=${Date.now()}`;
-                });
-        }
-
-        function actualizarGraficoPastelTuristicas() {
-            fetch('/grafico_pastel_turistica/')
-                .then(response => response.text())
-                .then(() => {
-                    document.getElementById('grafico_pastel_turisticas').src = `{% static 'Turisticas/images/pastel_turistica.png' %}?t=${Date.now()}`;
-                });
-        }
-
         function encodeURIParams(params) {
             return Object.entries(params)
                 .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
@@ -460,23 +454,38 @@
 
         function actualizarGrafico3DNacionalidades() {
             const dias = document.getElementById('dias_nacionalidades').value;
-            const url = `/grafico_tiempo_visualizacion_nacionalidad/?${encodeURIParams({dias})}`;
+            const url = `/grafico_tiempo_visualizacion_nacionalidad/?${new URLSearchParams({dias})}`;
+
+            // Llamar al endpoint para generar el gráfico 3D y actualizar el gráfico de pastel
             fetch(url)
                 .then(response => response.text())
                 .then(() => {
-                    document.getElementById('grafico_3d_nacionalidades').src = `{% static 'Nacionalidades/images/cubo_nacionalidad.png' %}?t=${Date.now()}`;
-                });
+                    // Cargar la imagen procesada del gráfico 3D desde el backend
+                    document.getElementById('grafico_3d_nacionalidades').src = `/procesar_imagen_3d_nacionalidades/?t=${Date.now()}`;
+
+                    // Cargar también el gráfico de pastel desde el backend
+                    document.getElementById('grafico_pastel_nacionalidades').src = `/obtener-imagen/IMG-6/?t=${Date.now()}`;
+                })
+                .catch(error => console.error('Error al actualizar el gráfico 3D de Nacionalidades:', error));
         }
 
         function actualizarGrafico3DTuristicas() {
             const dias = document.getElementById('dias_turisticas').value;
-            const url = `/grafico_tiempo_visualizacion_turistica/?${encodeURIParams({dias})}`;
+            const url = `/grafico_tiempo_visualizacion_turistica/?${new URLSearchParams({dias})}`;
+
+            // Llamar al endpoint para generar el gráfico 3D y actualizar el gráfico de pastel
             fetch(url)
                 .then(response => response.text())
                 .then(() => {
-                    document.getElementById('grafico_3d_turisticas').src = `{% static 'Turisticas/images/cubo_turistica.png' %}?t=${Date.now()}`;
-                });
+                    // Cargar la imagen procesada del gráfico 3D desde el backend
+                    document.getElementById('grafico_3d_turisticas').src = `/procesar_imagen_3d_turisticas/?t=${Date.now()}`;
+
+                    // Cargar también el gráfico de pastel desde el backend
+                    document.getElementById('grafico_pastel_turisticas').src = `/obtener-imagen/IMG-3/?t=${Date.now()}`;
+                })
+                .catch(error => console.error('Error al actualizar el gráfico 3D de Turísticas:', error));
         }
+
 
         // Actualizar las opciones del select según el modo para Nacionalidades
         function cambiarOpcionesNacionalidades() {
@@ -525,20 +534,46 @@
         function actualizarGrafico2DNacionalidades() {
             const modo = document.getElementById('modo_2d_nac').value;
             const valor = document.getElementById('valor_2d_nac').value;
+
+            // Llamar al endpoint para actualizar el gráfico
             fetch(`/grafico_2d_nacionalidad/?modo=${modo}&valor=${valor}`)
                 .then(response => response.text())
                 .then(() => {
-                    document.getElementById('grafico_2d_nacionalidades').src = `{% static 'Nacionalidades/images/analisis_2d_nacionalidad.png' %}?t=${Date.now()}`;
+                    // Cargar la imagen procesada desde el backend
+                    document.getElementById('grafico_2d_nacionalidades').src = `/procesar_imagen_2d_nacionalidades/?t=${Date.now()}`;
                 });
         }
 
+
         function actualizarGrafico2DTuristicas() {
-            const modo = document.getElementById('modo_2d_tur').value;
-            const valor = document.getElementById('valor_2d_tur').value;
+            const modo = document.getElementById('modo_2d_tur')?.value || 1; // Valor predeterminado si no se encuentra el elemento
+            const valor = document.getElementById('valor_2d_tur')?.value || '';
+
+            // Verifica que los valores no sean nulos o vacíos
+            if (!modo || valor === '') {
+                console.error("Modo o valor no definidos para actualizar el gráfico 2D de Turísticas.");
+                return;
+            }
+
+            // Llamar al endpoint para actualizar el gráfico
             fetch(`/grafico_2d_turistica/?modo=${modo}&valor=${valor}`)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error al actualizar gráfico 2D Turísticas: ${response.statusText}`);
+                    }
+                    return response.text();
+                })
                 .then(() => {
-                    document.getElementById('grafico_2d_turisticas').src = `{% static 'Turisticas/images/analisis_2d_turistica.png' %}?t=${Date.now()}`;
+                    // Actualizar el gráfico en la interfaz
+                    const graficoElement = document.getElementById('grafico_2d_turisticas');
+                    if (graficoElement) {
+                        graficoElement.src = `/procesar_imagen_2d_turisticas/?t=${Date.now()}`;
+                    } else {
+                        console.error("No se encontró el elemento de imagen 'grafico_2d_turisticas'.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al procesar la actualización del gráfico 2D Turísticas:", error);
                 });
         }
 
@@ -547,5 +582,34 @@
             cambiarOpcionesNacionalidades();
             cambiarOpcionesTuristicas();
         });
+
+        // Función para actualizar el gráfico de pastel de Turísticas
+        function actualizarGraficoPastelTuristicas() {
+            fetch('/procesar_imagen_pastel_turisticas/')
+                .then(response => {
+                    if (response.ok) {
+                        // Actualizar la imagen del gráfico de pastel
+                        document.getElementById('grafico_pastel_turisticas').src = `/obtener-imagen/IMG-3/?t=${Date.now()}`;
+                    } else {
+                        console.error('Error al actualizar el gráfico de pastel - Turísticas.');
+                    }
+                })
+                .catch(error => console.error('Error al conectar con el servidor:', error));
+        }
+
+        // Función para actualizar el gráfico de pastel de Nacionalidades
+        function actualizarGraficoPastelNacionalidades() {
+            fetch('/procesar_imagen_pastel_nacionalidades/')
+                .then(response => {
+                    if (response.ok) {
+                        // Actualizar la imagen del gráfico de pastel
+                        document.getElementById('grafico_pastel_nacionalidades').src = `/obtener-imagen/IMG-6/?t=${Date.now()}`;
+                    } else {
+                        console.error('Error al actualizar el gráfico de pastel - Nacionalidades.');
+                    }
+                })
+                .catch(error => console.error('Error al conectar con el servidor:', error));
+        }
+
     </script>
 {% endblock %}

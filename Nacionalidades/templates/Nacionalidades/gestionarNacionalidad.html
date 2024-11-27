@@ -1,14 +1,12 @@
+{% extends 'cabezal_administrador.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block titulo_pagina %}
     <title>Gestionar Información de la Nacionalidad</title>
-    <style>
-        /* crud.css */
 
-        /* Estilos para el formulario */
+{% endblock %}
+
+{% block css_archivos %}
+    <style>
         .crud-form {
             background-color: #f9f9f9;
             padding: 20px;
@@ -244,6 +242,13 @@
             margin-bottom: 20px;
         }
 
+    </style>
+    {% comment %}
+    <style>
+        /* crud.css */
+
+        /* Estilos para el formulario */
+
 
         /* HEADER CSS */
         * {
@@ -380,95 +385,76 @@
         }
 
     </style>
-</head>
-<body>
+    {% endcomment %}
+{% endblock %}
+{% block contenido_nav_bar %}
+    <li><a href="{% url 'paginaActividades' %}">Panel General</a></li>
+{% endblock %}
+{% block contenido_pagina %}
+    <main>
+        <br>
+        <br>
+        <h1>Gestionar Información de la Nacionalidad</h1>
+        <section class="crud-section">
+            <!-- Botón para añadir un nuevo registro -->
+            <a href="{% url 'crear_nacionalidad' %}" class="button add">Añadir Nuevo Registro</a>
 
-<header>
-    <!-- Usa la URL externa directamente si no es un archivo estático dentro de tu proyecto -->
-    <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo" style="width: 40px; height: 40px;">
-    <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i>☰</button>
-    <nav class="nav" id="nav">
-        <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i>✖</button>
-        <ul class="nav-list">
-            <li><a href="{% url 'paginaActividades' %}">Regresar al Panel</a></li>
-            <li><a href="{% url 'home' %}">Cerrar Sesión</a></li>
-        </ul>
-    </nav>
-</header>
-<main>
-    <br>
-    <br>
-    <h1>Gestionar Información de la Nacionalidad</h1>
-    <section class="crud-section">
-        <!-- Botón para añadir un nuevo registro -->
-        <a href="{% url 'crear_nacionalidad' %}" class="button add">Añadir Nuevo Registro</a>
-
-        <div class="crud-form">
-            <h2>Añadir o Editar Información</h2>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }} <!-- Renderiza todo el formulario usando Django Forms -->
-                <div>
-                    <button type="submit" class="button">Actualizar tabla</button>
-                </div>
-            </form>
-        </div>
-        <div class="crud-list">
-            <h2>Lista de Nacionalidades</h2>
-            <table id="tablaNacionalidades">
-                <thead>
-                <tr>
-                    <th>Título 1</th>
-                    <th>Descripción 1</th>
-                    <th>Imagen 1</th>
-                    <th>Título 2</th>
-                    <th>Descripción 2</th>
-                    <th>Imagen 2</th>
-                    <th>Título 3</th>
-                    <th>Descripción 3</th>
-                    <th>Imagen 3</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for nacionalidad in nacionalidades %}
+            <div class="crud-form">
+                <h2>Añadir o Editar Información</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }} <!-- Renderiza todo el formulario usando Django Forms -->
+                    <div>
+                        <button type="submit" class="button">Actualizar tabla</button>
+                    </div>
+                </form>
+            </div>
+            <div class="crud-list">
+                <h2>Lista de Nacionalidades</h2>
+                <table id="tablaNacionalidades">
+                    <thead>
                     <tr>
-                        <td>{{ nacionalidad.nacTitulo_1 }}</td>
-                        <td>{{ nacionalidad.nacDescripcion_1 }}</td>
-                        <td><img src="{{ nacionalidad.nacURLImagen_1 }}" alt="Imagen 1" style="width:100px;"></td>
-                        <td>{{ nacionalidad.nacTitulo_2 }}</td>
-                        <td>{{ nacionalidad.nacDescripcion_2 }}</td>
-                        <td><img src="{{ nacionalidad.nacURLImagen_2 }}" alt="Imagen 2" style="width:100px;"></td>
-                        <td>{{ nacionalidad.nacTitulo_3 }}</td>
-                        <td>{{ nacionalidad.nacDescripcion_3 }}</td>
-                        <td><img src="{{ nacionalidad.nacURLImagen_3 }}" alt="Imagen 3" style="width:100px;"></td>
-                        <td>
-                            <a href="{% url 'editar_nacionalidad' nacionalidad.nacCodigo %}"
-                               class="button edit">Editar</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'eliminar_nacionalidad' nacionalidad.nacCodigo %}" class="button delete">Eliminar</a>
-                        </td>
+                        <th>Título 1</th>
+                        <th>Descripción 1</th>
+                        <th>Imagen 1</th>
+                        <th>Título 2</th>
+                        <th>Descripción 2</th>
+                        <th>Imagen 2</th>
+                        <th>Título 3</th>
+                        <th>Descripción 3</th>
+                        <th>Imagen 3</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</main>
-<footer>
-    <p>Sistema de Administración de página del Yasuni</p>
-</footer>
-<script src="{% static 'Nacionalidades/js/gestionarNacionalidad.js' %}"></script>
-<script>
-    document.getElementById("abrir").addEventListener("click", function () {
-        document.getElementById("nav").classList.add("visible");
-    });
-
-    document.getElementById("cerrar").addEventListener("click", function () {
-        document.getElementById("nav").classList.remove("visible");
-    });
-</script>
-</body>
-</html>
+                    </thead>
+                    <tbody>
+                    {% for nacionalidad in nacionalidades %}
+                        <tr>
+                            <td>{{ nacionalidad.nacTitulo_1 }}</td>
+                            <td>{{ nacionalidad.nacDescripcion_1 }}</td>
+                            <td><img src="{{ nacionalidad.nacURLImagen_1 }}" alt="Imagen 1" style="width:100px;"></td>
+                            <td>{{ nacionalidad.nacTitulo_2 }}</td>
+                            <td>{{ nacionalidad.nacDescripcion_2 }}</td>
+                            <td><img src="{{ nacionalidad.nacURLImagen_2 }}" alt="Imagen 2" style="width:100px;"></td>
+                            <td>{{ nacionalidad.nacTitulo_3 }}</td>
+                            <td>{{ nacionalidad.nacDescripcion_3 }}</td>
+                            <td><img src="{{ nacionalidad.nacURLImagen_3 }}" alt="Imagen 3" style="width:100px;"></td>
+                            <td>
+                                <a href="{% url 'editar_nacionalidad' nacionalidad.nacCodigo %}"
+                                   class="button edit">Editar</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'eliminar_nacionalidad' nacionalidad.nacCodigo %}"
+                                   class="button delete">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>Sistema de Administración de página del Yasuni</p>
+    </footer>
+{% endblock %}

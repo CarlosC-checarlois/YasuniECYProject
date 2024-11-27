@@ -1,20 +1,18 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .forms import NacionalidadForm
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from django.utils import timezone
-from .models import Nacionalidad, TiempoVisualizacion
-import json
-import os
-from django.conf import settings
-from io import BytesIO
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.db import connection
-from django.conf import settings
+from io import BytesIO
+import json
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import NacionalidadForm
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponse
+from django.utils import timezone
+from .models import Nacionalidad, TiempoVisualizacion
+from django.contrib.auth.decorators import login_required
+from webapp.models import imagenes
+
 
 
 @login_required
@@ -217,30 +215,31 @@ def visualizar_tiempo_visualizacion_nacionalidad(request):
         # Mostrar mensaje si no hay datos
         ax.text2D(0.5, 0.5, "No hay datos para mostrar", transform=ax.transAxes)
         print("[WARNING] No se encontraron datos para generar el gráfico.")
-
-    # Definir la ruta para guardar la imagen
+    # Guardar el gráfico en memoria como binario
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png', bbox_inches='tight')
+    plt.close(fig)
+    buffer.seek(0)
+    # Guardar o actualizar la imagen en la base de datos
     try:
-        imagen_dir = os.path.join(settings.BASE_DIR, 'Nacionalidades', 'static', 'Nacionalidades', 'images')
-        imagen_path = os.path.join(imagen_dir, 'cubo_nacionalidad.png')
+        imagen = imagenes.objects.get(imgCodigo='IMG-4')  # Buscar por el código único
+        imagen.imgContenido = buffer.read()
+        imagen.imgTamanio = buffer.getbuffer().nbytes
+        imagen.save()
+        mensaje = "Imagen actualizada correctamente."
+    except imagenes.DoesNotExist:
+        # Crear la imagen si no existe
+        imagenes.objects.create(
+            imgCodigo='IMG-4',
+            imgNombre='Gráfico 3D Nacionalidades',
+            imgTipo='image/png',
+            imgTamanio=buffer.getbuffer().nbytes,
+            imgContenido=buffer.read()
+        )
+        mensaje = "Imagen creada correctamente."
 
-        # Crear la carpeta si no existe
-        if not os.path.exists(imagen_dir):
-            os.makedirs(imagen_dir)
+    return HttpResponse(mensaje)
 
-        # Eliminar la imagen existente si existe
-        if os.path.exists(imagen_path):
-            os.remove(imagen_path)
-
-        # Guardar la nueva imagen
-        plt.savefig(imagen_path, format='png', bbox_inches='tight')
-        plt.close(fig)
-        print(f"[INFO] Gráfico guardado en: {imagen_path}")
-    except Exception as e:
-        print(f"[ERROR] Error al guardar el gráfico: {str(e)}")
-        return HttpResponse(f"Error al guardar gráfico: {str(e)}", status=500)
-
-    # Redirigir al panel de datos
-    return HttpResponse(f"Gráfico tridimensional guardado en {imagen_path}")
 
 def visualizar_analisis_2d_nacionalidad(request):
     import matplotlib
@@ -286,15 +285,31 @@ def visualizar_analisis_2d_nacionalidad(request):
     else:
         ax.text(0.5, 0.5, "No hay datos disponibles", transform=ax.transAxes, ha="center", va="center")
         ax.set_axis_off()
-
-    # Guardar el gráfico como imagen
-    imagen_dir = os.path.join(settings.BASE_DIR, 'Nacionalidades', 'static', 'Nacionalidades', 'images')
-    os.makedirs(imagen_dir, exist_ok=True)
-    imagen_path = os.path.join(imagen_dir, 'analisis_2d_nacionalidad.png')
-    plt.savefig(imagen_path, format='png', bbox_inches='tight')
+    # Guardar el gráfico en memoria como binario
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png', bbox_inches='tight')
     plt.close(fig)
+    buffer.seek(0)
 
-    return HttpResponse(f"Gráfico bidimensional guardado en {imagen_path}")
+    # Guardar o actualizar la imagen en la base de datos
+    try:
+        imagen = imagenes.objects.get(imgCodigo='IMG-5')  # Buscar por el código único
+        imagen.imgContenido = buffer.read()
+        imagen.imgTamanio = buffer.getbuffer().nbytes
+        imagen.save()
+        mensaje = "Imagen actualizada correctamente."
+    except imagenes.DoesNotExist:
+        # Crear la imagen si no existe
+        imagenes.objects.create(
+            imgCodigo='IMG-5',
+            imgNombre='Gráfico 2D Nacionalidades',
+            imgTipo='image/png',
+            imgTamanio=buffer.getbuffer().nbytes,
+            imgContenido=buffer.read()
+        )
+        mensaje = "Imagen creada correctamente."
+
+    return HttpResponse(mensaje)
 
 
 def visualizar_pastel_nacionalidad(request):
@@ -328,14 +343,28 @@ def visualizar_pastel_nacionalidad(request):
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Para un círculo perfecto
 
-    # Guardar el gráfico en un archivo
-    imagen_dir = os.path.join(settings.BASE_DIR, 'Nacionalidades', 'static', 'Nacionalidades', 'images')
-    imagen_path = os.path.join(imagen_dir, 'pastel_nacionalidad.png')
-
-    if not os.path.exists(imagen_dir):
-        os.makedirs(imagen_dir)
-
-    plt.savefig(imagen_path, format='png', bbox_inches='tight')
+    # Guardar el gráfico en memoria como binario
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png', bbox_inches='tight')
     plt.close(fig)
+    buffer.seek(0)
 
-    return HttpResponse(f"Gráfico de pastel generado: {imagen_path}")
+    # Guardar o actualizar la imagen en la base de datos
+    try:
+        imagen = imagenes.objects.get(imgCodigo='IMG-6')  # Buscar por el código único
+        imagen.imgContenido = buffer.read()
+        imagen.imgTamanio = buffer.getbuffer().nbytes
+        imagen.save()
+        mensaje = "Imagen de pastel actualizada correctamente."
+    except imagenes.DoesNotExist:
+        # Crear la imagen si no existe
+        imagenes.objects.create(
+            imgCodigo='IMG-6',
+            imgNombre='Gráfico de Pastel Nacionalidades',
+            imgTipo='image/png',
+            imgTamanio=buffer.getbuffer().nbytes,
+            imgContenido=buffer.read()
+        )
+        mensaje = "Imagen de pastel creada correctamente."
+
+    return HttpResponse(mensaje)

@@ -1,5 +1,7 @@
 {% extends 'cabezal.html' %}
-{% load static %}
+{% block etiqueta_estatica %}
+    {% load static %}
+{% endblock %}
 {% block titulo_pagina %}
     <title>Ingresar - Yasuni</title>
 {% endblock %}
@@ -149,7 +151,14 @@
         <h2>Ingresar</h2>
         <form id="loginForm" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}  <!-- Renderiza el formulario de Django aquí -->
+            <div class="form-group">
+                <label for="id_username">Usuario:</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="id_password">Contraseña:</label>
+                {{ form.password }}
+            </div>
             <button type="submit">Ingresar</button>
             {% if error_message %}
                 <p id="error">{{ error_message }}</p>

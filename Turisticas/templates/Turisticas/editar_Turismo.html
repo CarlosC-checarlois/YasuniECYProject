@@ -1,66 +1,53 @@
+{% extends 'cabezal_administrador.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Entrada Turística</title>
+{% block titulo_pagina %}
+    <title>Editar Turismo</title>
+{% endblock %}
+{% block css_archivos %}
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0px;
-        }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 0px;
-            text-align: center;
-        }
-
         h1 {
-            font-size: 24px;
-            margin: 0;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         main {
-            max-width: 800px;
+            max-width: 900px;
             margin: 30px auto;
+            padding: 20px;
             background-color: white;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            padding-right: 70px;
-            padding-left: 30px;
-            padding-bottom: 30px;
-            padding-top: 30px;
         }
 
-        form {
-            display: grid;
-            gap: 20px;
-        }
 
         label {
             font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
         }
 
         input[type="text"],
         select,
         textarea {
-            resize: none;
             width: 100%;
             padding: 10px;
-            margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: auto;
+        }
+
+        .full-width {
+            grid-column: span 2;
         }
 
         button {
             background-color: #4CAF50;
-            resize: none;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -68,73 +55,69 @@
             cursor: pointer;
             font-size: 16px;
             text-align: center;
+            grid-column: span 2;
+            margin-top: 20px;
         }
 
         button:hover {
             background-color: #45a049;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .text-center {
-            text-align: center;
-        }
     </style>
-</head>
-<body>
-<header>
-    <h1>Editar Entrada Turística</h1>
-</header>
-<main>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ form.catXturNombre.label_tag }}
-            {{ form.catXturNombre }}
-        </div>
-        <div class="form-group">
-            {{ form.turTitulo_1.label_tag }}
-            {{ form.turTitulo_1 }}
-        </div>
-        <div class="form-group">
-            {{ form.turDescripcion_1.label_tag }}
-            {{ form.turDescripcion_1 }}
-        </div>
-        <div class="form-group">
-            {{ form.turURLImagen_1.label_tag }}
-            {{ form.turURLImagen_1 }}
-        </div>
-        <div class="form-group">
-            {{ form.turTitulo_2.label_tag }}
-            {{ form.turTitulo_2 }}
-        </div>
-        <div class="form-group">
-            {{ form.turDescripcion_2.label_tag }}
-            {{ form.turDescripcion_2 }}
-        </div>
-        <div class="form-group">
-            {{ form.turURLImagen_2.label_tag }}
-            {{ form.turURLImagen_2 }}
-        </div>
-        <div class="form-group">
-            {{ form.turTitulo_3.label_tag }}
-            {{ form.turTitulo_3 }}
-        </div>
-        <div class="form-group">
-            {{ form.turDescripcion_3.label_tag }}
-            {{ form.turDescripcion_3 }}
-        </div>
-        <div class="form-group">
-            {{ form.turURLImagen_3.label_tag }}
-            {{ form.turURLImagen_3 }}
-        </div>
-        <div class="text-center">
-            <button type="submit">Guardar Cambios</button>
+{% endblock %}
+{% block contenido_nav_bar %}
+    <li><a href="{% url 'paginaActividades' %}">Panel General</a></li>
+{% endblock %}
+{% block contenido_pagina %}
+    <main>
+        <br>
+        <h1>Generar un nuevo registro de nacionalidad</h1>
+        <br>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.catXturNombre.label_tag }}
+                {{ form.catXturNombre }}
+            </div>
+            <div class="form-group">
+                {{ form.turTitulo_1.label_tag }}
+                {{ form.turTitulo_1 }}
+            </div>
+            <div class="form-group">
+                {{ form.turDescripcion_1.label_tag }}
+                {{ form.turDescripcion_1 }}
+            </div>
+            <div class="form-group">
+                {{ form.turURLImagen_1.label_tag }}
+                {{ form.turURLImagen_1 }}
+            </div>
+            <div class="form-group">
+                {{ form.turTitulo_2.label_tag }}
+                {{ form.turTitulo_2 }}
+            </div>
+            <div class="form-group">
+                {{ form.turDescripcion_2.label_tag }}
+                {{ form.turDescripcion_2 }}
+            </div>
+            <div class="form-group">
+                {{ form.turURLImagen_2.label_tag }}
+                {{ form.turURLImagen_2 }}
+            </div>
+            <div class="form-group">
+                {{ form.turTitulo_3.label_tag }}
+                {{ form.turTitulo_3 }}
+            </div>
+            <div class="form-group">
+                {{ form.turDescripcion_3.label_tag }}
+                {{ form.turDescripcion_3 }}
+            </div>
+            <div class="form-group">
+                {{ form.turURLImagen_3.label_tag }}
+                {{ form.turURLImagen_3 }}
+            </div>
+            <div class="text-center">
+                <button type="submit">Guardar Cambios</button>
 
-        </div>
-    </form>
-</main>
-</body>
-</html>
+            </div>
+        </form>
+    </main>
+{% endblock %}

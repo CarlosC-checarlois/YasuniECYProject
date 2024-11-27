@@ -1,25 +1,29 @@
 # webapp/forms.py
 from django import forms
-from .models import UsuariosYasuni  # Asegúrate de que sea el modelo correcto
-from django import forms
 from django.contrib.auth.models import User
 
-
-"""
 class LoginForm(forms.Form):
-    Usuario = forms.CharField(
+    username = forms.CharField(
+        label='Usuario',
         max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': 'Nombre de Usuario'})
+        widget=forms.TextInput(attrs={'placeholder': 'Ingresa tu usuario'})
     )
-    Contraseña = forms.CharField(
-        max_length=15,
-        widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'})
+    password = forms.CharField(
+        label='Contraseña',
+        widget=forms.PasswordInput(attrs={'placeholder': 'Ingresa tu contraseña'})
     )
-"""
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
 
+    def clean_username(self):
+        data = self.cleaned_data['username']
+        if not data:
+            raise forms.ValidationError('El nombre de usuario es obligatorio.')  # Mensaje de error personalizado
+        return data
+
+    def clean_password(self):
+        data = self.cleaned_data['password']
+        if not data:
+            raise forms.ValidationError('La contraseña es obligatoria.')  # Mensaje de error personalizado
+        return data
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Password',

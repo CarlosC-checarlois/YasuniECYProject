@@ -1,11 +1,112 @@
 {% extends 'cabezal.html' %}
-{% load static %}
+{% block etiqueta_estatica %}
+    {% load static %}
+{% endblock %}
 {% block titulo_pagina %}
     <title>Quiénes Somos - Yasuni</title>
 {% endblock %}
 {% block css_archivos %}
     <link rel="stylesheet" href="{% static 'webapp/css/quienes_somos_estilo.css' %}">
-    <link rel="stylesheet" href="{% static 'webapp/css/cards.css' %}">
+    <style>
+        /* Contenedor de tarjetas */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap; /* Permitir que las tarjetas pasen a nuevas filas */
+            gap: 20px; /* Espaciado entre las tarjetas */
+            justify-content: center; /* Centrar las tarjetas horizontalmente */
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 300px;
+            min-height: 400px; /* Altura mínima */
+            height: auto; /* Altura dinámica basada en el contenido */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribuir contenido uniformemente */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        /* Animación al pasar el mouse */
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Imagen dentro de la tarjeta */
+        .card img {
+            width: 100%;
+            height: 200px; /* Altura fija para las imágenes */
+            object-fit: cover; /* Asegurar que las imágenes se ajusten sin deformarse */
+        }
+
+        /* Contenido dentro de la tarjeta */
+        .card-content {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1; /* Expandir para ocupar espacio restante */
+        }
+
+        /* Título dentro de la tarjeta */
+        .card-content h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        /* Descripción dentro de la tarjeta */
+        .card-content p {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limitar a 3 líneas */
+            -webkit-box-orient: vertical;
+        }
+
+        /* Botón dentro de la tarjeta */
+        .btn-ver-mas {
+            background-color: #f2c314;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-ver-mas:hover {
+            background-color: #e6b20c;
+        }
+
+        /* Responsividad */
+
+        /* Pantallas medianas (tablets y laptops pequeñas) */
+        @media (max-width: 768px) {
+            .card {
+                flex: 1 1 calc(50% - 20px); /* Ocupan la mitad del contenedor */
+                height: 400px; /* Altura ligeramente ajustada para pantallas medianas */
+            }
+        }
+
+        /* Pantallas pequeñas (smartphones) */
+        @media (max-width: 480px) {
+            .card {
+                flex: 1 1 calc(100% - 20px); /* Ocupan todo el ancho del contenedor */
+                height: 380px; /* Altura ajustada para pantallas pequeñas */
+            }
+        }
+
+    </style>
 {% endblock %}
 {% block contenido_pagina %}
     <main>
@@ -37,7 +138,7 @@
         </section>
         <section id="Nacionalidades" class="section slide-in-right">
             <h2>Conoce nuestras Nacionalidades</h2>
-            <div id="nacionalidades-container" class="card-container">
+            <div class="card-container" style="align-items: center; justify-content: center;">
                 {% for nacionalidad in nacionalidades %}
                     <div class="card">
                         <img src="{{ nacionalidad.nacURLImagen_1 }}" alt="{{ nacionalidad.nacTitulo_1 }}">
@@ -60,28 +161,12 @@
         document.addEventListener("DOMContentLoaded", () => {
             const cards = document.querySelectorAll(".card");
 
-            // Aplicar animación dinámica a cada tarjeta
+            // Aplicar la animación de aparición a cada tarjeta
             cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`; // Escalona las animaciones en 0.1s
-                card.classList.add("visible"); // Activa la animación al cargar
-            });
-
-            // Si se agregan nuevas tarjetas dinámicamente (ejemplo con MutationObserver)
-            const observer = new MutationObserver(() => {
-                const newCards = document.querySelectorAll(".card:not(.visible)");
-                newCards.forEach((card, index) => {
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    card.classList.add("visible");
-                });
-            });
-
-            observer.observe(document.querySelector(".card-container"), {
-                childList: true, // Detecta nuevos elementos hijos
+                card.style.animationDelay = `${index * 0.1}s`; // Escalonar las animaciones
+                card.classList.add("fade-in"); // Clase para la animación de aparición
             });
         });
-
     </script>
-
-
-
 {% endblock %}
+

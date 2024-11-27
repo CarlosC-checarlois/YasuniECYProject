@@ -1,120 +1,19 @@
 {% extends 'cabezal.html' %}
-{% load static %}
+{% block etiqueta_estatica %}
+    {% load static %}
+{% endblock %}
 {% block titulo_pagina %}
     <title>Más Información - Yasuni</title>
 {% endblock %}
 {% block css_archivos %}
-        <style>
-        /* Estilos para las secciones con animaciones */
-        .section {
-            padding: 60px 20px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .section:nth-of-type(even) {
-            background-color: #f9f9f9;
-        }
-
-        .visible {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-
-        /* Animaciones con diferentes retrasos */
-        .fade-in_1s {
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 1s;
-        }
-
-        .fade-in_2s {
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 2s;
-        }
-
-        .fade-in_3s {
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 3s;
-        }
-
-        .fade-in_4s {
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 4s;
-        }
-
-        .slide-in-left_1s {
-            animation: slideInLeft 1s ease-out forwards;
-            animation-delay: 1s;
-        }
-
-        .slide-in-right_1s {
-            animation: slideInRight 1s ease-out forwards;
-            animation-delay: 1s;
-        }
-
-        .zoom-in_1s {
-            animation: zoomIn 1s ease-out forwards;
-            animation-delay: 1s;
-        }
-
-        .zoom-in_2s {
-            animation: zoomIn 1s ease-out forwards;
-            animation-delay: 2s;
-        }
-
-        /* Keyframes */
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            0% {
-                opacity: 0;
-                transform: translateX(-100%);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            0% {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes zoomIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Estilos para las tarjetas */
+    <link rel="stylesheet" href="{% static 'webapp/css/mas_informacion_estilo.css' %}">
+    <style>
+        /* Contenedor de tarjetas */
         .card-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
+            flex-wrap: wrap; /* Permitir que las tarjetas pasen a nuevas filas */
+            gap: 20px; /* Espaciado entre las tarjetas */
+            justify-content: center; /* Centrar las tarjetas horizontalmente */
             padding: 20px;
         }
 
@@ -123,37 +22,56 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            width: 100%;
             max-width: 300px;
+            min-height: 400px; /* Altura mínima */
+            height: auto; /* Altura dinámica basada en el contenido */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribuir contenido uniformemente */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+
+        /* Animación al pasar el mouse */
         .card:hover {
             transform: translateY(-10px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
+        /* Imagen dentro de la tarjeta */
         .card img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 200px; /* Altura fija para las imágenes */
+            object-fit: cover; /* Asegurar que las imágenes se ajusten sin deformarse */
         }
 
+        /* Contenido dentro de la tarjeta */
         .card-content {
             padding: 20px;
             text-align: center;
+            flex-grow: 1; /* Expandir para ocupar espacio restante */
         }
 
+        /* Título dentro de la tarjeta */
         .card-content h3 {
             margin-bottom: 10px;
-            font-size: 1.5em;
+            font-size: 1.2em;
         }
 
+        /* Descripción dentro de la tarjeta */
         .card-content p {
-            font-size: 1em;
+            font-size: 0.9em;
             color: #666;
             margin-bottom: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limitar a 3 líneas */
+            -webkit-box-orient: vertical;
         }
 
+        /* Botón dentro de la tarjeta */
         .btn-ver-mas {
             background-color: #f2c314;
             color: #000;
@@ -161,78 +79,109 @@
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
             transition: background-color 0.3s ease;
-            text-decoration: none; /* Esta línea elimina el subrayado */
         }
 
         .btn-ver-mas:hover {
             background-color: #e6b20c;
-            text-decoration: none; /* Asegúrate de mantener esto también en el hover */
         }
 
+        /* Responsividad */
+
+        /* Pantallas medianas (tablets y laptops pequeñas) */
+        @media (max-width: 768px) {
+            .card {
+                flex: 1 1 calc(50% - 20px); /* Ocupan la mitad del contenedor */
+                height: 400px; /* Altura ligeramente ajustada para pantallas medianas */
+            }
+        }
+
+        /* Pantallas pequeñas (smartphones) */
+        @media (max-width: 480px) {
+            .card {
+                flex: 1 1 calc(100% - 20px); /* Ocupan todo el ancho del contenedor */
+                height: 380px; /* Altura ajustada para pantallas pequeñas */
+            }
+        }
 
     </style>
+
 {% endblock %}
 {% block contenido_pagina %}
     <main>
-    <br/>
-    <section id="MasInformacion" class="section fade-in_1s">
-        <h2>Más Información</h2>
-        <p>Descubre más sobre los esfuerzos de conservación y cómo puedes ayudar a proteger Yasuni.</p>
-    </section>
-
-    <section id="Importancia" class="section slide-in-left_1s">
-        <h2>Importancia Global de Yasuni</h2>
-        <p>La Reserva Ecológica Yasuni es considerada uno de los lugares más biodiversos del planeta...</p>
-    </section>
-
-    <section id="Biodiversidad" class="section slide-in-right_1s">
-        <h2>Biodiversidad Inigualable</h2>
-        <p>En Yasuni se encuentran más de 1,300 especies de árboles y arbustos por hectárea...
-            Especies en peligro de extinción protegidas en Yasuni
-            El papel crucial de Yasuni en la conservación del jaguar
-            Descubrimientos recientes de nuevas especies en la región
-        </p>
-    </section>
-
-    <section id="Conservacion" class="section fade-in_2s">
-        <h2>Esfuerzos de Conservación</h2>
-        <p>Diversas organizaciones, tanto locales como internacionales, están involucradas en la protección de
-            Yasuni...</p>
-    </section>
-
-    <section id="TurismoSostenible" class="section zoom-in_2s">
-        <h2>Turismo Sostenible</h2>
-        <p>El turismo en Yasuni está diseñado para ser sostenible y respetuoso con el entorno...</p>
-    </section>
-
-    <section id="ComoAyudar" class="section fade-in_3s">
-        <h2>Cómo Puedes Ayudar</h2>
-        <p>La preservación de Yasuni depende de la acción colectiva. Aquí hay algunas maneras en que puedes
-            contribuir:
-            Apoyar a las <a href="#organizaciones">organizaciones de conservación</a> que trabajan en Yasuni.
-            Optar por productos y servicios que respeten el medio ambiente.
-            Participar en campañas de concienciación y educación sobre la importancia de Yasuni.
-        </p>
-    </section>
-
-    <section id="tarjetasMasInfo" class="section fade-in_4s">
-        <h2>Conoce Nuestras Actividades Turísticas</h2>
-        <section id="Turismo" class="section fade-in_4s">
-            <div id="turismo-container" class="card-container">
-                {% for actividad in actividades_turisticas %}
-                    <div class="card">
-                        <img src="{{ actividad.turURLImagen_1 }}" alt="{{ actividad.turTitulo_1 }}">
-                        <div class="card-content">
-                            <h3>{{ actividad.turTitulo_1 }}</h3>
-                            <p>{{ actividad.turDescripcion_1|truncatechars:60 }}</p>
-                            <a href="{% url 'detalle_turismo' actividad.turTitulo_1 actividad.turCodigo %}"
-                               class="btn-ver-mas">Ver más</a>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
+        <br/>
+        <section id="MasInformacion" class="section fade-in_1s">
+            <h2>Más Información</h2>
+            <p>Descubre más sobre los esfuerzos de conservación y cómo puedes ayudar a proteger Yasuni.</p>
         </section>
-    </section>
-</main>
+
+        <section id="Importancia" class="section slide-in-left_1s">
+            <h2>Importancia Global de Yasuni</h2>
+            <p>La Reserva Ecológica Yasuni es considerada uno de los lugares más biodiversos del planeta...</p>
+        </section>
+
+        <section id="Biodiversidad" class="section slide-in-right_1s">
+            <h2>Biodiversidad Inigualable</h2>
+            <p>En Yasuni se encuentran más de 1,300 especies de árboles y arbustos por hectárea...
+                Especies en peligro de extinción protegidas en Yasuni
+                El papel crucial de Yasuni en la conservación del jaguar
+                Descubrimientos recientes de nuevas especies en la región
+            </p>
+        </section>
+
+        <section id="Conservacion" class="section fade-in_2s">
+            <h2>Esfuerzos de Conservación</h2>
+            <p>Diversas organizaciones, tanto locales como internacionales, están involucradas en la protección de
+                Yasuni...</p>
+        </section>
+
+        <section id="TurismoSostenible" class="section zoom-in_2s">
+            <h2>Turismo Sostenible</h2>
+            <p>El turismo en Yasuni está diseñado para ser sostenible y respetuoso con el entorno...</p>
+        </section>
+
+        <section id="ComoAyudar" class="section fade-in_3s">
+            <h2>Cómo Puedes Ayudar</h2>
+            <p>La preservación de Yasuni depende de la acción colectiva. Aquí hay algunas maneras en que puedes
+                contribuir:
+                Apoyar a las <a href="#organizaciones">organizaciones de conservación</a> que trabajan en Yasuni.
+                Optar por productos y servicios que respeten el medio ambiente.
+                Participar en campañas de concienciación y educación sobre la importancia de Yasuni.
+            </p>
+        </section>
+
+        <section id="tarjetasMasInfo" class="section fade-in_4s">
+            <h2>Conoce Nuestras Actividades Turísticas</h2>
+            <section id="Turismo" class="section fade-in_4s">
+                <div id="turismo-container" class="card-container">
+                    {% for actividad in actividades_turisticas %}
+                        <div class="card">
+                            <img src="{{ actividad.turURLImagen_1 }}" alt="{{ actividad.turTitulo_1 }}">
+                            <div class="card-content">
+                                <h3>{{ actividad.turTitulo_1 }}</h3>
+                                <p>{{ actividad.turDescripcion_1|truncatechars:60 }}</p>
+                                <a href="{% url 'detalle_turismo' actividad.turTitulo_1 actividad.turCodigo %}"
+                                   class="btn-ver-mas">Ver más</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </section>
+    </main>
+{% endblock %}
+{% block jvscript_archivos_defer %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll(".card");
+
+            // Aplicar la animación de aparición a cada tarjeta
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`; // Escalonar las animaciones
+                card.classList.add("fade-in"); // Clase para la animación de aparición
+            });
+        });
+    </script>
 {% endblock %}

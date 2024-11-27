@@ -4,8 +4,7 @@ from pathlib import Path
 import environ
 from django.contrib.messages import constants as messages
 import pymysql
-pymysql.install_as_MySQLdb()
-
+from os import getenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -123,9 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Asegúrate de que la carpeta "static" esté correctamente configurada
+    str(BASE_DIR / "static"),  # Asegúrate de que la carpeta "static" esté correctamente configurada
 ]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = str(BASE_DIR / "staticfiles")
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'  # Para archivos cargados por usuarios

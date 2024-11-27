@@ -1,106 +1,60 @@
-/* Contenedor de tarjetas */
+/* Estilos para las tarjetas */
 .card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajusta automáticamente las columnas */
-    gap: 20px; /* Espaciado uniforme entre tarjetas */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
     padding: 20px;
-    justify-content: center; /* Asegura que las tarjetas se centren */
 }
 
-/* Estilos básicos de la tarjeta */
 .card {
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    opacity: 0; /* Ocultar inicialmente */
-    transform: scale(0.95) translateY(20px); /* Escala inicial */
-    animation: cardEnter 0.6s ease-out forwards;
-}
-
-.card.visible {
-    opacity: 1;
-    transform: scale(1) translateY(0); /* Estado final */
+    max-width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: scale(1.05) translateY(-5px); /* Animación al pasar el mouse */
+    transform: translateY(-10px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Imagen de la tarjeta */
 .card img {
     width: 100%;
-    height: 150px;
+    height: 200px;
     object-fit: cover;
-    border-bottom: 2px solid #ddd;
 }
 
-/* Contenido de la tarjeta */
 .card-content {
-    padding: 15px;
+    padding: 20px;
     text-align: center;
 }
 
 .card-content h3 {
-    font-size: 18px;
-    margin: 10px 0;
-    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.5em;
 }
 
 .card-content p {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 15px;
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 20px;
 }
 
-/* Botón "Ver más" */
 .btn-ver-mas {
-    display: inline-block;
-    padding: 10px 15px;
-    background-color: #f8c02d;
+    background-color: #f2c314;
     color: #000;
-    text-decoration: none;
+    border: none;
+    padding: 10px 20px;
     border-radius: 5px;
-    font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.3s ease;
+    text-decoration: none; /* Esta línea elimina el subrayado */
 }
 
 .btn-ver-mas:hover {
-    background-color: #e6b027;
-}
-
-/* Animación para las tarjetas */
-@keyframes cardEnter {
-    from {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-/* Adaptaciones responsivas */
-@media (max-width: 768px) {
-    .card-container {
-        grid-template-columns: repeat(2, 1fr); /* Muestra dos tarjetas por fila en móviles */
-        gap: 15px;
-    }
-
-    .card img {
-        height: 120px; /* Reduce el tamaño de la imagen */
-    }
-}
-
-@media (max-width: 480px) {
-    .card-container {
-        grid-template-columns: 1fr; /* Una tarjeta por fila en pantallas muy pequeñas */
-    }
-
-    .card {
-        max-width: 90%;
-        margin: 0 auto;
-    }
+    background-color: #e6b20c;
+    text-decoration: none; /* Asegúrate de mantener esto también en el hover */
 }

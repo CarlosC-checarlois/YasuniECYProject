@@ -6,16 +6,13 @@ import json
 from django.utils import timezone
 from .models import Turistica, TiempoVisualizacion
 from django.http import HttpResponse
-import os
-from django.conf import settings
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from io import BytesIO
 from django.contrib.auth.decorators import login_required
 from django.db import connection
-from django.conf import settings
-from matplotlib import colors as mcolors
+from webapp.models import imagenes
 
 
 # Vista para gestionar las entradas turísticas
@@ -112,6 +109,7 @@ def obtener_fecha_mas_reciente(tabla):
 
 def visualizar_tiempo_visualizacion_turistica(request):
     import matplotlib
+    mensaje = ""
     matplotlib.use('Agg')  # Usar backend no interactivo para evitar problemas con GUI
 
     # Obtener el parámetro 'dias' de la solicitud GET, con valor por defecto 7
@@ -195,28 +193,36 @@ def visualizar_tiempo_visualizacion_turistica(request):
     else:
         # Mostrar mensaje si no hay datos
         ax.text2D(0.5, 0.5, "No hay datos para mostrar.", transform=ax.transAxes, ha='center', va='center', fontsize=14)
-
-    # Definir la ruta para guardar la imagen
-    imagen_dir = os.path.join(settings.BASE_DIR, 'Turisticas', 'static', 'Turisticas', 'images')
-    imagen_path = os.path.join(imagen_dir, 'cubo_turistica.png')
-
-    # Crear la carpeta si no existe
-    if not os.path.exists(imagen_dir):
-        os.makedirs(imagen_dir)
-
-    # Eliminar la imagen existente si existe
-    if os.path.exists(imagen_path):
-        os.remove(imagen_path)
-
-    # Guardar la nueva imagen
-    plt.savefig(imagen_path, format='png', bbox_inches='tight')
+        # Guardar el gráfico en memoria como binario
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png', bbox_inches='tight')
     plt.close(fig)
+    buffer.seek(0)
 
-    # Redirigir al panel de datos
-    return HttpResponse(f"Gráfico tridimensional guardado en {imagen_path}")
+    # Intentar actualizar la imagen en la base de datos
+    try:
+        imagen = imagenes.objects.get(imgCodigo='IMG-1')  # Identificar la imagen por su código único
+        imagen.imgContenido = buffer.read()
+        imagen.imgTamanio = buffer.getbuffer().nbytes
+        imagen.save()
+        mensaje = "Imagen actualizada correctamente."
+    except imagenes.DoesNotExist:
+        # Crear la imagen si no existe
+        imagenes.objects.create(
+            imgCodigo='IMG-1',
+            imgNombre='Gráfico 3D Turísticas',
+            imgTipo='image/png',
+            imgTamanio=buffer.getbuffer().nbytes,
+            imgContenido=buffer.read()
+        )
+        mensaje = "Imagen creada correctamente."
+
+    return HttpResponse(mensaje)
+
 
 def visualizar_analisis_2d_turistica(request):
     import matplotlib
+    mensaje = ""
     matplotlib.use('Agg')  # Usar backend no interactivo
 
     # Obtener el modo y valor desde los parámetros GET
@@ -260,14 +266,31 @@ def visualizar_analisis_2d_turistica(request):
         ax.text(0.5, 0.5, "No hay datos disponibles", transform=ax.transAxes, ha="center", va="center")
         ax.set_axis_off()
 
-    # Guardar el gráfico como imagen
-    imagen_dir = os.path.join(settings.BASE_DIR, 'Turisticas', 'static', 'Turisticas', 'images')
-    os.makedirs(imagen_dir, exist_ok=True)
-    imagen_path = os.path.join(imagen_dir, 'analisis_2d_turistica.png')
-    plt.savefig(imagen_path, format='png', bbox_inches='tight')
+    # Guardar el gráfico en memoria como binario
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png', bbox_inches='tight')
     plt.close(fig)
+    buffer.seek(0)
 
-    return HttpResponse(f"Gráfico bidimensional guardado en {imagen_path}")
+    # Guardar o actualizar la imagen en la base de datos
+    try:
+        imagen = imagenes.objects.get(imgCodigo='IMG-2')  # Buscar por el código único
+        imagen.imgContenido = buffer.read()
+        imagen.imgTamanio = buffer.getbuffer().nbytes
+        imagen.save()
+        mensaje = "Imagen actualizada correctamente."
+    except imagenes.DoesNotExist:
+        # Crear la imagen si no existe
+        imagenes.objects.create(
+            imgCodigo='IMG-2',
+            imgNombre='Gráfico 2D Turísticas',
+            imgTipo='image/png',
+            imgTamanio=buffer.getbuffer().nbytes,
+            imgContenido=buffer.read()
+        )
+        mensaje = "Imagen creada correctamente."
+
+    return HttpResponse(mensaje)
 
 
 def visualizar_pastel_turistica(request):
@@ -275,6 +298,7 @@ def visualizar_pastel_turistica(request):
     Generar el gráfico de pastel para turísticas.
     """
     # Llamar al procedimiento para actualizar la vista de pastel
+    mensaje = ""
     with connection.cursor() as cursor:
         try:
             cursor.execute("CALL vista_pastel_turistica();")
@@ -301,14 +325,28 @@ def visualizar_pastel_turistica(request):
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Para un círculo perfecto
 
-    # Guardar el gráfico en un archivo
-    imagen_dir = os.path.join(settings.BASE_DIR, 'Turisticas', 'static', 'Turisticas', 'images')
-    imagen_path = os.path.join(imagen_dir, 'pastel_turistica.png')
-
-    if not os.path.exists(imagen_dir):
-        os.makedirs(imagen_dir)
-
-    plt.savefig(imagen_path, format='png', bbox_inches='tight')
+    # Guardar el gráfico en memoria como binario
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png', bbox_inches='tight')
     plt.close(fig)
+    buffer.seek(0)
 
-    return HttpResponse(f"Gráfico de pastel generado: {imagen_path}")
+    # Guardar o actualizar la imagen en la base de datos
+    try:
+        imagen = imagenes.objects.get(imgCodigo='IMG-3')  # Buscar por el código único
+        imagen.imgContenido = buffer.read()
+        imagen.imgTamanio = buffer.getbuffer().nbytes
+        imagen.save()
+        mensaje = "Imagen actualizada correctamente."
+    except imagenes.DoesNotExist:
+        # Crear la imagen si no existe
+        imagenes.objects.create(
+            imgCodigo='IMG-3',
+            imgNombre='Gráfico de Pastel Turísticas',
+            imgTipo='image/png',
+            imgTamanio=buffer.getbuffer().nbytes,
+            imgContenido=buffer.read()
+        )
+        mensaje = "Imagen creada correctamente."
+
+    return HttpResponse(mensaje)

@@ -1,20 +1,21 @@
-from django.contrib import admin
-from django.urls import path
-from webapp import views as webapp_views
 from Nacionalidades import views as nacionalidades_views
 from Turisticas import views as turisticas_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from django.urls import path
-from django.contrib.auth import views as auth_views  # Importar las vistas genéricas de autenticación
+from django.contrib.auth import views as auth_views
 from webapp import views as webapp_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', webapp_views.home, name='home'),
+    path('admin/', admin.site.urls),
     path('login/', webapp_views.user_login, name='login'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('procesar_imagen_2d_nacionalidades/', webapp_views.procesar_imagen_2d_nacionalidades,
+         name='procesar_imagen_2d_nacionalidades'),
+    path('procesar_imagen_2d_turisticas/', webapp_views.procesar_imagen_2d_turisticas,
+         name='procesar_imagen_2d_turisticas'),
 
     path('quienes-somos/', webapp_views.quienes_somos, name='quienes_somos'),
     path('quienes-somos/<str:titulo>/<int:codigo>/', nacionalidades_views.detalle_nacionalidad,
@@ -23,7 +24,8 @@ urlpatterns = [
 
     path('mas_informacion/', webapp_views.mas_informacion, name='mas_informacion'),
     path('paginaActividades/', webapp_views.pagina_actividades, name='paginaActividades'),
-    path('paginaActividades/datos/', webapp_views.panel_datos, name='panel_datos'),
+    path('paginaActividades/datos/', webapp_views.panel_datos, name='informacion_datos'),
+    path('obtener_imagen/<str:imgCodigo>/', webapp_views.obtener_imagen, name='obtener_imagen'),
 
     path('editar_nacionalidad/<int:nacCodigo>/', nacionalidades_views.editar_nacionalidad, name='editar_nacionalidad'),
     path('eliminar_nacionalidad/<int:nacCodigo>/', nacionalidades_views.eliminar_nacionalidad,
@@ -68,7 +70,14 @@ urlpatterns = [
          name='obtener_nombres_nacionalidades'),
     # API para fechas y nombres de Turísticas
     path('api/obtener_fechas_turisticas/', webapp_views.obtener_fechas_turisticas, name='obtener_fechas_turisticas'),
+    path("actualizar-imagenes/", webapp_views.manejador_actualizacion_imagenes, name="actualizar_imagenes"),
+
     path('api/obtener_nombres_turisticas/', webapp_views.obtener_nombres_turisticas, name='obtener_nombres_turisticas'),
+    path('actualizar-imagenes/', webapp_views.actualizar_imagenes, name='actualizar_imagenes'),
+    path('obtener-imagen/<str:imgCodigo>/', webapp_views.obtener_imagen, name='obtener_imagen'),
+    path('procesar_imagen_3d_nacionalidades/', webapp_views.procesar_imagen_3d_nacionalidades,
+         name='procesar_imagen_3d_nacionalidades'),
+    path('procesar_imagen_3d_turisticas/', webapp_views.procesar_imagen_3d_turisticas, name='procesar_imagen_3d_turisticas'),
+
 ]
 urlpatterns += staticfiles_urlpatterns()
-

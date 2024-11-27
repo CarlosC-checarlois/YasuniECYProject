@@ -27,10 +27,11 @@
         <nav class="nav" id="nav">
             <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i>✖</button>
             <ul class="nav-list">
-                <li><a href="{% url 'home' %}">Inicio</a></li>
-                <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
-                <li><a href="{% url 'mas_informacion' %}">Más Información</a></li>
-                <li><a href="{% url 'login' %}">Ingresar</a></li>
+                {% block contenido_nav_bar %}
+                {% endblock %}
+                <li><a href="#">Documentacion</a></li>
+                <li><a href="{% url 'paginaActividades' %}">Cerrar Sesion</a></li>
+
             </ul>
         </nav>
     </header>
