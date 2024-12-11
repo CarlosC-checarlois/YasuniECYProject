@@ -5,22 +5,16 @@ import environ
 from django.contrib.messages import constants as messages
 import pymysql
 from os import getenv
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Inicializar el entorno
-env = environ.Env()
-environ.Env.read_env()  # Lee el archivo .env si existe
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
 
-# SECRET_KEY = env('SECRET_KEY')  # Mejora para seguridad
-SECRET_KEY = '11341*%#@'
-DEBUG = True
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",'*')
 
-# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-ALLOWED_HOSTS = '*'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
