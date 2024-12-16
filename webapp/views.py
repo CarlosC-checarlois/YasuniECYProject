@@ -99,6 +99,7 @@ def pagina_actividades(request):
     # })
     return render(request, 'webapp/paginaActividades.html', {'usuario': _user})
 
+
 @login_required
 def panel_datos(request):
     """
