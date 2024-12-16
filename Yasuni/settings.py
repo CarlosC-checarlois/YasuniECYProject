@@ -9,11 +9,11 @@ from os import getenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY","13124151")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
+DEBUG = os.getenv("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",'*')
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS")
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
