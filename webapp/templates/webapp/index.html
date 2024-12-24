@@ -7,7 +7,190 @@
 {% endblock %}
 {% block css_archivos %}
     <link rel="stylesheet" href="{% static 'webapp/css/inicio_estilo.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+    <style>
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        .hero-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+            pointer-events: none; /* Permite que el video sea interactivo */
+        }
+
+        .hero-overlay h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .hero-overlay p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            animation: fadeIn 2s ease;
+        }
+
+        .cta-button {
+            padding: 10px 30px;
+            background: #f2c314;
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            z-index: 3;
+            pointer-events: auto; /* Habilita la interacción en el botón */
+        }
+
+        .cta-button:hover {
+            background: #e6b20c;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alt-bg {
+            background-color: #ffffff;
+        }
+
+        .content {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .two-columns img {
+            flex: 1;
+            max-width: 50%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .two-columns .text-content {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .two-columns h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .two-columns p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+        }
+
+        /* Reverse Layout for Alternating Sections */
+        .reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .two-columns img,
+            .two-columns .text-content {
+                max-width: 100%;
+            }
+
+            .two-columns h2 {
+                font-size: 24px;
+            }
+
+            .two-columns p {
+                font-size: 16px;
+            }
+        }
+    </style>
+    <style>
+        /* Disposición general */
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Estilo de cada columna */
+        .map-container,
+        .text-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .map-container #map {
+            width: 100%; /* Ancho total */
+            height: 400px; /* Altura fija */
+            border-radius: 10px; /* Opcional: bordes redondeados */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Opcional: sombra */
+            margin: 10px 0; /* Margen opcional */
+        }
+
+
+        /* Texto */
+        .text-content h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .text-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Ajuste para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .two-columns {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .text-content p {
+                font-size: 14px;
+            }
+        }
+
+    </style>
 {% endblock %}
 {% block sobreescribir_jvscript_archivos %}
     <script>
@@ -23,39 +206,1007 @@
     <main>
         <section class="hero">
             <div class="video-container">
-                <iframe src="https://player.vimeo.com/video/1002591571?autoplay=1&loop=1&muted=1&background=1"
-                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://player.vimeo.com/video/1002591571?autoplay=1&amp;loop=1&amp;muted=1&amp;background=1"
+                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe>
             </div>
         </section>
-        <section id="Inicio" class="section fade-in-up">
-            <h2>Inicio</h2>
-            <p>Bienvenido a la página oficial de la Reserva Ecológica Yasuni.</p>
+        <section id="Biodiversidad" class="section alt-bg">
+            <div class="content two-columns">
+                <img src="{% static 'webapp/images/biodiversidad_imagen.jpg' %}"
+                     alt="Biodiversidad Yasuni" style="filter: drop-shadow(-4mm -3mm 4mm #abeacc);">
+                <div class="text-content">
+                    <h2>Biodiversidad</h2>
+                    <p>
+                        Yasuni es una de las áreas con mayor biodiversidad del planeta. Alberga miles de especies de
+                        plantas,
+                        animales y microorganismos, muchas de las cuales no se encuentran en ningún otro lugar del
+                        mundo.
+                    </p>
+                </div>
+            </div>
         </section>
-        <section id="Biodiversidad" class="section fade-in-up">
-            <h2>Biodiversidad</h2>
-            <p>
-                Yasuni es una de las áreas con mayor biodiversidad del planeta.
-                Alberga miles de especies de plantas, animales y microorganismos,
-                muchas de las cuales no se encuentran en ningún otro lugar del mundo.
-            </p>
+        <section id="Importancia" class="section alt-bg">
+            <div class="content two-columns reverse">
+                <img src="{% static 'webapp/images/importancia_imagen.jpg' %}"
+                     alt="Importancia de Yasuni" style="filter: drop-shadow(4mm 3mm 4mm rgb(39,54,36));">
+                <div class="text-content">
+                    <h2>Importancia de Yasuni</h2>
+                    <p>
+                        La Reserva Ecológica Yasuni no solo es crucial por su biodiversidad, sino también por su papel
+                        en
+                        la regulación del clima global y como hogar de comunidades indígenas que han vivido en armonía
+                        con la naturaleza durante siglos.
+                    </p>
+                </div>
+            </div>
         </section>
-        <section id="Importancia" class="section fade-in-up">
-            <h2>Importancia de Yasuni</h2>
-            <p>
-                La Reserva Ecológica Yasuni no solo es crucial por su biodiversidad,
-                sino también por su papel en la regulación del clima global y como
-                hogar de comunidades indígenas que han vivido en armonía con la naturaleza
-                durante siglos.
-            </p>
+        <section id="Conservacion" class="section alt-bg">
+            <div class="content two-columns">
+                <img src="{% static 'webapp/images/conservacion_imagen.jpg' %}"
+                     alt="Esfuerzos de Conservación" style="filter: drop-shadow(-4mm -3mm 4mm rgb(54,54,36));">
+                <div class="text-content">
+                    <h2>Esfuerzos de Conservación</h2>
+                    <p>
+                        El Parque Nacional Yasuni es un laboratorio viviente donde biólogos y científicos de todo el
+                        mundo realizan investigaciones para comprender y preservar su excepcional biodiversidad.
+                        Estos esfuerzos incluyen el estudio de nuevas especies, el monitoreo de los ecosistemas y la
+                        colaboración con comunidades locales para garantizar un equilibrio entre la naturaleza y la
+                        actividad humana.
+                        Gracias a estas iniciativas, el Yasuni se mantiene como un símbolo de la importancia de la
+                        investigación científica para la protección del medio ambiente.
+                    </p>
+
+                </div>
+            </div>
         </section>
-        <section id="Conservacion" class="section fade-in-up">
-            <h2>Esfuerzos de Conservación</h2>
-            <p>
-                Diversas organizaciones y gobiernos están trabajando arduamente para proteger
-                Yasuni de amenazas como la deforestación y la explotación de recursos naturales.
-                Descubre cómo puedes apoyar estos esfuerzos y contribuir a la conservación de este
-                valioso ecosistema.
-            </p>
+        <!-- Nueva sección de Estudiantes -->
+        <section id="Estudiantes" class="section alt-bg">
+            <div class="content two-columns reverse">
+                <img src="{% static 'webapp/images/estudiantes_imagen.jpg' %}"
+                     alt="Estudiantes en Investigación"
+                     style="filter: drop-shadow(-4mm -3mm 4mm rgb(54,54,36)); border-radius: 10px;">
+
+                <div class="text-content">
+                    <h2>Educación en la Comunidad Waorani</h2>
+                    <p>
+                        En el corazón del Parque Nacional Yasuni, la comunidad Waorani ha establecido un centro
+                        educativo donde se
+                        imparten conocimientos tanto tradicionales como académicos. Este espacio es un puente entre las
+                        ricas tradiciones
+                        culturales de los Waorani y los avances educativos que los visitantes extranjeros comparten con
+                        los jóvenes de la comunidad.
+                    </p>
+                    <p>
+                        Profesores e investigadores de diversas partes del mundo colaboran con la comunidad para
+                        impartir clases sobre ciencias, idiomas
+                        y conservación ambiental, enriqueciendo las oportunidades de aprendizaje para los estudiantes.
+                        Estas experiencias no solo
+                        fomentan el desarrollo académico, sino que también promueven un entendimiento intercultural y
+                        fortalecen los valores de
+                        sostenibilidad y respeto por la naturaleza.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seccion del mapa-->
+        <section id="Mapa" class="section alt-bg">
+            <div class="content two-columns">
+
+                <div class="map-container" style="filter: drop-shadow(4mm 3mm 4mm rgb(54,54,36));">
+                    <div id="map"></div>
+                </div>
+                <div class="text-content">
+                    <h2>Ubicación del Yasuni</h2>
+                    <p>
+                        El Parque Nacional Yasuni se encuentra ubicado en el corazón de la Amazonía ecuatoriana. Esta
+                        región,
+                        de una biodiversidad excepcional, es hogar de innumerables especies de flora y fauna. Su
+                        localización
+                        estratégica y su importancia cultural hacen del Yasuni un símbolo de conservación y riqueza
+                        natural.
+                    </p>
+                    <p>
+                        Rodeado por las provincias de Sucumbíos, Orellana, Pastaza y Napo, el Yasuni abarca una
+                        superficie
+                        extensa que incluye áreas protegidas y reservas indígenas. Descubre su increíble ubicación en el
+                        mapa
+                        interactivo.
+                    </p>
+                </div>
+            </div>
         </section>
     </main>
+{% endblock %}
+{% block jvscript_archivos_defer %}
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const map = L.map("map", {
+                center: [-1.5, -78.0],
+                zoom: 7,
+                zoomControl: false,
+                dragging: false,
+                scrollWheelZoom: false,
+                doubleClickZoom: false,
+                boxZoom: false,
+                touchZoom: false
+            });
+
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const provincias =
+                {
+                    "type": "FeatureCollection",
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "properties": {"name": "Orellana", "highlight": true},
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [
+                                    [
+                                        [
+                                            -75.59449669788575,
+                                            -1.5572189136208152
+                                        ],
+                                        [
+                                            -75.55152146830021,
+                                            -1.5704403259580602
+                                        ],
+                                        [
+                                            -75.38966322081463,
+                                            -0.9260243577342919
+                                        ],
+                                        [
+                                            -75.31029363543792,
+                                            -0.9921309965807126
+                                        ],
+                                        [
+                                            -75.2739051443344,
+                                            -0.9657016053928231
+                                        ],
+                                        [
+                                            -75.19124992043594,
+                                            -0.9756220953764227
+                                        ],
+                                        [
+                                            -75.22430787247048,
+                                            -0.9491820197755203
+                                        ],
+                                        [
+                                            -75.22102032026737,
+                                            -0.8698608523617821
+                                        ],
+                                        [
+                                            -75.2507759110533,
+                                            -0.8434200978795445
+                                        ],
+                                        [
+                                            -75.23757510876275,
+                                            -0.8004530589365118
+                                        ],
+                                        [
+                                            -75.28055811907589,
+                                            -0.7938409812448555
+                                        ],
+                                        [
+                                            -75.25412394411472,
+                                            -0.7674010388637669
+                                        ],
+                                        [
+                                            -75.28059206773455,
+                                            -0.731044481997813
+                                        ],
+                                        [
+                                            -75.25085123482641,
+                                            -0.6979956070604061
+                                        ],
+                                        [
+                                            -75.26736638239315,
+                                            -0.645118246394901
+                                        ],
+                                        [
+                                            -75.33016437793914,
+                                            -0.6219838296493947
+                                        ],
+                                        [
+                                            -75.37644262923514,
+                                            -0.6087639931984654
+                                        ],
+                                        [
+                                            -75.40617994684467,
+                                            -0.5657999028784957
+                                        ],
+                                        [
+                                            -75.45905692301017,
+                                            -0.5492749730283606
+                                        ],
+                                        [
+                                            -75.54168630462455,
+                                            -0.5525799772238997
+                                        ],
+                                        [
+                                            -75.57475268904669,
+                                            -0.496396263542664
+                                        ],
+                                        [
+                                            -75.6606947470314,
+                                            -0.4501278879745172
+                                        ],
+                                        [
+                                            -75.7135938784668,
+                                            -0.4534351662360194
+                                        ],
+                                        [
+                                            -75.75988036612756,
+                                            -0.42038900423969494
+                                        ],
+                                        [
+                                            -75.79954020609837,
+                                            -0.4402181463742494
+                                        ],
+                                        [
+                                            -75.85902897716477,
+                                            -0.4203891153426298
+                                        ],
+                                        [
+                                            -75.94825866077656,
+                                            -0.5757149721282246
+                                        ],
+                                        [
+                                            -76.04741637877366,
+                                            -0.5129247631069376
+                                        ],
+                                        [
+                                            -76.08379890772014,
+                                            -0.44353055627092886
+                                        ],
+                                        [
+                                            -76.17632700213954,
+                                            -0.4303105807545222
+                                        ],
+                                        [
+                                            -76.26225567829505,
+                                            -0.45013996441618076
+                                        ],
+                                        [
+                                            -76.3085261408118,
+                                            -0.48649189156900263
+                                        ],
+                                        [
+                                            -76.37462036717704,
+                                            -0.5228423053331994
+                                        ],
+                                        [
+                                            -76.41427690299682,
+                                            -0.48649189156900263
+                                        ],
+                                        [
+                                            -76.46054286145258,
+                                            -0.4931010727022027
+                                        ],
+                                        [
+                                            -76.5002014588089,
+                                            -0.4468380085396575
+                                        ],
+                                        [
+                                            -76.55307859528678,
+                                            -0.41049011367415744
+                                        ],
+                                        [
+                                            -76.58612634590114,
+                                            -0.43692817787403726
+                                        ],
+                                        [
+                                            -76.63900084536392,
+                                            -0.40058166161456654
+                                        ],
+                                        [
+                                            -76.72161407970572,
+                                            -0.34440697321564073
+                                        ],
+                                        [
+                                            -76.75465843318612,
+                                            -0.27501811830467204
+                                        ],
+                                        [
+                                            -76.85708949171337,
+                                            -0.16929576981409866
+                                        ],
+                                        [
+                                            -76.93638235281675,
+                                            -0.06027741079203963
+                                        ],
+                                        [
+                                            -77.02227306526024,
+                                            -0.10986533413236543
+                                        ],
+                                        [
+                                            -77.07512264601667,
+                                            -0.11649081255013982
+                                        ],
+                                        [
+                                            -77.15439011301717,
+                                            -0.08678355439315055
+                                        ],
+                                        [
+                                            -77.2071964376637,
+                                            -0.10335151310194135
+                                        ],
+                                        [
+                                            -77.27646513285383,
+                                            -0.040683789347269794
+                                        ],
+                                        [
+                                            -77.30937993301829,
+                                            -0.057294793172559366
+                                        ],
+                                        [
+                                            -77.28951782855232,
+                                            -0.10686652102849337
+                                        ],
+                                        [
+                                            -77.29925662599466,
+                                            -0.15321188943620712
+                                        ],
+                                        [
+                                            -77.27949896309586,
+                                            -0.2125975224194292
+                                        ],
+                                        [
+                                            -77.2532482136492,
+                                            -0.27523141092487435
+                                        ],
+                                        [
+                                            -77.27646052009447,
+                                            -0.341232837490395
+                                        ],
+                                        [
+                                            -77.33249738058842,
+                                            -0.37759712655902433
+                                        ],
+                                        [
+                                            -77.32596576447864,
+                                            -0.437017378878096
+                                        ],
+                                        [
+                                            -77.35223148850869,
+                                            -0.41063826741569187
+                                        ],
+                                        [
+                                            -77.38494151333128,
+                                            -0.4866178996339272
+                                        ],
+                                        [
+                                            -77.42428718944052,
+                                            -0.5130426719425003
+                                        ],
+                                        [
+                                            -77.54157207861793,
+                                            -0.45388443930654887
+                                        ],
+                                        [
+                                            -77.57439004563159,
+                                            -0.4637790591412596
+                                        ],
+                                        [
+                                            -77.56139754225546,
+                                            -0.49668855904685927
+                                        ],
+                                        [
+                                            -77.62650366460312,
+                                            -0.523082297151106
+                                        ],
+                                        [
+                                            -77.62013586534653,
+                                            -0.5592742508010247
+                                        ],
+                                        [
+                                            -77.5845193333392,
+                                            -0.6053704831615789
+                                        ],
+                                        [
+                                            -77.54218588129717,
+                                            -0.6152717606298097
+                                        ],
+                                        [
+                                            -77.52612260745875,
+                                            -0.6779347253553851
+                                        ],
+                                        [
+                                            -77.49678076331121,
+                                            -0.7109608206431801
+                                        ],
+                                        [
+                                            -77.53290699259253,
+                                            -0.7373179769870291
+                                        ],
+                                        [
+                                            -77.54616448819564,
+                                            -0.7966947366084014
+                                        ],
+                                        [
+                                            -77.51992056443491,
+                                            -0.8363155589519664
+                                        ],
+                                        [
+                                            -77.56300318176626,
+                                            -0.895761562213039
+                                        ],
+                                        [
+                                            -77.59614092958773,
+                                            -0.9156102607418575
+                                        ],
+                                        [
+                                            -77.57322794267174,
+                                            -0.9453873080217363
+                                        ],
+                                        [
+                                            -77.51383776646061,
+                                            -0.9520001729543708
+                                        ],
+                                        [
+                                            -77.40187307954406,
+                                            -0.8960127242394265
+                                        ],
+                                        [
+                                            -77.32950660576722,
+                                            -0.8466055055841935
+                                        ],
+                                        [
+                                            -77.27002964359785,
+                                            -0.8300844301653854
+                                        ],
+                                        [
+                                            -77.26009756587462,
+                                            -0.7904356835798154
+                                        ],
+                                        [
+                                            -77.19407798653451,
+                                            -0.7508143779289327
+                                        ],
+                                        [
+                                            -77.17097432508812,
+                                            -0.7111768483044898
+                                        ],
+                                        [
+                                            -77.13463601246022,
+                                            -0.6913553926206504
+                                        ],
+                                        [
+                                            -77.11480717161277,
+                                            -0.7310012302362026
+                                        ],
+                                        [
+                                            -77.20397346724421,
+                                            -0.7904514121874939
+                                        ],
+                                        [
+                                            -77.19735989091551,
+                                            -0.8565183657826481
+                                        ],
+                                        [
+                                            -77.1279957475602,
+                                            -0.9060820445268121
+                                        ],
+                                        [
+                                            -77.06192299856764,
+                                            -0.8961768089833555
+                                        ],
+                                        [
+                                            -77.04210282933958,
+                                            -0.9259129147761627
+                                        ],
+                                        [
+                                            -77.07844593400407,
+                                            -0.9721617066030177
+                                        ],
+                                        [
+                                            -77.03880371312637,
+                                            -0.9985975487527128
+                                        ],
+                                        [
+                                            -77.08835007257122,
+                                            -1.0184019556675423
+                                        ],
+                                        [
+                                            -77.06852053481057,
+                                            -1.0910684192915738
+                                        ],
+                                        [
+                                            -77.03548732811666,
+                                            -1.1042907986030457
+                                        ],
+                                        [
+                                            -76.98924401930103,
+                                            -1.0910991798559166
+                                        ],
+                                        [
+                                            -76.96281154969904,
+                                            -1.1241346787391393
+                                        ],
+                                        [
+                                            -76.90334785877843,
+                                            -1.1208589599864212
+                                        ],
+                                        [
+                                            -76.87691281622037,
+                                            -1.1604994623385636
+                                        ],
+                                        [
+                                            -76.8372667119492,
+                                            -1.1605212963176257
+                                        ],
+                                        [
+                                            -76.83396790349387,
+                                            -1.1076843957069968
+                                        ],
+                                        [
+                                            -76.78440477696734,
+                                            -1.09119526874413
+                                        ],
+                                        [
+                                            -76.74474848404789,
+                                            -1.1143286886260313
+                                        ],
+                                        [
+                                            -76.66543496152542,
+                                            -1.0548485088202284
+                                        ],
+                                        [
+                                            -76.5729057763606,
+                                            -1.068054979908709
+                                        ],
+                                        [
+                                            -76.50681913245916,
+                                            -1.068039666992135
+                                        ],
+                                        [
+                                            -76.52662840919415,
+                                            -1.1969536194610555
+                                        ],
+                                        [
+                                            -76.48035930704725,
+                                            -1.2597344593513782
+                                        ],
+                                        [
+                                            -76.40104825086652,
+                                            -1.2663286502851179
+                                        ],
+                                        [
+                                            -76.28870677248483,
+                                            -1.3059375286410813
+                                        ],
+                                        [
+                                            -76.1168364088862,
+                                            -1.2795416871885266
+                                        ],
+                                        [
+                                            -76.02098362870325,
+                                            -1.3059876853934185
+                                        ],
+                                        [
+                                            -75.97140323398386,
+                                            -1.3588591049878858
+                                        ],
+                                        [
+                                            -75.89868705098658,
+                                            -1.3357390016048782
+                                        ],
+                                        [
+                                            -75.84247716421933,
+                                            -1.3820192481806401
+                                        ],
+                                        [
+                                            -75.75981807243107,
+                                            -1.4051766424196472
+                                        ],
+                                        [
+                                            -75.70030418132657,
+                                            -1.4613652053560742
+                                        ],
+                                        [
+                                            -75.60774284063444,
+                                            -1.4977231837107468
+                                        ],
+                                        [
+                                            -75.59449669788575,
+                                            -1.5572189136208152
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {"name": "Pastaza", "highlight": true},
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [
+                                    [
+                                        [
+                                            -76.68807478478278,
+                                            -2.6112570498158334
+                                        ],
+                                        [
+                                            -76.66410848601754,
+                                            -2.568689685763971
+                                        ],
+                                        [
+                                            -76.61617657310077,
+                                            -2.584644369438678
+                                        ],
+                                        [
+                                            -76.03550484430315,
+                                            -2.1244154659153907
+                                        ],
+                                        [
+                                            -75.57999741718707,
+                                            -1.5493959965602784
+                                        ],
+                                        [
+                                            -75.6466665125982,
+                                            -1.4881733957971477
+                                        ],
+                                        [
+                                            -75.75318834916402,
+                                            -1.413617465630125
+                                        ],
+                                        [
+                                            -75.81714668761225,
+                                            -1.4029797042635295
+                                        ],
+                                        [
+                                            -75.88108805654261,
+                                            -1.347075015063922
+                                        ],
+                                        [
+                                            -75.93436219567059,
+                                            -1.3630540705834306
+                                        ],
+                                        [
+                                            -76.0248647656862,
+                                            -1.3097760859522367
+                                        ],
+                                        [
+                                            -76.1341221306276,
+                                            -1.2805264579281754
+                                        ],
+                                        [
+                                            -76.2193486729953,
+                                            -1.2858550727208211
+                                        ],
+                                        [
+                                            -76.30454726419289,
+                                            -1.3097971413829868
+                                        ],
+                                        [
+                                            -76.37915157293534,
+                                            -1.2725569322197714
+                                        ],
+                                        [
+                                            -76.4297422782831,
+                                            -1.2698841462945154
+                                        ],
+                                        [
+                                            -76.4803386094471,
+                                            -1.2459161666106127
+                                        ],
+                                        [
+                                            -76.52828010890468,
+                                            -1.1900109650574677
+                                        ],
+                                        [
+                                            -76.51765344725527,
+                                            -1.0888918300782393
+                                        ],
+                                        [
+                                            -76.53096304705399,
+                                            -1.0516053188496244
+                                        ],
+                                        [
+                                            -76.60552001430099,
+                                            -1.0702242027711577
+                                        ],
+                                        [
+                                            -76.65345686088905,
+                                            -1.0595859049751937
+                                        ],
+                                        [
+                                            -76.73334826675607,
+                                            -1.10486967568049
+                                        ],
+                                        [
+                                            -76.7759532519184,
+                                            -1.0888702778360226
+                                        ],
+                                        [
+                                            -76.82921158815728,
+                                            -1.107542136177372
+                                        ],
+                                        [
+                                            -76.8292108087836,
+                                            -1.1608078042406618
+                                        ],
+                                        [
+                                            -76.86116341615154,
+                                            -1.160812277650166
+                                        ],
+                                        [
+                                            -76.89844201217716,
+                                            -1.1262013334595196
+                                        ],
+                                        [
+                                            -76.9862928458649,
+                                            -1.0943261606803247
+                                        ],
+                                        [
+                                            -77.04220544956999,
+                                            -1.094323123249339
+                                        ],
+                                        [
+                                            -77.10342578058014,
+                                            -1.046446015426298
+                                        ],
+                                        [
+                                            -77.0714651275573,
+                                            -1.0145390222509292
+                                        ],
+                                        [
+                                            -77.11406265121937,
+                                            -1.009209507149663
+                                        ],
+                                        [
+                                            -77.22584091000483,
+                                            -1.0225788240253593
+                                        ],
+                                        [
+                                            -77.25245551184405,
+                                            -1.0518643229108733
+                                        ],
+                                        [
+                                            -77.3163206125126,
+                                            -1.0758470363065555
+                                        ],
+                                        [
+                                            -77.35355110431126,
+                                            -1.0625847789857659
+                                        ],
+                                        [
+                                            -77.35889699274729,
+                                            -1.1024762141083215
+                                        ],
+                                        [
+                                            -77.40143698578565,
+                                            -1.0759184826261787
+                                        ],
+                                        [
+                                            -77.44930332234242,
+                                            -1.0812844673165074
+                                        ],
+                                        [
+                                            -77.56107607952457,
+                                            -1.1557938693132712
+                                        ],
+                                        [
+                                            -77.59304278509396,
+                                            -1.126500454685953
+                                        ],
+                                        [
+                                            -77.71516093769469,
+                                            -1.1852349419744428
+                                        ],
+                                        [
+                                            -77.74170806170935,
+                                            -1.1613319675062144
+                                        ],
+                                        [
+                                            -77.83172187572251,
+                                            -1.2227361105266539
+                                        ],
+                                        [
+                                            -77.86921476861302,
+                                            -1.1960111157279698
+                                        ],
+                                        [
+                                            -77.88996742123985,
+                                            -1.246784926378865
+                                        ],
+                                        [
+                                            -77.942876809836,
+                                            -1.2096988200881924
+                                        ],
+                                        [
+                                            -78.04621120879433,
+                                            -1.24812221808601
+                                        ],
+                                        [
+                                            -78.1128094399302,
+                                            -1.2357980068130843
+                                        ],
+                                        [
+                                            -78.11080061292628,
+                                            -1.3546819385148154
+                                        ],
+                                        [
+                                            -78.16857362881244,
+                                            -1.4442006894249317
+                                        ],
+                                        [
+                                            -78.08662135913067,
+                                            -1.4680036147708364
+                                        ],
+                                        [
+                                            -78.06178094626588,
+                                            -1.5605631534412794
+                                        ],
+                                        [
+                                            -78.01715438421775,
+                                            -1.6693995601715557
+                                        ],
+                                        [
+                                            -77.93467184848441,
+                                            -1.6508121817975479
+                                        ],
+                                        [
+                                            -77.8788361367193,
+                                            -1.6959715276997684
+                                        ],
+                                        [
+                                            -77.89502270426846,
+                                            -1.7650346876698535
+                                        ],
+                                        [
+                                            -77.86590632917039,
+                                            -1.754407673398788
+                                        ],
+                                        [
+                                            -77.86332218079423,
+                                            -1.8075516051608247
+                                        ],
+                                        [
+                                            -77.84743526240185,
+                                            -1.8474142403303375
+                                        ],
+                                        [
+                                            -77.82350171313526,
+                                            -1.8713287998413364
+                                        ],
+                                        [
+                                            -77.82603242476665,
+                                            -1.9164805936726026
+                                        ],
+                                        [
+                                            -77.79683267625732,
+                                            -1.9297719184165345
+                                        ],
+                                        [
+                                            -77.78612569924287,
+                                            -1.9696089210353165
+                                        ],
+                                        [
+                                            -77.73865808925432,
+                                            -1.977669534075119
+                                        ],
+                                        [
+                                            -77.72275789077652,
+                                            -2.0122349772565826
+                                        ],
+                                        [
+                                            -77.69105081187922,
+                                            -2.0202702144683684
+                                        ],
+                                        [
+                                            -77.66709708192803,
+                                            -2.0521664471099967
+                                        ],
+                                        [
+                                            -77.62452401722747,
+                                            -2.0415287206747905
+                                        ],
+                                        [
+                                            -77.5581580173633,
+                                            -2.0708259551926176
+                                        ],
+                                        [
+                                            -77.46523946229091,
+                                            -2.110813009514004
+                                        ],
+                                        [
+                                            -77.27909000032616,
+                                            -2.190722499552976
+                                        ],
+                                        [
+                                            -77.24184629239552,
+                                            -2.259912278465663
+                                        ],
+                                        [
+                                            -77.19394551872607,
+                                            -2.2732378673401428
+                                        ],
+                                        [
+                                            -77.17532212328604,
+                                            -2.3051794217684574
+                                        ],
+                                        [
+                                            -77.09015379897251,
+                                            -2.342482510714163
+                                        ],
+                                        [
+                                            -77.0555465245254,
+                                            -2.390389556094817
+                                        ],
+                                        [
+                                            -77.0076161614486,
+                                            -2.4595579230411033
+                                        ],
+                                        [
+                                            -77.00495358846459,
+                                            -2.51542402117191
+                                        ],
+                                        [
+                                            -76.96767582246311,
+                                            -2.5154285934964378
+                                        ],
+                                        [
+                                            -76.8824672153207,
+                                            -2.5686367023864562
+                                        ],
+                                        [
+                                            -76.82654980553326,
+                                            -2.542085946896705
+                                        ],
+                                        [
+                                            -76.80258304165342,
+                                            -2.566036451863795
+                                        ],
+                                        [
+                                            -76.73601150939136,
+                                            -2.5553562177483258
+                                        ],
+                                        [
+                                            -76.68807478478278,
+                                            -2.6112570498158334
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                    ]
+                };
+
+            L.geoJSON(provincias, {
+                style: function (feature) {
+                    return {
+                        fillColor: feature.properties.highlight ? "#4CAF50" : "#c4e3b2",
+                        color: feature.properties.highlight ? "#388E3C" : "#000",
+                        weight: feature.properties.highlight ? 2 : 1,
+                        fillOpacity: 0.7
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    if (feature.properties && feature.properties.name) {
+                        layer.bindPopup(`Provincia: ${feature.properties.name}`);
+                    }
+
+                    layer.on("mouseover", function () {
+                        this.setStyle({fillColor: "#2e7d32"});
+                    });
+
+                    layer.on("mouseout", function () {
+                        this.setStyle({fillColor: feature.properties.highlight ? "#4CAF50" : "#c4e3b2"});
+                    });
+                }
+            }).addTo(map);
+        });
+
+        map.on("resize", function () {
+            map.invalidateSize();
+        });
+
+
+    </script>
 {% endblock %}

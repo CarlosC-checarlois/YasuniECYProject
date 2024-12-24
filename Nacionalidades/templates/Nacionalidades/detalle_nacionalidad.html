@@ -1,14 +1,15 @@
-{% load static %}
+{% extends 'cabezal.html' %}
+{% block etiqueta_estatica %}
+    {% load static %}
+{% endblock %}
 {% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block titulo_pagina %}
     <title>Detalle de la Nacionalidad</title>
+{% endblock %}
+{% block css_archivos %}
     <style>
         body {
-            font-family: 'Georgia', serif;
+            font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
@@ -65,7 +66,8 @@
         }
 
     </style>
-
+{% endblock %}
+{% block sobreescribir_jvscript_archivos %}
     <script>
         let pageStartTime = 0;
 
@@ -85,13 +87,9 @@
             }));
         };
     </script>
-
-
-</head>
-<body>
-
-{% include 'cabezal.html' %}
-<div class="container">
+{% endblock %}
+{% block contenido_pagina %}
+    <div class="container">
 
     <div class="publication-date">Publicado el: {{ nacionalidad.nacFechaCreacion|date:"d M Y" }}</div>
 
@@ -121,7 +119,4 @@
         <p>{{ nacionalidad.nacDescripcion_3 }}</p>
     </div>
 </div>
-
-
-</body>
-</html>
+{% endblock %}

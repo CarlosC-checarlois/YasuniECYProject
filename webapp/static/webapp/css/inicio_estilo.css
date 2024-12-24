@@ -102,17 +102,28 @@
     animation: fadeInUp 1s ease-out forwards;
 }
 
-#Importancia {
-    animation: slideInLeft 1s ease-out forwards;
-    animation-delay: 0.5s;
-}
 
 #Biodiversidad {
     animation: slideInRight 1s ease-out forwards;
     animation-delay: 1s;
 }
 
+#Importancia {
+    animation: slideInLeft 1s ease-out forwards;
+    animation-delay: 2s;
+}
+
 #Conservacion {
     animation: fadeInUp 1s ease-out forwards;
-    animation-delay: 2s;
+    animation-delay: 3s;
+}
+
+#Estudiantes {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 4s;
+}
+
+#Mapa {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 5s;
 }

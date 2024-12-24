@@ -1,19 +1,20 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'cabezal.html' %}
+{% block etiqueta_estatica %}
+    {% load static %}
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block titulo_pagina %}
     <title>Detalle de la Información Turística</title>
+{% endblock %}
+{% block css_archivos %}
     <style>
 
         body {
-            font-family: 'Georgia', serif;
+            font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
         }
-
 
         .container {
             width: 90%;
@@ -22,6 +23,7 @@
             padding: 20px;
             background-color: white;
         }
+
         .title {
             font-size: 32px;
             font-weight: bold;
@@ -65,7 +67,8 @@
         }
 
     </style>
-
+{% endblock %}
+{% block sobreescribir_jvscript_archivos %}
     <script>
         let pageStartTime = 0;
 
@@ -85,42 +88,37 @@
             }));
         };
     </script>
+{% endblock %}
+{% block contenido_pagina %}
+    <div class="container">
 
-</head>
-<body>
+        <div class="publication-date">Publicado el: {{ actividad_turistica.turFechaCreacion|date:"d M Y" }}</div>
 
-{% include 'cabezal.html' %}
+        <div class="title">{{ actividad_turistica.turTitulo_1 }}</div>
+        <div class="subtitle">{{ actividad_turistica.catXturNombre }}</div>
 
-<div class="container">
+        <div class="article-body">
+            <img src="{{ actividad_turistica.turURLImagen_1 }}" alt="{{ actividad_turistica.turTitulo_1 }}">
+            <div class="caption">Imagen representativa de {{ actividad_turistica.turTitulo_1 }}</div>
 
-    <div class="publication-date">Publicado el: {{ actividad_turistica.turFechaCreacion|date:"d M Y" }}</div>
+            <p>{{ actividad_turistica.turDescripcion_1 }}</p>
 
-    <div class="title">{{ actividad_turistica.turTitulo_1 }}</div>
-    <div class="subtitle">{{ actividad_turistica.catXturNombre }}</div>
+            <div class="divider"></div>
 
-    <div class="article-body">
-        <img src="{{ actividad_turistica.turURLImagen_1 }}" alt="{{ actividad_turistica.turTitulo_1 }}">
-        <div class="caption">Imagen representativa de {{ actividad_turistica.turTitulo_1 }}</div>
+            <h2>{{ actividad_turistica.turTitulo_2 }}</h2>
+            <img src="{{ actividad_turistica.turURLImagen_2 }}" alt="{{ actividad_turistica.turTitulo_2 }}">
+            <div class="caption">Imagen representativa de {{ actividad_turistica.turTitulo_2 }}</div>
 
-        <p>{{ actividad_turistica.turDescripcion_1 }}</p>
+            <p>{{ actividad_turistica.turDescripcion_2 }}</p>
 
-        <div class="divider"></div>
+            <div class="divider"></div>
 
-        <h2>{{ actividad_turistica.turTitulo_2 }}</h2>
-        <img src="{{ actividad_turistica.turURLImagen_2 }}" alt="{{ actividad_turistica.turTitulo_2 }}">
-        <div class="caption">Imagen representativa de {{ actividad_turistica.turTitulo_2 }}</div>
+            <h2>{{ actividad_turistica.turTitulo_3 }}</h2>
+            <img src="{{ actividad_turistica.turURLImagen_3 }}" alt="{{ actividad_turistica.turTitulo_3 }}">
+            <div class="caption">Imagen representativa de {{ actividad_turistica.turTitulo_3 }}</div>
 
-        <p>{{ actividad_turistica.turDescripcion_2 }}</p>
-
-        <div class="divider"></div>
-
-        <h2>{{ actividad_turistica.turTitulo_3 }}</h2>
-        <img src="{{ actividad_turistica.turURLImagen_3 }}" alt="{{ actividad_turistica.turTitulo_3 }}">
-        <div class="caption">Imagen representativa de {{ actividad_turistica.turTitulo_3 }}</div>
-
-        <p>{{ actividad_turistica.turDescripcion_3 }}</p>
+            <p>{{ actividad_turistica.turDescripcion_3 }}</p>
+        </div>
     </div>
-</div>
+{% endblock %}
 
-</body>
-</html>
