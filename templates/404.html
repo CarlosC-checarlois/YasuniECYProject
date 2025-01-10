@@ -1,13 +1,102 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Página no encontrada</title>
-    <link rel="stylesheet" href="{% static 'css/error.css' %}">
-</head>
-<body>
-    <h1>404 - Página no encontrada</h1>
-    <p>Lo sentimos, no pudimos encontrar la página que estabas buscando.</p>
-    <a href="{% url 'home' %}">Volver al inicio</a>
-</body>
-</html>
+{% extends 'cabezal.html' %}
+{% block etiqueta_estatica %}
+    {% load static %}
+{% endblock %}
+{% block titulo_pagina %}
+    <title>404 - Página no encontrada</title>
+{% endblock %}
+{% block css_archivos %}
+    <link rel="stylesheet" href="{% static 'webapp/css/inicio_estilo.css' %}">
+    <style>
+        /* Contenedor principal de la página 404 */
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        /* Icono de error */
+        .error-icon {
+            font-size: 120px;
+            color: #f44336;
+            animation: shake 1.5s infinite;
+        }
+
+        /* Título del error */
+        .error-title {
+            font-size: 80px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+
+        /* Mensaje descriptivo */
+        .error-message {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Botón de acción */
+        .error-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .error-container a:hover {
+            background-color: #388E3C;
+        }
+
+        /* Animación de vibración */
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            50% {
+                transform: translateX(5px);
+            }
+            75% {
+                transform: translateX(-5px);
+            }
+        }
+
+        /* Diseño responsivo */
+        @media (max-width: 768px) {
+            .error-title {
+                font-size: 60px;
+            }
+
+            .error-message {
+                font-size: 16px;
+            }
+
+            .error-container a {
+                font-size: 16px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+{% endblock %}
+{% block contenido_pagina %}
+    <main class="error-container">
+        <!-- Icono de error con animación -->
+        <div class="error-icon">🚫</div>
+        <h1 class="error-title">404</h1>
+        <p class="error-message">Lo sentimos, la página que intentas visitar no existe o ha sido movida.</p>
+        <a href="{% url 'home' %}">Volver al inicio</a>
+    </main>
+{% endblock %}
