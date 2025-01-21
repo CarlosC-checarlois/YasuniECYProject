@@ -1,0 +1,67 @@
+{% extends 'cabezal_administrador.html' %}
+{% load static %}
+{% block titulo_pagina %}
+    <title>Documentacion</title>
+{% endblock %}
+{% block css_archivos %}
+<style>
+    /* Contenedor Principal */
+    .documentacion-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 20px;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Título */
+    .documentacion-title {
+        font-size: 2rem;
+        font-family: 'Roboto', sans-serif;
+        color: #2a5d42;
+        margin-bottom: 20px;
+    }
+
+    /* Estilo del Video */
+    .documentacion-video {
+        width: 100%;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        margin: 20px 0;
+    }
+
+    /* Mensaje de Texto */
+    .documentacion-text {
+        font-size: 1rem;
+        font-family: 'Roboto', sans-serif;
+        color: #555;
+        line-height: 1.6;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+{% block contenido_nav_bar %}
+    <li><a href="{% url 'paginaActividades' %}">Panel General</a></li>
+{% endblock %}
+{% block contenido_pagina %}
+<main>
+    <div class="documentacion-container">
+        <h1 class="documentacion-title">Documentación: Cómo Usar la Intranet</h1>
+
+        <!-- Video Instructivo -->
+        <video class="documentacion-video" controls>
+            <source src="{% static 'webapp/videos/documentacion_video.mp4' %}" type="video/mp4">
+            Tu navegador no soporta la reproducción de videos. Por favor, actualízalo.
+        </video>
+
+        <!-- Texto Adicional -->
+        <p class="documentacion-text">
+            Este video explica detalladamente cómo utilizar las herramientas y funcionalidades de la intranet para
+            administrar la plataforma de manera eficiente. Si tienes alguna pregunta, consulta con el equipo de soporte.
+        </p>
+    </div>
+</main>
+{% endblock %}
