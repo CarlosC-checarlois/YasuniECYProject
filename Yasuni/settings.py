@@ -18,6 +18,7 @@ ALLOWED_HOSTS = ["yasuniecy.com", "www.yasuniecy.com"]
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
 # Configuración para que la sesión expire cuando se cierre el navegador
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
@@ -75,6 +76,7 @@ WSGI_APPLICATION = 'Yasuni.wsgi.application'
 DATABASES = {
      'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [

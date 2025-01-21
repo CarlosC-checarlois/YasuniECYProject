@@ -2,11 +2,11 @@
 {% block etiqueta_estatica %}
     {% load static %}
 {% endblock %}
-{% block titulo_pagina %}
+{% block titulo_pagina %},
     <title>Quiénes Somos - Yasuni</title>
 {% endblock %}
 {% block css_archivos %}
-    <link rel="stylesheet" href="{% static 'webapp/css/quienes_somos_estilo.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Contenedor de tarjetas */
         .card-container {
@@ -107,38 +107,199 @@
         }
 
     </style>
-{% endblock %}
-{% block contenido_pagina %}
-    <main>
-        <br>
-        <section id="Historia" class="section fade-in">
-            <h2>Nuestra Historia</h2>
-            <p>La Reserva Ecológica Yasuni fue establecida en 1979 y cubre un área de aproximadamente 9,820 kilómetros
-                cuadrados en la región amazónica de Ecuador.
-                Desde su creación, Yasuni ha sido un símbolo de la lucha por la conservación de la biodiversidad y el
-                respeto a las culturas indígenas.</p>
-            <p>En 1989, la UNESCO declaró a Yasuni como Reserva de la Biosfera, reconociendo su importancia global y la
-                necesidad de su protección continua.</p>
-        </section>
+    <style>
+        /* Reset básico */
+        body,
+        h1,
+        h2,
+        h3,
+        p {
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
 
-        <section id="ComunidadWaorani" class="section slide-in-left">
-            <h2>La Comunidad Waorani</h2>
-            <p>Los Waorani son una de las comunidades indígenas que han habitado la región de Yasuni por generaciones.
-                Son conocidos por su profundo conocimiento de la selva y su habilidad para vivir en armonía con la
-                naturaleza.
-                A pesar de los desafíos modernos, los Waorani han mantenido su lengua, tradiciones y modo de vida.</p>
-            <p>El pueblo Waorani ha jugado un papel fundamental en la defensa de Yasuni contra la explotación petrolera
-                y la
-                deforestación.
-                Su compromiso con la preservación de su hogar natural ha inspirado a organizaciones de todo el mundo a
-                unirse a su causa.</p>
-            <p>A través de alianzas con ONGs y el gobierno ecuatoriano, los Waorani participan en proyectos de
-                ecoturismo y
-                conservación que buscan proteger la biodiversidad de Yasuni mientras fortalecen su economía local.</p>
-        </section>
-        <section id="Nacionalidades" class="section slide-in-right">
-            <h2>Conoce nuestras Nacionalidades</h2>
-            <div class="card-container" style="align-items: center; justify-content: center;">
+        /* Contenedor principal */
+        .quienes-somos {
+            /* Fondo blanco translúcido */
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 90%;
+            /* Cambia dinámicamente según la pantalla */
+            width: 900px;
+            /* Ancho máximo */
+            animation: fadeIn 1.2s ease-in-out forwards;
+            /* Animación fade-in */
+            opacity: 0;
+            /* Ocultar inicialmente */
+        }
+
+        /* Título */
+
+        /* Contenedor de texto */
+        .texto-contenedor {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Estilo de los párrafos */
+        .parrafo {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Imagen */
+        .imagen {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .imagen img {
+            max-width: 100%;
+            /* Ajusta dinámicamente al contenedor */
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .titulo {
+                font-size: 2rem;
+            }
+
+            .parrafo {
+                font-size: 0.95rem;
+            }
+
+            .quienes-somos {
+                padding: 15px;
+                /* Reduce el padding en pantallas pequeñas */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .titulo {
+                font-size: 1.8rem;
+            }
+
+            .parrafo {
+                font-size: 0.9rem;
+            }
+
+            .imagen img {
+                border-radius: 8px;
+                /* Ajusta el borde para pantallas pequeñas */
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .quienes-somos {
+                padding: 30px;
+                /* Mayor espacio para pantallas grandes */
+            }
+
+            .titulo {
+                font-size: 3rem;
+                /* Título más grande en pantallas grandes */
+            }
+
+            .parrafo {
+                font-size: 1.1rem;
+                /* Aumenta el tamaño del texto */
+            }
+        }
+
+        /* Animación de Fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+                /* Ligeramente hacia abajo */
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+{% endblock %}
+{% block sobreescribir_body %}
+    <header>
+        <!-- Usa la URL externa directamente si no es un archivo estático dentro de tu proyecto -->
+        <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo" style="width: 40px; height: 40px;">
+        <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i>☰</button>
+        <nav class="nav" id="nav">
+            <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i>✖</button>
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+                <li><a href="{% url 'mas_informacion' %}">Más Información</a></li>
+                <li><a href="{% url 'login' %}">Ingresar</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main style="
+    background: url('{% static 'webapp/images/fondo_verde.png' %}') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0px;
+    box-sizing: border-box;
+    ">
+        <section class="quienes-somos">
+            <!-- Título -->
+            <h2 style="
+    font-size: 2.5rem;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    color: #2a5d42;
+    margin-bottom: 20px;">Nuestra Historia</h2>
+
+            <!-- Primer bloque de texto -->
+            <div class="texto-contenedor">
+                <p class="parrafo fade-in">
+                    La comunidad Waorani de Guiyero, fundada en 1993 por familias provenientes de Pastaza y Napo,
+                    preserva un legado histórico y cultural profundamente arraigado. Ubicada en el Parque Nacional
+                    Yasuní, al norte de la Amazonía ecuatoriana, esta comunidad ha sido hogar de generaciones de Waorani
+                    que reconocen este territorio como propio desde tiempos ancestrales. Según Wampi Awa, líder de la
+                    comunidad,
+                    el nombre "Guiyero" proviene del término "guiye", que significa zancudo, en alusión a la historia de
+                    sus
+                    primeros
+                    habitantes que tuvieron que abandonar y luego regresar a la zona.
+                </p>
+            </div>
+
+            <!-- Imagen -->
+            <div class="imagen slide-in">
+                <img src="{% static 'webapp/images/imagen_waorani.jpg' %}" alt="Comunidad Waorani">
+            </div>
+
+            <!-- Segundo bloque de texto -->
+            <div class="texto-contenedor">
+                <p class="parrafo fade-in">
+                    Hoy en día, Guiyero está integrada por 27 familias y 104 miembros, quienes mantienen vivas sus
+                    costumbres como
+                    la caza, pesca, recolección de frutos, fiestas, danzas y la elaboración de artesanías. Su conexión
+                    con
+                    la naturaleza
+                    y su territorio ancestral reflejan una identidad cultural única, basada en el respeto por la
+                    biodiversidad y la defensa
+                    de su libertad en un entorno selvático.
+                </p>
+            </div>
+            <h2 style="
+    font-size: 2.5rem;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    color: #2a5d42;
+    margin-bottom: 20px;">Conoce nuestras Nacionalidades</h2>
+            <div class="card-container">
                 {% for nacionalidad in nacionalidades %}
                     <div class="card">
                         <img src="{{ nacionalidad.nacURLImagen_1 }}" alt="{{ nacionalidad.nacTitulo_1 }}">
@@ -148,25 +309,84 @@
                             <a href="{% url 'detalle_nacionalidad' nacionalidad.nacTitulo_1 nacionalidad.nacCodigo %}"
                                class="btn-ver-mas">Ver más</a>
                         </div>
-
                     </div>
-
                 {% endfor %}
             </div>
         </section>
     </main>
-{% endblock %}
-{% block jvscript_archivos_defer %}
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const cards = document.querySelectorAll(".card");
-
-            // Aplicar la animación de aparición a cada tarjeta
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`; // Escalonar las animaciones
-                card.classList.add("fade-in"); // Clase para la animación de aparición
+    {% block jvscript_archivos_defer %}
+        <script>
+            document.getElementById("abrir").addEventListener("click", function () {
+                document.getElementById("nav").classList.add("visible");
             });
-        });
-    </script>
-{% endblock %}
 
+            document.getElementById("cerrar").addEventListener("click", function () {
+                document.getElementById("nav").classList.remove("visible");
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const cards = document.querySelectorAll(".card");
+
+                // Aplicar la animación de aparición a cada tarjeta
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`; // Escalonar las animaciones
+                    card.classList.add("fade-in"); // Clase para la animación de aparición
+                });
+            });
+        </script>
+    {% endblock %}
+    {% block sobreescribir_footer %}
+    {% endblock %}
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Logo y Descripción -->
+            <div class="footer-logo-desc">
+                <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo Yasuni" class="footer-logo"
+                     style="width: 3rem; height: 3rem;">
+                <p class="footer-desc">
+                    El Parque Nacional Yasuni es una reserva ecológica única en el mundo, hogar de una biodiversidad
+                    inigualable.
+                    Ayúdanos a preservar este tesoro natural para las futuras generaciones.
+                </p>
+            </div>
+
+            <!-- Enlaces Rápidos -->
+            <div class="footer-links">
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}"><i class="fa fa-home"></i>Inicio</a></li>
+                    <li><a href="{% url 'quienes_somos' %}"><i class="fa fa-leaf"></i>Quienes Somos</a></li>
+                    <li><a href="{% url 'mas_informacion' %}"><i class="fa fa-globe"></i>Mas informacion</a></li>
+                </ul>
+            </div>
+
+            <!-- Redes Sociales -->
+            <div class="footer-social">
+                <h4>Mantente informado de la universidad</h4>
+                <ul>
+                    <li><a href="https://www.facebook.com/pontificiauniversidadcatolicadelecuador"><i
+                            class="fa fa-facebook"></i> Facebook</a></li>
+                    <li><a href="https://x.com/puce_ecuador"><i class="fa fa-twitter"></i> Twitter</a></li>
+                    <li><a href="https://www.instagram.com/puce_ecuador/?hl=en"><i class="fa fa-instagram"></i>
+                        Instagram</a></li>
+                </ul>
+            </div>
+
+            <!-- Información de Contacto -->
+            <div class="footer-contact">
+                <h4>Contáctanos</h4>
+                <p><i class="fa fa-envelope"></i> Email: <a href="mailto:yasuni@puce.edu.ec">yasuni@puce.edu.ec</a></p>
+                <p><i class="fa fa-phone"></i> Teléfono: (593) (02) 2991700 ext 1679</p>
+                <p><i class="fa fa-map-marker"></i> Atencion: Avenida 12 de Octubre 1076 y Vicente Ramón Roca</p>
+            </div>
+        </div>
+
+        <!-- Derechos Reservados -->
+        <div class="footer-bottom">
+            <p>© 2024 Yasuni. Todos los derechos reservados. Diseñado con ❤️ por los estudiantes de la Facultad de
+                Ingenieria de Sistemas de la PUCE.</p>
+        </div>
+    </footer>
+    </body>
+{% endblock %}

@@ -7,6 +7,9 @@
 {% endblock %}
 {% block css_archivos %}
     <link rel="stylesheet" href="{% static 'webapp/css/mas_informacion_estilo.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Roboto:wght@400;700&display=swap"
+          rel="stylesheet">
+
     <style>
         /* Contenedor de tarjetas */
         .card-container {
@@ -107,52 +110,247 @@
         }
 
     </style>
+    <style>
+        /* Estilo para la imagen */
+        .imagen {
+            display: flex;
+            justify-content: center;
+            margin: 30px auto; /* Centra la imagen y da espacio alrededor */
+            max-width: 100%; /* Ajusta la imagen al contenedor */
+        }
 
+        .imagen img {
+            max-width: 100%;
+            height: auto; /* Mantiene la proporción de la imagen */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Agrega una sombra para destacar */
+            object-fit: cover; /* Asegura que la imagen cubra el contenedor correctamente */
+        }
+
+        /* Para pantallas más pequeñas, aseguramos que la imagen responda bien */
+        @media (max-width: 768px) {
+            .imagen {
+                margin: 20px auto;
+            }
+
+            .imagen img {
+                max-width: 90%; /* Reduce el tamaño máximo para dispositivos más pequeños */
+                border-radius: 8px; /* Ajusta los bordes */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .imagen img {
+                max-width: 100%; /* Aprovecha todo el ancho disponible */
+                border-radius: 6px; /* Ajusta aún más los bordes */
+            }
+        }
+
+
+        /* Sección de Información */
+        .mas-informacion {
+            max-width: 1100px;
+            margin: 20px auto;
+            border-radius: 15px;
+            padding: 30px;
+            animation: fadeIn 1.2s ease-in-out forwards;
+            opacity: 0; /* Para la animación fade-in */
+        }
+
+        /* Títulos de Sección */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2a5d42; /* Verde elegante */
+            margin-bottom: 20px;
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+        }
+
+        /* Contenido de Sección */
+        .section-content {
+            text-align: justify;
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        /* Datos Clave */
+        .key-data {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .key-data-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.40); /* Fondo blanco translúcido */
+            max-width: 250px;
+            text-align: left;
+            flex: 1 1 calc(25% - 20px); /* Ajuste automático al tamaño del contenedor */
+            min-width: 200px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .key-data-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .key-data-item h3 {
+            font-size: 1.2rem;
+            color: #2a5d42;
+            margin-bottom: 10px;
+        }
+
+        .key-data-item p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Costumbres */
+        .custom-list {
+            margin: 30px auto;
+            max-width: 700px; /* Ancho máximo */
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.40); /* Fondo blanco translúcido */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        }
+
+        .custom-ul {
+            list-style-type: disc; /* Marcador en forma de círculo */
+            padding-left: 20px; /* Separación del texto */
+            color: #2a5d42; /* Color verde elegante */
+            line-height: 1.8; /* Espaciado entre líneas */
+            font-size: 1rem; /* Tamaño de fuente estándar */
+        }
+
+        .custom-ul {
+            margin-bottom: 10px;
+            font-size: 1.1rem; /* Fuente ligeramente más grande */
+            font-weight: 500; /* Peso de fuente moderado */
+            color: #333; /* Color de texto */
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        /* Animación de Fade-In */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .key-data {
+                flex-direction: column;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .key-data-item {
+                max-width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .custom-ul {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .imagen img {
+                border-radius: 8px;
+                /* Ajusta el borde para pantallas pequeñas */
+            }
+
+            .custom-ul {
+                font-size: 0.9rem;
+            }
+        }
+
+    </style>
 {% endblock %}
 {% block contenido_pagina %}
-    <main>
+    <main style="
+            background: url('{% static 'webapp/images/fondo_verde.png' %}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0px;
+            box-sizing: border-box;
+            ">
         <br/>
-        <section id="MasInformacion" class="section fade-in_1s">
-            <h2>Más Información</h2>
-            <p>Descubre más sobre los esfuerzos de conservación y cómo puedes ayudar a proteger Yasuni.</p>
-        </section>
+        <!-- Sección: Introducción -->
+        <section class="mas-informacion">
+            <h1 class="section-title">Comunidad Waorani de Guiyero</h1>
+            <div class="section-content">
+                <p>
+                    La Comunidad Waorani de Guiyero, ubicada en el Parque Nacional Yasuni, es un símbolo de la
+                    resistencia cultural y la armonía con la naturaleza. Desde su fundación en 1993, esta comunidad ha
+                    preservado su legado histórico mientras enfrenta los desafíos de un mundo en constante cambio.
+                </p>
+            </div>
 
-        <section id="Importancia" class="section slide-in-left_1s">
-            <h2>Importancia Global de Yasuni</h2>
-            <p>La Reserva Ecológica Yasuni es considerada uno de los lugares más biodiversos del planeta...</p>
-        </section>
 
-        <section id="Biodiversidad" class="section slide-in-right_1s">
-            <h2>Biodiversidad Inigualable</h2>
-            <p>En Yasuni se encuentran más de 1,300 especies de árboles y arbustos por hectárea...
-                Especies en peligro de extinción protegidas en Yasuni
-                El papel crucial de Yasuni en la conservación del jaguar
-                Descubrimientos recientes de nuevas especies en la región
-            </p>
-        </section>
+            <h2 class="section-title">Datos Clave</h2>
+            <div class="key-data">
+                <div class="key-data-item">
+                    <h3>Ubicación</h3>
+                    <p>En las riberas del río Tiputini, provincia de Orellana, dentro del Parque Nacional Yasuni.</p>
+                </div>
+                <div class="key-data-item">
+                    <h3>Población</h3>
+                    <p>Actualmente integrada por 27 familias, con un total de 104 miembros entre adultos, adolescentes y
+                        niños.</p>
+                </div>
+                <div class="key-data-item">
+                    <h3>Acceso</h3>
+                    <p>Por vía terrestre y fluvial. Ingreso restringido por las normas de la zona y la autorización de
+                        entidades responsables.</p>
+                </div>
+                <div class="key-data-item">
+                    <h3>Historia</h3>
+                    <p>Territorio ancestral habitado por generaciones de guerreros Waorani, con tradiciones que se
+                        remontan siglos atrás.</p>
+                </div>
+            </div>
+            <h2 class="section-title">Costumbres</h2>
+            <div class="custom-list">
+                <ul class="custom-ul">
+                    <li>Caza y pesca sostenible</li>
+                    <li>Recolección de frutos del bosque</li>
+                    <li>Elaboración de artesanías tradicionales</li>
+                    <li>Danzas y cantos culturales</li>
+                    <li>Fiestas y reuniones familiares</li>
+                </ul>
+            </div>
 
-        <section id="Conservacion" class="section fade-in_2s">
-            <h2>Esfuerzos de Conservación</h2>
-            <p>Diversas organizaciones, tanto locales como internacionales, están involucradas en la protección de
-                Yasuni...</p>
-        </section>
 
-        <section id="TurismoSostenible" class="section zoom-in_2s">
-            <h2>Turismo Sostenible</h2>
-            <p>El turismo en Yasuni está diseñado para ser sostenible y respetuoso con el entorno...</p>
-        </section>
+            <img class="imagen" style="
+    border-radius: 10px;
+" src="{% static 'webapp/images/waorani_quienes_somos.jpg' %}"
+                 alt="Imagen de la Comunidad Waorani">
 
-        <section id="ComoAyudar" class="section fade-in_3s">
-            <h2>Cómo Puedes Ayudar</h2>
-            <p>La preservación de Yasuni depende de la acción colectiva. Aquí hay algunas maneras en que puedes
-                contribuir:
-                Apoyar a las <a href="#organizaciones">organizaciones de conservación</a> que trabajan en Yasuni.
-                Optar por productos y servicios que respeten el medio ambiente.
-                Participar en campañas de concienciación y educación sobre la importancia de Yasuni.
-            </p>
-        </section>
-
-        <section id="tarjetasMasInfo" class="section fade-in_4s">
             <h2>Conoce Nuestras Actividades Turísticas</h2>
             <section id="Turismo" class="section fade-in_4s">
                 <div id="turismo-container" class="card-container">
