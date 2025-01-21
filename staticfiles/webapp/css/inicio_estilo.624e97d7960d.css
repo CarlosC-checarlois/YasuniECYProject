@@ -1,0 +1,129 @@
+
+.hero {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.video-container iframe {
+    width: 125%; /* Escalado del 125% */
+    height: 125%; /* Escalado del 125% */
+    position: absolute;
+    top: -12.5%; /* Centra el video verticalmente */
+    left: -12.5%; /* Centra el video horizontalmente */
+    border: none;
+    object-fit: cover;
+    background-color: white;
+}
+
+.section {
+    padding: 60px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.section p {
+    font-size: 18px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: slideInLeft 1s ease-out forwards;
+}
+
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideInRight 1s ease-out forwards;
+}
+
+.zoom-in {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: zoomIn 1s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoomIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animaciones personalizadas para cada sección */
+#MasInformacion {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+
+#Biodiversidad {
+    animation: slideInRight 1s ease-out forwards;
+    animation-delay: 1s;
+}
+
+#Importancia {
+    animation: slideInLeft 1s ease-out forwards;
+    animation-delay: 2s;
+}
+
+#Conservacion {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 3s;
+}
+
+#Estudiantes {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 4s;
+}
+
+#Mapa {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 5s;
+}

@@ -34,7 +34,7 @@
 
 .fade-in_4s {
     animation: fadeInUp 1s ease-out forwards;
-    animation-delay: 4s;
+    animation-delay: 2s;
 }
 
 .slide-in-left_1s {

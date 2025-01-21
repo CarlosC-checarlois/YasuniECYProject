@@ -226,21 +226,7 @@
         }
     </style>
 {% endblock %}
-{% block sobreescribir_body %}
-    <header>
-        <!-- Usa la URL externa directamente si no es un archivo estático dentro de tu proyecto -->
-        <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo" style="width: 40px; height: 40px;">
-        <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i>☰</button>
-        <nav class="nav" id="nav">
-            <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i>✖</button>
-            <ul class="nav-list">
-                <li><a href="{% url 'home' %}">Inicio</a></li>
-                <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
-                <li><a href="{% url 'mas_informacion' %}">Más Información</a></li>
-                <li><a href="{% url 'login' %}">Ingresar</a></li>
-            </ul>
-        </nav>
-    </header>
+{% block contenido_pagina %}
     <main style="
     background: url('{% static 'webapp/images/fondo_verde.png' %}') no-repeat center center fixed;
     background-size: cover;
@@ -338,55 +324,4 @@
     {% endblock %}
     {% block sobreescribir_footer %}
     {% endblock %}
-    <footer class="footer">
-        <div class="footer-container">
-            <!-- Logo y Descripción -->
-            <div class="footer-logo-desc">
-                <img src="https://i.postimg.cc/x12Yd10N/Yasuni.png" alt="Logo Yasuni" class="footer-logo"
-                     style="width: 3rem; height: 3rem;">
-                <p class="footer-desc">
-                    El Parque Nacional Yasuni es una reserva ecológica única en el mundo, hogar de una biodiversidad
-                    inigualable.
-                    Ayúdanos a preservar este tesoro natural para las futuras generaciones.
-                </p>
-            </div>
-
-            <!-- Enlaces Rápidos -->
-            <div class="footer-links">
-                <h4>Enlaces Rápidos</h4>
-                <ul>
-                    <li><a href="{% url 'home' %}"><i class="fa fa-home"></i>Inicio</a></li>
-                    <li><a href="{% url 'quienes_somos' %}"><i class="fa fa-leaf"></i>Quienes Somos</a></li>
-                    <li><a href="{% url 'mas_informacion' %}"><i class="fa fa-globe"></i>Mas informacion</a></li>
-                </ul>
-            </div>
-
-            <!-- Redes Sociales -->
-            <div class="footer-social">
-                <h4>Mantente informado de la universidad</h4>
-                <ul>
-                    <li><a href="https://www.facebook.com/pontificiauniversidadcatolicadelecuador"><i
-                            class="fa fa-facebook"></i> Facebook</a></li>
-                    <li><a href="https://x.com/puce_ecuador"><i class="fa fa-twitter"></i> Twitter</a></li>
-                    <li><a href="https://www.instagram.com/puce_ecuador/?hl=en"><i class="fa fa-instagram"></i>
-                        Instagram</a></li>
-                </ul>
-            </div>
-
-            <!-- Información de Contacto -->
-            <div class="footer-contact">
-                <h4>Contáctanos</h4>
-                <p><i class="fa fa-envelope"></i> Email: <a href="mailto:yasuni@puce.edu.ec">yasuni@puce.edu.ec</a></p>
-                <p><i class="fa fa-phone"></i> Teléfono: (593) (02) 2991700 ext 1679</p>
-                <p><i class="fa fa-map-marker"></i> Atencion: Avenida 12 de Octubre 1076 y Vicente Ramón Roca</p>
-            </div>
-        </div>
-
-        <!-- Derechos Reservados -->
-        <div class="footer-bottom">
-            <p>© 2024 Yasuni. Todos los derechos reservados. Diseñado con ❤️ por los estudiantes de la Facultad de
-                Ingenieria de Sistemas de la PUCE.</p>
-        </div>
-    </footer>
-    </body>
 {% endblock %}

@@ -12,11 +12,11 @@ urlpatterns = [
     path('login/', webapp_views.user_login, name='login'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('estudiantes/', webapp_views.estudiantes, name='estudiantes'),
     path('procesar_imagen_2d_nacionalidades/', webapp_views.procesar_imagen_2d_nacionalidades,
          name='procesar_imagen_2d_nacionalidades'),
     path('procesar_imagen_2d_turisticas/', webapp_views.procesar_imagen_2d_turisticas,
          name='procesar_imagen_2d_turisticas'),
-
     path('quienes-somos/', webapp_views.quienes_somos, name='quienes_somos'),
     path('quienes-somos/<str:titulo>/<int:codigo>/', nacionalidades_views.detalle_nacionalidad,
          name='detalle_nacionalidad'),
@@ -24,6 +24,8 @@ urlpatterns = [
 
     path('mas_informacion/', webapp_views.mas_informacion, name='mas_informacion'),
     path('paginaActividades/', webapp_views.pagina_actividades, name='paginaActividades'),
+    path('paginaActividades/documentacion/', webapp_views.documentacion, name='documentacion'),
+
     path('paginaActividades/datos/', webapp_views.panel_datos, name='informacion_datos'),
     path('obtener_imagen/<str:imgCodigo>/', webapp_views.obtener_imagen, name='obtener_imagen'),
 
@@ -47,8 +49,7 @@ urlpatterns = [
     path('informacion_turismo/', webapp_views.informacion_turismo, name='informacion_turismo'),
     path('gestionar-turismo/', turisticas_views.gestionar_turismo, name='gestionar_turismo'),
 
-    # Rutas para los gráficos
-    # Gráficos 3D
+
     path('grafico_tiempo_visualizacion_nacionalidad/',
          nacionalidades_views.visualizar_tiempo_visualizacion_nacionalidad,
          name='visualizar_tiempo_visualizacion_nacionalidad'),
@@ -77,7 +78,8 @@ urlpatterns = [
     path('obtener-imagen/<str:imgCodigo>/', webapp_views.obtener_imagen, name='obtener_imagen'),
     path('procesar_imagen_3d_nacionalidades/', webapp_views.procesar_imagen_3d_nacionalidades,
          name='procesar_imagen_3d_nacionalidades'),
-    path('procesar_imagen_3d_turisticas/', webapp_views.procesar_imagen_3d_turisticas, name='procesar_imagen_3d_turisticas'),
+    path('procesar_imagen_3d_turisticas/', webapp_views.procesar_imagen_3d_turisticas,
+         name='procesar_imagen_3d_turisticas'),
 
 ]
 urlpatterns += staticfiles_urlpatterns()

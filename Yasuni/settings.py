@@ -8,17 +8,15 @@ from os import getenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY",'asdasdasda')
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG",True)
+DEBUG = os.getenv("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = ["yasuniecy.com", "www.yasuniecy.com"]
+ALLOWED_HOSTS = ["yasuniecy.com","www.yasuniecy.com"]
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
-
 # Configuración para que la sesión expire cuando se cierre el navegador
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
@@ -48,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'Yasuni.urls'
@@ -74,7 +73,7 @@ WSGI_APPLICATION = 'Yasuni.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-     'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
+    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
 
 # Password validation
@@ -111,11 +110,11 @@ STATICFILES_DIRS = [
 STATIC_ROOT = str(BASE_DIR / "staticfiles")
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'  # Para archivos cargados por usuarios
-
+MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'paginaActividades'

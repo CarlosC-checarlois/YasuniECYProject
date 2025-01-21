@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    text-align: center;
+    padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.analysis-section {
+    border: 1px solid #ddd;
+    padding: 2rem;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    margin: 0 auto 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.analysis-section:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.h2_informe {
+    text-align: left;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4CAF50;
+    background: -webkit-linear-gradient(#4CAF50, #FFEB3B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Media Queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .activities {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .activity-card {
+        width: 90%;
+    }
+
+    .analysis-section {
+        max-width: 95%;
+    }
+}
+
+/* Contenedor del cubo */
+.container_cube {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    min-width: 150px; /* Añadir tamaño mínimo */
+    min-height: 150px; /* Añadir altura mínima */
+}
+
+/* Imagen dentro del cubo con tamaño mínimo */
+.container_cube img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    min-width: 150px; /* Añadir tamaño mínimo */
+    min-height: 150px; /* Añadir altura mínima */
+    border-radius: 15px;
+    transition: transform 0.3s;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Overlay del cubo */
+.overlay_cube {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 140, 186, 0.8);
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    transition: 0.5s ease;
+    border-radius: 15px;
+}
+
+/* Mostrar overlay al hacer hover */
+.container_cube:hover .overlay_cube {
+    height: 100%;
+}
+
+/* Texto dentro del cubo */
+.text_cube {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.container_cube {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.overlay_cube {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 140, 186, 0.8);
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    transition: 0.5s ease;
+    border-radius: 15px;
+}
+
+.container_cube:hover .overlay_cube {
+    height: 100%;
+}
+
+.text_cube {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

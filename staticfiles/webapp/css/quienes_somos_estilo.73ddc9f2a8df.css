@@ -1,0 +1,292 @@
+/* Animaciones generales */
+.fade-in,
+.slide-in-left,
+.slide-in-right,
+.zoom-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.slide-in-left {
+    transform: translateX(-100%);
+    animation-name: slideInLeft;
+}
+
+.slide-in-right {
+    transform: translateX(100%);
+    animation-name: slideInRight;
+}
+
+.zoom-in {
+    transform: scale(0.8);
+    animation-name: zoomIn;
+}
+
+/* Keyframes para animaciones */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoomIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.section:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .activities {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .analysis-section {
+        max-width: 95%;
+    }
+}
+
+.section {
+    padding: 60px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.section p {
+    font-size: 18px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: slideInLeft 1s ease-out forwards;
+}
+
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideInRight 1s ease-out forwards;
+}
+
+.zoom-in {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: zoomIn 1s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoomIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.section {
+    opacity: 0;
+}
+
+#MasInformacion {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+#Importancia #Historia {
+    animation: slideInLeft 1s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+#Biodiversidad #ComunidadWaorani {
+    animation: slideInRight 1s ease-out forwards;
+    animation-delay: 1s;
+}
+
+#Conservacion {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 2s;
+}
+
+#TurismoSostenible {
+    animation: zoomIn 1s ease-out forwards;
+    animation-delay: 2.5s;
+}
+
+#ComoAyudar {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 3s;
+}
+
+#tarjetasMasInfo #Nacionalidades {
+    animation: fadeInUp 2s ease-out forwards;
+    animation-delay: 3.5s;
+}
+
+
+@keyframes cardFadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    transition: transform 0.3s ease-out;
+}
+
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: slideInLeft 1s ease-out forwards;
+}
+
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideInRight 1s ease-out forwards;
+}
+
+.zoom-in {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: zoomIn 1s ease-out forwards;
+}
+
+/* Definición de keyframes */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoomIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Aplicar las animaciones a las secciones */
+.section {
+    opacity: 0; /* Ocultar inicialmente */
+}
+
+#MasInformacion {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+#Importancia #Historia {
+    animation: slideInLeft 1s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+#Biodiversidad #ComunidadWaorani {
+    animation: slideInRight 1s ease-out forwards;
+    animation-delay: 1s;
+}
+
+#Conservacion {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 2s;
+}
+
+#TurismoSostenible {
+    animation: zoomIn 1s ease-out forwards;
+    animation-delay: 2.5s;
+}
+
+#ComoAyudar {
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 3s;
+}
+
+#tarjetasMasInfo #Nacionalidades {
+    animation: fadeInUp 2s ease-out forwards;
+    animation-delay: 3.5s;
+}
+
+
+@keyframes cardFadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

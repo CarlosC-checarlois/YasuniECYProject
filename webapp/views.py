@@ -62,6 +62,9 @@ def user_login(request):
     return render(request, 'webapp/login.html', {'form': form})
 
 
+def estudiantes(request):
+    return render(request, 'webapp/estudiantes.html')
+
 @login_required
 def pagina_actividades(request):
     global _user
@@ -99,6 +102,9 @@ def pagina_actividades(request):
     # })
     return render(request, 'webapp/paginaActividades.html', {'usuario': _user})
 
+@login_required
+def documentacion(request):
+    return render(request, 'webapp/documentacion.html')
 
 @login_required
 def panel_datos(request):
