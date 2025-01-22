@@ -139,7 +139,16 @@
 {% endblock %}
 
 {% block contenido_pagina %}
-    <main>
+    <main  style="
+            background: url('{% static 'webapp/images/fondo_verde.png' %}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0px;
+            box-sizing: border-box;
+            ">
         <div class="estudiantes-container">
             <h1 class="section-title">Servicio Comunitario en el Yasuni</h1>
             <div class="section-content">
